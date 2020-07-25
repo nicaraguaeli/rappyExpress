@@ -2463,9 +2463,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   filters: {
-    formato: function formato(value) {
-      return value.toFixed(2);
-    }
+    formato: function formato(value) {}
   }
 });
 

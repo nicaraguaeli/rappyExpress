@@ -335,7 +335,7 @@ export default {
       state()
       {
         this.state_n = true;
-        this.state_p = false;
+        this.state_p = false; 
         this.state_display = false;
       },
       
@@ -408,7 +408,7 @@ export default {
   formato: function (value) {
      
      
-     return value.toFixed(2);
+    
   }
 }
  
