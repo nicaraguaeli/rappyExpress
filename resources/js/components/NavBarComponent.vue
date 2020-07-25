@@ -408,7 +408,7 @@ export default {
   formato: function (value) {
      
      
-    
+    return value
   }
 }
  

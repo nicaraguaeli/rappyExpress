@@ -146,9 +146,10 @@ export default {
       },
   },
   filters: {
+  
   formato: function (value) {
     
-    
+    return value;
   }
 },
 mounted ()

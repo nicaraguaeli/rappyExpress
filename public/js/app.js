@@ -1931,7 +1931,9 @@ __webpack_require__.r(__webpack_exports__);
     article: {}
   },
   filters: {
-    formato: function formato(value) {}
+    formato: function formato(value) {
+      return value;
+    }
   },
   methods: {
     deleteRow: function deleteRow() {
@@ -2463,7 +2465,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   filters: {
-    formato: function formato(value) {}
+    formato: function formato(value) {
+      return value;
+    }
   }
 });
 
@@ -2599,7 +2603,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   filters: {
-    formato: function formato(value) {}
+    formato: function formato(value) {
+      return value;
+    }
   },
   mounted: function mounted() {
     var _this = this;
