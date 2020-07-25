@@ -148,7 +148,7 @@ export default {
   filters: {
   formato: function (value) {
     
-    return (parseFloat(value).toFixed(2));
+    
   }
 },
 mounted ()
