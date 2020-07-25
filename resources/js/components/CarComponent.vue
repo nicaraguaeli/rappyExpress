@@ -32,7 +32,7 @@ export default {
   formato: function (value) {
      
      
-     return value.toFixed(2);
+     
   },
 
 },

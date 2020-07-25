@@ -1931,9 +1931,7 @@ __webpack_require__.r(__webpack_exports__);
     article: {}
   },
   filters: {
-    formato: function formato(value) {
-      return value.toFixed(2);
-    }
+    formato: function formato(value) {}
   },
   methods: {
     deleteRow: function deleteRow() {
