@@ -12,21 +12,26 @@
 </nav>
 
 <div v-if="!productos.length" class="ml-3">
-   <small > :) Estamos agregando productos a esta seccion...</small>
+   <small > Cargando....</small>
+</div>
+<div v-if="productos.length" class="ml-3">
+   <small > :) bla bla bla</small>
+</div>
+<div v-else-if="!productos.length">
+   :) Estamos agregando productos a esta seccion...
 </div>
 
 
-
-<div class="container p-0 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
+<div class="container p-1 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
     <div class="row animated fadeIn m-0  " id="myList">
 
 
 
 <!-- Grid column -->
-<div class="col-6 col-md-3 p-0 " v-for="item in productos" :key="item.id">
+<div class="col-6 col-md-3 p-0 list-card " v-for="item in productos" :key="item.id" :title="item.nombre">
 
   <!-- Card -->
-  <div class="card card-ecommerce mr-2 mb-2 wow fadeIn animated" :title="item.nombre" >
+  <div class="card card-ecommerce mr-2 mb-2 wow fadeIn animated"  >
 
     <!-- Card image -->
     <div class="view overlay " >
@@ -48,12 +53,12 @@
     <!-- Card image -->
 
     <!-- Card content -->
-    <div class="card-body  special-color-dark  text-white d-flex flex-column">
+    <div class="card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 ">
 
       <!-- Category & Title -->
-      <h6 class=" mb-1  text-uppercase " v-text="item.nombre"> </h6> 
+      <h6 class=" mb-1 ml-1  text-uppercase " v-text="item.nombre"> </h6> 
 
-    <p class="mb-0"> <span class="float-left " >PRECIO: C$ {{item.precio | formato}}  </span> </p>
+    <p class="mb-0 ml-1" style="font-size: 0.7rem;"> <span class="float-left " >PRECIO: C$ {{item.precio | formato}}  </span> </p>
 
       
       <!-- Card footer -->
@@ -61,7 +66,7 @@
        
 
         
-        <div class="add product green p-2 text-center mask waves-effect waves-light rgba-white-slight rounded-sm" v-on:click="enviarpadre(item)">
+        <div class="add product green p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm" v-on:click="enviarpadre(item)">
           <a  class=" text-white "  >
 
               <i :class="'fas fa-shopping-cart mr-1'" ></i>Agregar

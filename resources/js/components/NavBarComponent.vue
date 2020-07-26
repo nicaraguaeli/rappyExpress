@@ -82,7 +82,7 @@
     <div class="row grey lighten-4 p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
             <h4>Su Orden</h4></div>
-          <div class="col-xs-6 "  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;" >C${{totalPagar | formato}}  </span></h4></div>
+          <div class="col-xs-6 "  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;" >C${{totalPagar + envio | formato}}  </span></h4></div>
     </div>
  <div class="row fixed-bottom">
    <div class="col-sm-12">
@@ -95,14 +95,14 @@
 
 
     
-    <table class="table   table-striped " >
+    <table class="table   table-sm " >
   <thead class="special-color-dark white-text">
     <tr class="font-weight-bold">
       
     
       <th scope="col font-weight-bold">ART</th>
       <th scope="col font-weight-bold">CANT.</th>      
-      <th scope="col font-weight-bold">PRECIO/U</th>
+      <th scope="col font-weight-bold">P/U</th>
       <th scope="col font-weight-bold">IMP.</th>
       <th scope="col font-weight-bold"></th>
       
@@ -207,6 +207,8 @@
 </template>
 <script>
 export default {
+      
+
       data () {
     return {
       
@@ -223,6 +225,8 @@ export default {
       itemName: "",
       itemCategoria: "",
       buscador: false,
+      envio: 0,
+
       cliente: [
         {
           nombre: String,
@@ -248,6 +252,8 @@ export default {
             
             var posicion;
             var cantidad = 0;
+
+            
         
           for (let index = 0; index < this.articles.length; index++) {
                 
@@ -255,6 +261,7 @@ export default {
                 {
                     cantidad = this.articles[index].cantidad;
                     console.log("cantidad devuelta"+cantidad)
+                    
                     this.articles.splice(index)
                     posicion = index;
                 }           
@@ -285,31 +292,19 @@ export default {
          
          this.articles.forEach(element => {
            
-           this.totalPagar += element.cantidad * element.precio;
+         this.totalPagar += element.cantidad * element.precio;
+
+        
            
          });
-         
-         
+        
+        //Comprobando el costo de envio 
+        this.sendState();
+        
+        
        
-       
-         
-     
-
-          if(this.articles)
-          ( function ( $ ) {
-    'use strict';
-    $.fn.addTempClass = function ( className, expire, callback ) {
-        className || ( className = '' );
-        expire || ( expire = 1500 );
-        return this.each( function () {
-            $( this ).addClass( className ).delay( expire ).queue( function () {
-                $( this ).removeClass( className ).clearQueue();
-                callback && callback();
-            } );
-        } );
-    };
-} ( jQuery ) );
-          $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
+          
+        $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
            
       },
       identificador(id, itemNombre, itemCate)
@@ -353,16 +348,20 @@ export default {
          console.log("desde update",this.articles[index].cantidad);
          console.log(cantidad+"enviado desde aca")
         
-        this.articles[index].cantidad = parseInt(cantidad);
+         this.articles[index].cantidad = parseInt(cantidad);
          this.totalPagar = 0;
+         this.counter = 0;
      
          this.articles.forEach(element => {
            
          this.totalPagar += element.cantidad * element.precio;
+         this.counter += element.cantidad
 
          });
-   
-       
+
+        $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
+        this.sendState();
+        
          
       },
       
@@ -396,7 +395,21 @@ export default {
 
       }
          
+      },
+      sendState()
+      {
+        
+        if(this.totalPagar < 200)
+        {
+          console.log("desdeSend"+this.totalPagar)
+          this.envio = 40
+        }
+        else(this.totalPagar >= 200)
+        {
+          this.envio = 0
+        }
       }
+     
 
       
 

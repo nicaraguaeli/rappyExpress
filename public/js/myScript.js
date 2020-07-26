@@ -13,6 +13,21 @@ $('#navegacion').on('click','li.product',function()
 });
 
 
+          ( function ( $ ) {
+    'use strict';
+    $.fn.addTempClass = function ( className, expire, callback ) {
+        className || ( className = '' );
+        expire || ( expire = 1500 );
+        return this.each( function () {
+            $( this ).addClass( className ).delay( expire ).queue( function () {
+                $( this ).removeClass( className ).clearQueue();
+                callback && callback();
+            } );
+        } );
+    };
+} ( jQuery ) );
+
+
 
 $('body').on('click','a.add',function()
 {
@@ -30,7 +45,7 @@ $('#search').on('keyup',function()
 {
 
 var value = $(this).val().toLowerCase();
-$("#myList .card").filter(function() {
+$("#myList .list-card").filter(function() {
 $(this).toggle(
   
   //$(this).text().toLowerCase().indexOf(value) > -1
