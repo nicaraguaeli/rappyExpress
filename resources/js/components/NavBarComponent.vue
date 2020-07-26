@@ -8,10 +8,10 @@
 <div class="container">
 <div class="row d-flex justify-content-between">
 <div class="col-xs-4 aling-self-center mt-1"><img  src="img/LOGO1.png" alt=""></div>
-<div class="col-xs-8 align-self-center">
+<div class="col-xs-8 align-self-center wow animated " v-show="buscador" v-bind:class="{fadeIn: buscador}">
 
 <!-- Search form -->
-<form class="form-inline d-flex justify-content-center   mt-0">
+<form class="form-inline d-flex justify-content-center   mt-0" >
   <i class="fas fa-search" aria-hidden="true"></i>
   <input id="search" class="form-control form-control-sm ml-3 w-75  mt-2 mb-2 rounded-pill" type="text" placeholder="¿Que buscas?"
     aria-label="Search">
@@ -28,16 +28,16 @@
   
   
   <li class="nav-item">
-    <a class="nav-link  waves-light active show inicio font-weight-bold" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
-      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i class="fas fa-home pr-2"></i>Tienda</a>
+    <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
+      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1.2rem;" class="fas fa-home pr-2"></i></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link waves-light font-weight-bold" id="follow-tab-classic" data-toggle="tab" href="#follow-classic" role="tab"
-      aria-controls="follow-classic" aria-selected="false"><i class="fas fa-star white-text mr-2"></i>Packs</a>
+    <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
+      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.2rem;" class="fas fa-star white-text mr-2"></i>Ofertas</a>
   </li>
   <li class="nav-item" id="cart">
-    <a class="nav-link waves-light font-weight-bold " id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i  class="fas fa-shopping-cart pr-2"></i>Cesta</a>
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.2rem;"  class="fas fa-shopping-cart pr-2"></i>Cesta</a>
   </li>
   
 </ul>
@@ -54,9 +54,6 @@
 <br>
 <br>
 <br>
-<br>
-
-
 
 <div class="container p-0">
 
@@ -78,13 +75,11 @@
 
   </div>
   <div class="tab-pane fade " id="follow-classic" role="tabpanel" aria-labelledby="follow-tab-classic">
-    <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-      aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-      quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+    <p class="mt-1">Trabajando</p>
   </div>
   <div class="tab-pane fade cloudy-knoxville-gradient" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic">
            <div class="container p-0">
-    <div class="row grey lighten-1 p-3 justify-content-between m-0">
+    <div class="row grey lighten-4 p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
             <h4>Su Orden</h4></div>
           <div class="col-xs-6 "  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;" >C${{totalPagar | formato}}  </span></h4></div>
@@ -227,7 +222,7 @@ export default {
       idd: Number,
       itemName: "",
       itemCategoria: "",
-      
+      buscador: false,
       cliente: [
         {
           nombre: String,
@@ -327,6 +322,7 @@ export default {
       this.state_n = false;
       this.state_p = true;
       this.idd = id;
+      this.buscador= true;
       
       //setTimeout(() => this.state_display = true  ,500)
       this.state_display = true;
@@ -337,6 +333,7 @@ export default {
         this.state_n = true;
         this.state_p = false; 
         this.state_display = false;
+        this.buscador= false;
       },
       
       deleteRow(index,item)
@@ -408,7 +405,7 @@ export default {
   formato: function (value) {
      
      
-    return value
+     return (parseFloat(value).toFixed(2));
   }
 }
  

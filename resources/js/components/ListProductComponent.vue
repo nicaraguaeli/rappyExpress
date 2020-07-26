@@ -3,7 +3,7 @@
     <div >
 
 <!--GRUPOS-->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+<ul class="nav nav-tabs grey lighten-4 mt-2" id="myTab" role="tablist">
       <li class="nav-item" v-for="(item, index) in info" :key="index">
     
     <a class="nav-link text-muted" v-bind:class="{active: index == 0}" id="home-tab" data-toggle="tab" :href="'#'+item.nombre" role="tab" aria-controls="home"
@@ -15,7 +15,7 @@
 <!--FIN-GRUPOS--> 
 
 <!--CONTENT-TAB-->
-<div class="tab-content bg-white" id="myTabContent">
+<div class="tab-content bg-white" id="myTabContent" style="height: 70vh; overflow: scroll;">
   <div v-for="(item, index) in info" :key="index" class="tab-pane fade show " v-bind:class="{active: index == 0}" :id="item.nombre" role="tabpanel" aria-labelledby="home-tab" >
   
  <!-- Grid column -->

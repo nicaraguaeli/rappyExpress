@@ -1,7 +1,7 @@
 <template>
     <div >
        
-         <nav aria-label="breadcrumb animated fadeIn " class=" grey lighten-1 text-muted">
+         <nav aria-label="breadcrumb animated fadeIn " class=" grey lighten-4 text-muted">
   <ol class="breadcrumb m-0" style="background-color: transparent;">
     <li class="breadcrumb-item inicio " style="background-color: transparent;"><a  ><i class="fas fa-chevron-left mr-2"></i>
     <b>Atras</b>
@@ -17,7 +17,7 @@
 
 
 
-<div class="container p-0 cloudy-knoxville-gradient mt-2  " >
+<div class="container p-0 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
     <div class="row animated fadeIn m-0  " id="myList">
 
 
@@ -149,7 +149,7 @@ export default {
   
   formato: function (value) {
     
-    return value;
+    return (parseFloat(value).toFixed(2));
   }
 },
 mounted ()
