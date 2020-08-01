@@ -8,10 +8,11 @@ require('./bootstrap');
 
 
 
-//import VueRouter from 'vue-router';
+import VueRouter from 'vue-router';
+import { template } from 'lodash';
 window.Vue = require('vue');
 
-//Vue.use(VueRouter);
+Vue.use(VueRouter);
 
 
 
@@ -41,6 +42,27 @@ Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').defau
 
 
 
+Vue.component('admin-nav', require('./components/admin/NavBar.vue').default);
+
+
+
+
+//Admin Component
+
+const routes = [
+    { path: '/categorias', name:'categorias', component: Vue.component('categorias', require('./components/admin/Categorias.vue').default)   },
+    { path: '/grupos', name:'grupos', component: Vue.component('grupos', require('./components/admin/Grupos.vue').default)   },
+    { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
+   
+];
+
+const router = new VueRouter({
+    routes, // short for routes: routes
+    mode: 'history'
+});
+
+
+
 
 
 
@@ -53,6 +75,13 @@ Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').defau
 
 const app = new Vue({
     el: '#app'
+    
+    
+    
+});
+const admin = new Vue({
+    el: '#admin',
+    router
     
     
     

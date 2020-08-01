@@ -9,6 +9,7 @@ class Group extends Model
     //
     protected $table = "groups";
     protected $primaryKey = "id";
+    public $timestamps = false;
 
     protected $fillable = ['nombre'];
 

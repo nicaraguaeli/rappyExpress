@@ -28,6 +28,16 @@ Route::get('/', function () {
 
 });
 
+Route::resource('/categoria', 'CategoriaController');
+Route::resource('/groups', 'GroupController');
+Route::resource('/producto', 'ProductoController');
+
+
+
+Route::get('/admin',function()
+{
+    return view('admin.index');
+});
 
 Route::get('/prueba', function () {
     
@@ -38,6 +48,17 @@ Route::get('/prueba', function () {
  
 
 });
+
+Route::get('/test', function () {
+    
+   
+ 
+    return view('test');
+ 
+
+});
+
+
 
 Route::get('/prueba/{id}', function ($id) {
     
