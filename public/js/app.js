@@ -2916,7 +2916,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("file", this.$refs.fileUpdate.files[0]);
       formData.append("group_id", this.$refs.optionSelected.value);
       formData.append('_method', 'PUT');
-      axios.post('http://localhost/deliveryApp/public/categoria/' + this.item.id, formData, {
+      axios.post('/deliveryApp/public/categoria/' + this.item.id, formData, {
         // <== use axios.post
         headers: {
           'Content-Type': 'multipart/form-data; }'
@@ -2934,7 +2934,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('file', this.$refs.file.files[0]);
       formData.append('nombre', this.nombre);
       formData.append('_method', 'post');
-      axios.post('http://localhost/deliveryApp/public/categoria/', formData, {
+      axios.post('/deliveryApp/public/categoria/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -3159,7 +3159,7 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("nombre", this.item.nombre);
       formData.append('_method', 'PUT');
-      axios.post('http://localhost/deliveryApp/public/groups/' + this.item.id, formData, {
+      axios.post('/deliveryApp/public/groups/' + this.item.id, formData, {
         // <== use axios.post
         headers: {
           'Content-Type': 'multipart/form-data; }'
@@ -3177,7 +3177,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('file', this.$refs.file.files[0]);
       formData.append('nombre', this.nombre);
       formData.append('_method', 'post');
-      axios.post('http://localhost/deliveryApp/public/categoria/', formData, {
+      axios.post('/deliveryApp/public/categoria/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -3196,7 +3196,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       try {
-        var response = axios.get('http://localhost/deliveryApp/public/groups').then(function (response) {
+        var response = axios.get('/deliveryApp/public/groups').then(function (response) {
           return _this3.grupos = response.data;
         });
       } catch (error) {
@@ -3478,7 +3478,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('http://localhost/deliveryApp/public/categoria').then(function (response) {
+    axios.get('/deliveryApp/public/categoria').then(function (response) {
       return _this.categories = response.data;
     });
   },
@@ -3490,7 +3490,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('presentacion', this.product.presentacion);
       formData.append('categoria', this.$refs.optionSelected.value);
       formData.append('file', this.$refs.file.files[0]);
-      axios.post('http://localhost/deliveryApp/public/producto', formData).then(function (response) {
+      axios.post('/deliveryApp/public/producto', formData).then(function (response) {
         return console.log(response.data);
       })["catch"](function (error) {
         return console.log(error.data);

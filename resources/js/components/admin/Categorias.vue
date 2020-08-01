@@ -187,7 +187,7 @@ export default {
            
           
 
-          axios.post('http://localhost/deliveryApp/public/categoria/'+this.item.id, formData, { // <== use axios.post
+          axios.post('/deliveryApp/public/categoria/'+this.item.id, formData, { // <== use axios.post
          
          headers: {
         'Content-Type': 'multipart/form-data; }'
@@ -216,7 +216,7 @@ export default {
             formData.append('nombre',this.nombre)
             formData.append('_method','post')
 
-            axios.post( 'http://localhost/deliveryApp/public/categoria/',formData,
+            axios.post( '/deliveryApp/public/categoria/',formData,
   {
     headers: {
         'Content-Type': 'multipart/form-data'

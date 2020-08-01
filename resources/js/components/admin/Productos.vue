@@ -81,7 +81,7 @@ export default {
     },
     mounted()
     {
-        axios.get('http://localhost/deliveryApp/public/categoria').then(response => (this.categories = response.data))
+        axios.get('/deliveryApp/public/categoria').then(response => (this.categories = response.data))
       
     },
     methods:
@@ -96,7 +96,7 @@ export default {
              formData.append('categoria', this.$refs.optionSelected.value)
              formData.append('file', this.$refs.file.files[0])
 
-             axios.post('http://localhost/deliveryApp/public/producto',formData).then(response => (console.log(response.data))).catch(error => (console.log(error.data)))
+             axios.post('/deliveryApp/public/producto',formData).then(response => (console.log(response.data))).catch(error => (console.log(error.data)))
 
 
     
