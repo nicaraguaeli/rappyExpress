@@ -15,7 +15,7 @@
 </div>
            </div>
            <div class="col-sm-6">
-               <router-link to="/"  class="btn btn-rounded waves-effect waves-light" >Lista de productos</router-link>
+                <router-link :to="{name: 'listaproductos'}" class="waves-effect">Lista de productos</router-link>
            </div>
          </div>
 
