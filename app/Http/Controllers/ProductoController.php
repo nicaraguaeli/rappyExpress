@@ -41,33 +41,42 @@ class ProductoController extends Controller
         //
         
             //code...
-            Request()->validate([
+            try {
+                //code...
+                Request()->validate([
            
-                'file' => 'dimensions:width=400,height=400|mimes:jpeg,jpg,png',
-                'nombre' =>'required',
-                'presentacion'=>'required',
-                'precio'=>'required|numeric',
-                'categoria'=>'required|numeric'
+                    'file' => 'dimensions:width=400,height=400|mimes:jpeg,jpg,png',
+                    'nombre' =>'required',
+                    'presentacion'=>'required',
+                    'precio'=>'required|numeric',
+                    'categoria'=>'required|numeric'
+            
+                    ]);
         
-                ]);
-    
-            
-           $imageName = time().'.'.request()->file->getClientOriginalExtension();
-    
-            
-    
-            request()->file->move(public_path('img/img-product'), $imageName);
-            
-            $product = new Product;
-            $product->nombre = $request->nombre;
-            $product->precio = $request->precio;
-            $product->presentacion = $request->presentacion;
-            $product->category_id = $request->categoria;
-            $product->imagen = "img/img-product/".$imageName;
-            $product->save();
-    
                 
-            return "store";
+               $imageName = time().'.'.request()->file->getClientOriginalExtension();
+        
+                
+        
+                request()->file->move(public_path('img/img-product'), $imageName);
+                
+                $product = new Product;
+                $product->nombre = $request->nombre;
+                $product->precio = $request->precio;
+                $product->presentacion = $request->presentacion;
+                $product->category_id = $request->categoria;
+                $product->imagen = "img/img-product/".$imageName;
+                $product->save();
+        
+                    
+                return "store";
+                
+            } catch (\Throwable $th) {
+                //throw $th;
+
+                return $th;
+            }
+            
        
         
     }
