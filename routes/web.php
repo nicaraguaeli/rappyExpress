@@ -36,7 +36,7 @@ Route::resource('/producto', 'ProductoController');
 
 Route::get('/admin',function()
 {
-    return view('admin.index');
+    return view('admin.index')->with('mensaje','holaa');
 });
 
 Route::get('/prueba', function () {

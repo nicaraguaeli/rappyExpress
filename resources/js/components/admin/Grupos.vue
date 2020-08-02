@@ -152,7 +152,7 @@ export default {
           
           if(confirm('¿Estas Seguro?'))
           {
-               axios.delete('/deliveryApp/public/groups/'+id)
+               axios.delete('./groups/'+id)
                .then(response => (this.status = response.data,           
                 $('#sideModalTR').modal('show'),this.llenar()))
               
@@ -169,7 +169,7 @@ export default {
            
           
 
-          axios.post('/deliveryApp/public/groups/'+this.item.id, formData, { // <== use axios.post
+          axios.post('/groups/'+this.item.id, formData, { // <== use axios.post
          
          headers: {
         'Content-Type': 'multipart/form-data; }'
@@ -198,7 +198,7 @@ export default {
             formData.append('nombre',this.nombre)
             formData.append('_method','post')
 
-            axios.post( '/deliveryApp/public/categoria/',formData,
+            axios.post( './categoria',formData,
   {
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -228,7 +228,7 @@ export default {
           
           try {
              
-            const response =  axios.get('/deliveryApp/public/groups').then(response => (this.grupos = response.data));
+            const response =  axios.get("./groups").then(response => (this.grupos = response.data));
            
         } catch (error) {
             

@@ -34,9 +34,9 @@
               <div class="collapsible-body">
                 <ul>
                   <li>
-                    <router-link to="/grupos" class="waves-effect">Grupos Alimentos</router-link></li>
+                    <router-link :to="{name: 'grupos'}" class="waves-effect">Grupos Alimentos</router-link></li>
                   <li>
-                    <router-link to="/categorias" class="waves-effect">Categorias</router-link>
+                    <router-link :to="{name: 'categorias'}" class="waves-effect">Categorias</router-link>
                   </li>
                   
                 </ul>

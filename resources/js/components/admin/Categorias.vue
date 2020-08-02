@@ -9,7 +9,7 @@
                         aria-describedby="MaterialButton-addon2">
                        
                     </div>
-
+          
 
               </div>
               <div class="col-sm-12 mb-2 mt-2">
@@ -168,7 +168,7 @@ export default {
           
           if(confirm('¿Estas Seguro?'))
           {
-               axios.delete('/deliveryApp/public/categoria/'+id)
+               axios.delete('./categoria/'+id)
                .then(response => (this.status = response.data,           
                 $('#sideModalTR').modal('show'),this.llenar()))
               
@@ -187,7 +187,7 @@ export default {
            
           
 
-          axios.post('/deliveryApp/public/categoria/'+this.item.id, formData, { // <== use axios.post
+          axios.post('./categoria/'+this.item.id, formData, { // <== use axios.post
          
          headers: {
         'Content-Type': 'multipart/form-data; }'
@@ -216,7 +216,7 @@ export default {
             formData.append('nombre',this.nombre)
             formData.append('_method','post')
 
-            axios.post( '/deliveryApp/public/categoria/',formData,
+            axios.post( './categoria',formData,
   {
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -249,8 +249,8 @@ export default {
              
             
             
-            axios.get('/deliveryApp/public/groups').then(response => (this.groups = response.data));
-            const response =  axios.get('/deliveryApp/public/categoria').then(response => (this.categorias = response.data));
+            axios.get('./groups').then(response => (this.groups = response.data));
+            const response =  axios.get('./categoria').then(response => (this.categorias = response.data));
             
            
         } catch (error) {

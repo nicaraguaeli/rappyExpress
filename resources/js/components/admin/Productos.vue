@@ -3,12 +3,13 @@
   <main>
     <div class="container-fluid">
        
+       
 
        </div>
       <div class="card text-center mb-5 py-5">
 
         <div class="card-body">
-
+        <a target="_blank" class="nav-link" href="../categoria">cate</a>
           <h4 class="mb-4 dark-grey-text font-weight-bold"><strong>Agregar Producto</strong></h4>
 
         <div class="form-row mb-3 ">
@@ -76,12 +77,13 @@ export default {
             categories: {},
             product:[
                 {nombre: String, precio: Number, presentacion: String}
-            ]
+            ],
+            path: '',
         }
     },
     mounted()
     {
-        axios.get('/deliveryApp/public/categoria').then(response => (this.categories = response.data))
+        axios.get('./categoria').then(response => (this.categories = response.data))
       
     },
     methods:
@@ -96,7 +98,7 @@ export default {
              formData.append('categoria', this.$refs.optionSelected.value)
              formData.append('file', this.$refs.file.files[0])
 
-             axios.post('/deliveryApp/public/producto',formData).then(response => (console.log(response.data))).catch(error => (console.log(error.data)))
+             axios.post('./producto',formData).then(response => (console.log(response.data))).catch(error => (console.log(error.data)))
 
 
     
