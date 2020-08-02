@@ -6,16 +6,29 @@
 
 require('./bootstrap');
 
+import {Ziggy} from '../assets/js/ziggy';
+
+import route from 'ziggy-js';
+
+
+
 
 
 import VueRouter from 'vue-router';
 import { template } from 'lodash';
 window.Vue = require('vue');
 
+window.route = route;
+window.Ziggy = Ziggy;
+
 Vue.use(VueRouter);
 
 
-
+Vue.mixin({
+    methods: {
+        route: (name, params, absolute) => route(name, params, absolute, Ziggy),
+    },
+});
 
 
 
@@ -58,7 +71,7 @@ const routes = [
 
 const router = new VueRouter({
     routes, // short for routes: routes
-    mode: 'history'
+    
 });
 
 
