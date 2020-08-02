@@ -9,7 +9,7 @@
       <div class="card text-center mb-5 py-5">
 
         <div class="card-body">
-        <a target="_blank" class="nav-link" href="../categoria">cate</a>
+       
           <h4 class="mb-4 dark-grey-text font-weight-bold"><strong>Agregar Producto</strong></h4>
 
         <div class="form-row mb-3 ">
@@ -32,7 +32,7 @@
             <div class="custom-file">
     <input  name="imagen" ref="file"  type="file" class="custom-file-input form-control" id="inputGroupFile02" 
       aria-describedby="inputGroupFileAddon01">
-    <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen 128*128px</label>
+    <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen 400*400px</label>
   </div>
             </div>
             
@@ -45,7 +45,7 @@
          <div class="form-row md-form select-group mb-3 ">
             <div class="col-md-6">
                <span>Categoria</span>
-               <select  ref="optionSelected" class="form-control mb-4" >
+               <select  v-model="product.categoria" class="form-control mb-4" >
                  
                   <option v-for="item in categories" :key="item.id" v-text="item.nombrec" :value="item.id"></option>
                 </select>
@@ -70,13 +70,14 @@
 </template>
 
 <script>
+
 export default {
     data ()
     {
         return{
             categories: {},
             product:[
-                {nombre: String, precio: Number, presentacion: String}
+                {nombre: String, precio: Number,categoria: Number, presentacion: String}
             ],
             path: '',
         }
@@ -84,7 +85,7 @@ export default {
     mounted()
     {
         axios.get('./categoria').then(response => (this.categories = response.data))
-      
+        
     },
     methods:
     {
@@ -95,10 +96,10 @@ export default {
              formData.append('nombre', this.product.nombre)
              formData.append('precio', this.product.precio)
              formData.append('presentacion', this.product.presentacion)
-             formData.append('categoria', this.$refs.optionSelected.value)
+             formData.append('categoria', this.product.categoria)
              formData.append('file', this.$refs.file.files[0])
 
-             axios.post('./producto',formData).then(response => (console.log(response.data))).catch(error => (console.log(error.data)))
+             axios.post('./producto',formData).then(response => (toastr.success(response.data), this.product = [])).catch(error => (console.log(error.data)))
 
 
     
