@@ -15,8 +15,8 @@ class ProductoController extends Controller
     public function index()
     {
         //
-
-        return "index";
+      $product = Product::all();
+        return response()->json($product);
     }
 
     /**
@@ -63,13 +63,14 @@ class ProductoController extends Controller
                 $product = new Product;
                 $product->nombre = $request->nombre;
                 $product->precio = $request->precio;
+                $product->cantidad = 0;
                 $product->presentacion = $request->presentacion;
                 $product->category_id = $request->categoria;
                 $product->imagen = "img/img-product/".$imageName;
                 $product->save();
         
                     
-                return "store";
+                return "Producto almacenado con exito!";
                 
             } catch (\Throwable $th) {
                 //throw $th;
@@ -127,6 +128,8 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         //
-        return "destroy";
+        Product::find($id)->delete();
+
+        return "El item a sido eliminado!.";
     }
 }

@@ -39,6 +39,7 @@
                     <router-link :to="{name: 'categorias'}" class="waves-effect">Categorias</router-link>
                   </li>
                   
+                  
                 </ul>
               </div>
             </li>
@@ -51,6 +52,9 @@
                 <ul>
                   <li>
                     <router-link to="/productos" class="waves-effect">Productos</router-link></li>
+                    <li>
+                    <router-link :to="{name: 'listaproductos'}" class="waves-effect">Lista</router-link>
+                  </li>
                   
                  
                 </ul>
