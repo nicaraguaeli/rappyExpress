@@ -29,15 +29,15 @@
   
   <li class="nav-item">
     <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
-      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1.2rem;" class="fas fa-home pr-2"></i></a>
+      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1rem;" class="fas fa-home pr-2"></i></a>
   </li>
   <li class="nav-item">
     <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
-      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.2rem;" class="fas fa-star white-text mr-2"></i>Ofertas</a>
+      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1rem;" class="fas fa-star white-text mr-2"></i>Ofertas</a>
   </li>
   <li class="nav-item" id="cart">
     <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.2rem;"  class="fas fa-shopping-cart pr-2"></i>Cesta</a>
+      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1rem;"  class="fas fa-shopping-cart pr-2"></i>Cesta</a>
   </li>
   
 </ul>
@@ -110,7 +110,7 @@
   </thead>
   <tbody class="tabla">
 
-    <cart v-for="(item, index) in articles" :key="item.id" :article="item"  @delete="deleteRow(index,item)" @update="update(index,item.cantidad)"></cart>
+    <cart v-for="(item, index) in articles" :key="index" :article="item"   @delete="deleteRow(index,item)" @update="update(index,item.cantidad)"></cart>
    
   </tbody>
   
@@ -246,60 +246,21 @@ export default {
       {
          
        
-       this.articles.push(item)
        
-      
-            
-            var posicion;
-            var cantidad = 0;
-
-            
-        
-          for (let index = 0; index < this.articles.length; index++) {
-                
-                if(this.articles[index].id == item.id)
-                {
-                    cantidad = this.articles[index].cantidad;
-                    console.log("cantidad devuelta"+cantidad)
-                    
-                    this.articles.splice(index)
-                    posicion = index;
-                }           
-         };
-
-         this.articles.push(item)
-
-          if(cantidad == 0)
-          {
-               var valor = parseInt(cantidad += 1);
-               console.log(valor)
-               this.articles[posicion].cantidad = valor;
-               this.counter++
-          }
-          else
-          {
-            var numero = parseInt(cantidad +=1)
-            this.articles[posicion].cantidad = numero;
-            console.log(numero)
-            this.counter++
-            
- 
-          }
-        
-         
-
-         this.totalPagar = 0
-         
-         this.articles.forEach(element => {
-           
-         this.totalPagar += element.cantidad * element.precio;
-
-        
-           
-         });
-        
+       if(!this.articles.find(e => e.id == item.id))
+       {
+           this.articles.push(item)
+           this.totalPagar = item.precio * item.cantidad
+           this.counter++
+           toastr.success('¡Agregado a la cesta!', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
+       }
+       else
+       {
+          toastr.info('¡El artículo ya esta!.', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
+       }
+              
         //Comprobando el costo de envio 
-        this.sendState();
+        //this.sendState();
         
         
        

@@ -2017,6 +2017,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_content_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-content-loading */ "./node_modules/vue-content-loading/dist/vuecontentloading.js");
+/* harmony import */ var vue_content_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_content_loading__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2094,10 +2096,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    VueContentLoading: vue_content_loading__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   data: function data() {
     return {
       info: Array,
+      state: true,
       delay: 1,
       elemento: []
     };
@@ -2106,7 +2139,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get('./prueba').then(function (response) {
-      return _this.info = response.data;
+      return _this.info = response.data, _this.state = false;
     });
   },
   methods: {
@@ -2363,42 +2396,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     variablehijo: function variablehijo(item) {
-      var _this = this;
-
-      this.articles.push(item);
-      var posicion;
-      var cantidad = 0;
-
-      for (var index = 0; index < this.articles.length; index++) {
-        if (this.articles[index].id == item.id) {
-          cantidad = this.articles[index].cantidad;
-          console.log("cantidad devuelta" + cantidad);
-          this.articles.splice(index);
-          posicion = index;
-        }
-      }
-
-      ;
-      this.articles.push(item);
-
-      if (cantidad == 0) {
-        var valor = parseInt(cantidad += 1);
-        console.log(valor);
-        this.articles[posicion].cantidad = valor;
+      if (!this.articles.find(function (e) {
+        return e.id == item.id;
+      })) {
+        this.articles.push(item);
+        this.totalPagar = item.precio * item.cantidad;
         this.counter++;
+        toastr.success('¡Agregado a la cesta!', '', {
+          positionClass: 'md-toast-bottom-right'
+        });
+        $('#toast-container').attr('class', 'md-toast-bottom-center');
       } else {
-        var numero = parseInt(cantidad += 1);
-        this.articles[posicion].cantidad = numero;
-        console.log(numero);
-        this.counter++;
-      }
+        toastr.info('¡El artículo ya esta!.', '', {
+          positionClass: 'md-toast-bottom-right'
+        });
+        $('#toast-container').attr('class', 'md-toast-bottom-center');
+      } //Comprobando el costo de envio 
+      //this.sendState();
 
-      this.totalPagar = 0;
-      this.articles.forEach(function (element) {
-        _this.totalPagar += element.cantidad * element.precio;
-      }); //Comprobando el costo de envio 
 
-      this.sendState();
       $('#cart').addTempClass('wow animated bounceIn', 1000);
     },
     identificador: function identificador(id, itemNombre, itemCate) {
@@ -2423,7 +2439,7 @@ __webpack_require__.r(__webpack_exports__);
       this.articles.splice(index, 1);
     },
     update: function update(index, cantidad) {
-      var _this2 = this;
+      var _this = this;
 
       console.log("desde update", this.articles[index].cantidad);
       console.log(cantidad + "enviado desde aca");
@@ -2431,14 +2447,14 @@ __webpack_require__.r(__webpack_exports__);
       this.totalPagar = 0;
       this.counter = 0;
       this.articles.forEach(function (element) {
-        _this2.totalPagar += element.cantidad * element.precio;
-        _this2.counter += element.cantidad;
+        _this.totalPagar += element.cantidad * element.precio;
+        _this.counter += element.cantidad;
       });
       $('#cart').addTempClass('wow animated bounceIn', 1000);
       this.sendState();
     },
     formdata: function formdata() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (!this.cliente.nombre && !this.cliente.telefono && !this.cliente.direccion) {
         this.errors = true;
@@ -2451,10 +2467,10 @@ __webpack_require__.r(__webpack_exports__);
         this.spin = true;
         setTimeout(function () {
           return axios.post('./store', {
-            pr: _this3.articles,
+            pr: _this2.articles,
             cl: clientee
           }).then(function (response) {
-            return _this3.received = response.data;
+            return _this2.received = response.data;
           })["catch"](function (error) {
             return console.log(error);
           });
@@ -39390,92 +39406,178 @@ var render = function() {
         staticStyle: { height: "70vh", overflow: "scroll" },
         attrs: { id: "myTabContent" }
       },
-      _vm._l(_vm.info, function(item, index) {
-        return _c(
-          "div",
-          {
-            key: index,
-            staticClass: "tab-pane fade show ",
-            class: { active: index == 0 },
-            attrs: {
-              id: item.nombre,
-              role: "tabpanel",
-              "aria-labelledby": "home-tab"
-            }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(item.categories, function(item2) {
-                return _c(
-                  "div",
-                  { key: item2.id, staticClass: "   pr-md-2 mb-3 col-sm-4 " },
-                  [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "card  wow bounceIn animated mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light",
-                        attrs: {
-                          title: item2.nombre,
-                          "data-wow-delay": "0." + _vm.delay + "s"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.enviarid(
-                              item2.id,
-                              item.nombre,
-                              item2.nombre
-                            )
+      [
+        _vm.state
+          ? _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "pr-md-2 mb-3 col-sm-4 " },
+                [
+                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                    _c("rect", {
+                      attrs: {
+                        x: "0 ",
+                        y: "13",
+                        rx: "4",
+                        ry: "4",
+                        width: "100%",
+                        height: "200"
+                      }
+                    })
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "pr-md-2 mb-3 col-sm-4 " },
+                [
+                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                    _c("rect", {
+                      attrs: {
+                        x: "0",
+                        y: "13",
+                        rx: "4",
+                        ry: "4",
+                        width: "100%",
+                        height: "200"
+                      }
+                    })
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "pr-md-2 mb-3 col-sm-4 " },
+                [
+                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                    _c("rect", {
+                      attrs: {
+                        x: "0",
+                        y: "13",
+                        rx: "4",
+                        ry: "4",
+                        width: "100%",
+                        height: "200"
+                      }
+                    })
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "pr-md-2 mb-3 col-sm-4" },
+                [
+                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                    _c("rect", {
+                      attrs: {
+                        x: "0",
+                        y: "13",
+                        rx: "4",
+                        ry: "4",
+                        width: "100%",
+                        height: "200"
+                      }
+                    })
+                  ])
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.info, function(item, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "tab-pane fade show ",
+              class: { active: index == 0 },
+              attrs: {
+                id: item.nombre,
+                role: "tabpanel",
+                "aria-labelledby": "home-tab"
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "row" },
+                _vm._l(item.categories, function(item2) {
+                  return _c(
+                    "div",
+                    { key: item2.id, staticClass: "   pr-md-2 mb-3 col-sm-4 " },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "card  wow bounceIn animated mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light",
+                          attrs: {
+                            title: item2.nombre,
+                            "data-wow-delay": "0." + _vm.delay + "s"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.enviarid(
+                                item2.id,
+                                item.nombre,
+                                item2.nombre
+                              )
+                            }
                           }
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "card-body p-0" }, [
-                          _c("div", { staticClass: "d-flex" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "view float-left mr-3 ",
-                                staticStyle: { "min-width": "128px" }
-                              },
-                              [
-                                _c("img", {
-                                  staticClass: "img-responsive rounded-left ",
-                                  attrs: { src: item2.imagen }
-                                }),
-                                _vm._v(" "),
-                                _vm._m(0, true)
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "pt-3 pr-3 align-self-center " },
-                              [
-                                _c("h6", {
-                                  staticClass: "font-weight-bold ",
-                                  staticStyle: { "font-size": "1.3rem" },
-                                  domProps: {
-                                    textContent: _vm._s(item2.nombre)
-                                  }
-                                })
-                              ]
-                            )
+                        },
+                        [
+                          _c("div", { staticClass: "card-body p-0" }, [
+                            _c("div", { staticClass: "d-flex" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "view float-left mr-3 ",
+                                  staticStyle: { "min-width": "128px" }
+                                },
+                                [
+                                  _c("img", {
+                                    staticClass: "img-responsive rounded-left ",
+                                    attrs: { src: item2.imagen }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._m(0, true)
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "pt-3 pr-3 align-self-center " },
+                                [
+                                  _c("h6", {
+                                    staticClass: "font-weight-bold ",
+                                    staticStyle: { "font-size": "1rem" },
+                                    domProps: {
+                                      textContent: _vm._s(item2.nombre)
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
                           ])
-                        ])
-                      ]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          ]
-        )
-      }),
-      0
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          )
+        })
+      ],
+      2
     )
   ])
 }
@@ -39565,7 +39667,7 @@ var render = function() {
               [
                 _c("i", {
                   staticClass: "fas fa-home pr-2",
-                  staticStyle: { "font-size": "1.2rem" }
+                  staticStyle: { "font-size": "1rem" }
                 })
               ]
             )
@@ -39599,7 +39701,7 @@ var render = function() {
                 ]),
                 _c("i", {
                   staticClass: "fas fa-shopping-cart pr-2",
-                  staticStyle: { "font-size": "1.2rem" }
+                  staticStyle: { "font-size": "1rem" }
                 }),
                 _vm._v("Cesta")
               ]
@@ -39758,7 +39860,7 @@ var render = function() {
                     { staticClass: "tabla" },
                     _vm._l(_vm.articles, function(item, index) {
                       return _c("cart", {
-                        key: item.id,
+                        key: index,
                         attrs: { article: item },
                         on: {
                           delete: function($event) {
@@ -40063,7 +40165,7 @@ var staticRenderFns = [
         [
           _c("i", {
             staticClass: "fas fa-star white-text mr-2",
-            staticStyle: { "font-size": "1.2rem" }
+            staticStyle: { "font-size": "1rem" }
           }),
           _vm._v("Ofertas")
         ]
@@ -40170,7 +40272,7 @@ var render = function() {
         _c(
           "ol",
           {
-            staticClass: "breadcrumb m-0",
+            staticClass: "breadcrumb m-0 mt-2",
             staticStyle: { "background-color": "transparent" }
           },
           [
@@ -40365,7 +40467,7 @@ var render = function() {
                           [
                             _c("span", { staticClass: "float-left " }, [
                               _vm._v(
-                                "PRECIO: C$ " +
+                                "C$ " +
                                   _vm._s(_vm._f("formato")(item.precio)) +
                                   "  "
                               )

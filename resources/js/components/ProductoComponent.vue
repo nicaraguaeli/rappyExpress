@@ -2,7 +2,7 @@
     <div >
        
          <nav aria-label="breadcrumb animated fadeIn " class=" grey lighten-4 text-muted">
-  <ol class="breadcrumb m-0" style="background-color: transparent;">
+  <ol class="breadcrumb m-0 mt-2" style="background-color: transparent;">
     <li class="breadcrumb-item inicio " style="background-color: transparent;"><a  ><i class="fas fa-chevron-left mr-2"></i>
     <b>Atras</b>
     </a></li>
@@ -80,7 +80,7 @@
       <!-- Category & Title -->
       <h6 class=" mb-1 ml-1  text-uppercase " v-text="item.nombre"> </h6> 
 
-    <p class="mb-0 ml-1" style="font-size: 0.7rem;"> <span class="float-left " >PRECIO: C$ {{item.precio | formato}}  </span> </p>
+    <p class="mb-0 ml-1" style="font-size: 0.7rem;"> <span class="float-left " >C$ {{item.precio | formato}}  </span> </p>
 
       
       <!-- Card footer -->
@@ -166,11 +166,11 @@ export default {
    
   methods:{
       
-      enviarpadre(item)
+      enviarpadre: function(item)
       {
          
          
-          
+        
           this.$emit('escucharhijo',item)
           
           

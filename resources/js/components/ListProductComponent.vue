@@ -16,6 +16,32 @@
 
 <!--CONTENT-TAB-->
 <div class="tab-content bg-white" id="myTabContent" style="height: 70vh; overflow: scroll;">
+  
+
+         <div class="row" v-if="state">
+        <div class="pr-md-2 mb-3 col-sm-4 ">
+          <vue-content-loading :height="200">
+           <rect x="0 " y="13" rx="4" ry="4" width="100%" height="200" />
+            </vue-content-loading>
+        </div>
+         <div class="pr-md-2 mb-3 col-sm-4 ">
+          <vue-content-loading :height="200" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
+            </vue-content-loading>
+        </div>
+         <div class="pr-md-2 mb-3 col-sm-4 ">
+          <vue-content-loading :height="200" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
+            </vue-content-loading>
+        </div>
+         <div class="pr-md-2 mb-3 col-sm-4">
+          <vue-content-loading :height="200" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
+            </vue-content-loading>
+        </div>
+      </div>
+  
+
   <div v-for="(item, index) in info" :key="index" class="tab-pane fade show " v-bind:class="{active: index == 0}" :id="item.nombre" role="tabpanel" aria-labelledby="home-tab" >
   
  <!-- Grid column -->
@@ -37,7 +63,7 @@
                     </div>
                     
                           <div class="pt-3 pr-3 align-self-center ">
-                      <h6 class="font-weight-bold " style=" font-size: 1.3rem;" v-text="item2.nombre"></h6> 
+                      <h6 class="font-weight-bold " style=" font-size: 1rem;" v-text="item2.nombre"></h6> 
                     </div>
                    
                     
@@ -76,10 +102,16 @@
  
 </template>
 <script>
+import VueContentLoading from 'vue-content-loading';
 export default {
+    components:
+  {
+     VueContentLoading,
+  },
     data () {
     return {
       info: Array,
+      state: true,
       delay: 1,
       elemento: []
       
@@ -90,7 +122,7 @@ export default {
     mounted () {
     axios
       .get('./prueba')
-      .then(response => (this.info =  response.data))
+      .then(response => (this.info =  response.data, this.state = false))
   },
   methods:
   {
