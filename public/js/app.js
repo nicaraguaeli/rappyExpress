@@ -2396,11 +2396,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     variablehijo: function variablehijo(item) {
+      var _this = this;
+
       if (!this.articles.find(function (e) {
         return e.id == item.id;
       })) {
         this.articles.push(item);
-        this.totalPagar = item.precio * item.cantidad;
         this.counter++;
         toastr.success('¡Agregado a la cesta!', '', {
           positionClass: 'md-toast-bottom-right'
@@ -2411,9 +2412,13 @@ __webpack_require__.r(__webpack_exports__);
           positionClass: 'md-toast-bottom-right'
         });
         $('#toast-container').attr('class', 'md-toast-bottom-center');
-      } //Comprobando el costo de envio 
-      //this.sendState();
+      }
 
+      this.totalPagar = 0;
+      this.articles.forEach(function (element) {
+        _this.totalPagar += element.cantidad * element.precio;
+      }); //Comprobando el costo de envio 
+      //this.sendState();
 
       $('#cart').addTempClass('wow animated bounceIn', 1000);
     },
@@ -2439,7 +2444,7 @@ __webpack_require__.r(__webpack_exports__);
       this.articles.splice(index, 1);
     },
     update: function update(index, cantidad) {
-      var _this = this;
+      var _this2 = this;
 
       console.log("desde update", this.articles[index].cantidad);
       console.log(cantidad + "enviado desde aca");
@@ -2447,14 +2452,14 @@ __webpack_require__.r(__webpack_exports__);
       this.totalPagar = 0;
       this.counter = 0;
       this.articles.forEach(function (element) {
-        _this.totalPagar += element.cantidad * element.precio;
-        _this.counter += element.cantidad;
+        _this2.totalPagar += element.cantidad * element.precio;
+        _this2.counter += element.cantidad;
       });
       $('#cart').addTempClass('wow animated bounceIn', 1000);
       this.sendState();
     },
     formdata: function formdata() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (!this.cliente.nombre && !this.cliente.telefono && !this.cliente.direccion) {
         this.errors = true;
@@ -2467,10 +2472,10 @@ __webpack_require__.r(__webpack_exports__);
         this.spin = true;
         setTimeout(function () {
           return axios.post('./store', {
-            pr: _this2.articles,
+            pr: _this3.articles,
             cl: clientee
           }).then(function (response) {
-            return _this2.received = response.data;
+            return _this3.received = response.data;
           })["catch"](function (error) {
             return console.log(error);
           });

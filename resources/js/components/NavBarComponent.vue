@@ -246,11 +246,9 @@ export default {
       {
          
        
-       
        if(!this.articles.find(e => e.id == item.id))
        {
            this.articles.push(item)
-           this.totalPagar = item.precio * item.cantidad
            this.counter++
            toastr.success('¡Agregado a la cesta!', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
        }
@@ -258,7 +256,18 @@ export default {
        {
           toastr.info('¡El artículo ya esta!.', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
        }
-              
+
+  
+
+         this.totalPagar = 0         
+         this.articles.forEach(element => {
+           
+         this.totalPagar += element.cantidad * element.precio;
+
+        
+           
+         });
+        
         //Comprobando el costo de envio 
         //this.sendState();
         
