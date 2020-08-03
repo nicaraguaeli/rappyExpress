@@ -63,7 +63,7 @@ class ProductoController extends Controller
                 $product = new Product;
                 $product->nombre = $request->nombre;
                 $product->precio = $request->precio;
-                $product->cantidad = 0;
+                $product->cantidad = 1;
                 $product->presentacion = $request->presentacion;
                 $product->category_id = $request->categoria;
                 $product->imagen = "img/img-product/".$imageName;
