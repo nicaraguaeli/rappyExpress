@@ -11,18 +11,40 @@
   </ol>
 </nav>
 
-<div v-if="!productos.length" class="ml-3">
-   <small > Cargando....</small>
-</div>
-<div v-if="productos.length" class="ml-3">
-   <small > :) bla bla bla</small>
-</div>
-<div v-else-if="!productos.length">
-   :) Estamos agregando productos a esta seccion...
-</div>
 
 
-<div class="container p-1 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
+
+
+
+    <div class="container p-1 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
+      <div v-if="state" >
+  
+      <div class="row">
+        <div class="col-6 col-md-3  ">
+          <vue-content-loading :height="500">
+           <rect x="0 " y="13" rx="4" ry="4" width="100%" height="500" />
+            </vue-content-loading>
+        </div>
+         <div class="col-6 col-md-3 ">
+          <vue-content-loading :height="500" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="500" />
+            </vue-content-loading>
+        </div>
+         <div class="col-6 col-md-3 ">
+          <vue-content-loading :height="500" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="500" />
+            </vue-content-loading>
+        </div>
+         <div class="col-6 col-md-3 ">
+          <vue-content-loading :height="500" >
+           <rect x="0" y="13" rx="4" ry="4" width="100%" height="500" />
+            </vue-content-loading>
+        </div>
+      </div>
+     
+    
+   
+</div>
     <div class="row animated fadeIn m-0  " id="myList">
 
 
@@ -47,13 +69,13 @@
         <div class="mask rgba-white-slight waves-effect waves-light"></div>
 
       </a>
-<span class="badge badge-danger mb-2 p-2" style="transform: translateY(-39px); position: absolute;" v-text="item.presentacion"></span>
+<span class="badge badge-danger mb-2 p-2 rounded-lg" style="transform: translateY(-39px); position: absolute;" v-text="item.presentacion"></span>
     </div>
     
     <!-- Card image -->
 
     <!-- Card content -->
-    <div class="card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 ">
+    <div class="card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 rounded-lg">
 
       <!-- Category & Title -->
       <h6 class=" mb-1 ml-1  text-uppercase " v-text="item.nombre"> </h6> 
@@ -107,9 +129,13 @@
 
 <script>
 
+import VueContentLoading from 'vue-content-loading';
 
 export default {
-  
+  components:
+  {
+     VueContentLoading,
+  },
   data () {
     return {
       
@@ -159,11 +185,11 @@ export default {
 },
 mounted ()
 {
-  
+ 
   
   axios
       .get('./prueba/'+this.$props.idd)
-      .then(response => (this.productos =  response.data) )
+      .then(response => (this.productos =  response.data, this.state = false) )
      
 }
   

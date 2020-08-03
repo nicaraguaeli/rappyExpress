@@ -8,7 +8,7 @@
 
         <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+  
   <!-- Bootstrap core CSS -->
   <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
   <!-- Material Design Bootstrap -->

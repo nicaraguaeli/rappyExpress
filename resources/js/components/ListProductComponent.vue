@@ -37,7 +37,7 @@
                     </div>
                     
                           <div class="pt-3 pr-3 align-self-center ">
-                      <h6 class="font-weight-bold " style="font-family: 'Kanit', sans-serif; font-size: 1.3rem;" v-text="item2.nombre"></h6> 
+                      <h6 class="font-weight-bold " style=" font-size: 1.3rem;" v-text="item2.nombre"></h6> 
                     </div>
                    
                     
