@@ -141,7 +141,7 @@ export default {
       
       counter: 1,
       state: true,
-      productos: {},
+      productos: Array,
     
      
       

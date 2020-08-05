@@ -153,19 +153,19 @@
         <form v-on:submit.prevent="formdata()">
          
          <div class="md-form mb-5">
-          <input type="text"  class="form-control validate" v-model="cliente.nombre">
+          <input type="text"  class="form-control validate" v-model="nombre">
           <label data-error="falta" data-success="correcto" >Su nombre</label>
         </div>
 
         <div class="md-form mb-4">
          
-          <input type="number"  class="form-control validate" v-model="cliente.telefono">
+          <input type="number"  class="form-control validate" v-model="telefono">
           <label data-error="falta" data-success="correcto" >Télefono</label>
         </div>
 
          <div class="md-form mb-5">
          
-          <input type="text"  class="form-control validate" v-model="cliente.direccion">
+          <input type="text"  class="form-control validate" v-model="direccion">
           <label data-error="falta" data-success="correcto" >Dirección</label>
         </div>
 
@@ -226,14 +226,10 @@ export default {
       itemCategoria: "",
       buscador: false,
       envio: 0,
-
-      cliente: [
-        {
-          nombre: String,
-          telefono: Number,
-          direccion: String,
-        }
-        ],
+      nombre: "",
+      telefono: "",
+      direccion: "",
+      
       errors: false,
       isActive: false,
     
@@ -337,28 +333,26 @@ export default {
       
       formdata()
       {  
-        if (!this.cliente.nombre && !this.cliente.telefono && !this.cliente.direccion) {
+        if (!this.nombre && !this.telefono && !this.direccion) {
         this.errors = true;
       }
       else{
             
-            const clientee = [];
-            clientee[0] = this.cliente.nombre;
-            clientee[1] = this.cliente.telefono;
-            clientee[2] = this.cliente.direccion;
+            
+           
 
             this.received = "un momento...";
             this.spin = true;
             
             setTimeout(() => axios
-            .post('./store',{pr: this.articles, cl: clientee})
-            .then((response) => this.received = response.data)
+            .post('./order',this.$data)
+            .then((response) => console.log(response.data))
             .catch(error => console.log(error)), 4000)
             
            
             this.stateModal = false;
 
-           setTimeout(() => {$("#modalLoginForm").modal('hide'); location.reload();} ,8000);
+           //setTimeout(() => {$("#modalLoginForm").modal('hide'); location.reload();} ,8000);
            
          
             

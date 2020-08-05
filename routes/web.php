@@ -31,7 +31,12 @@ Route::get('/', function () {
 Route::resource('/categoria', 'CategoriaController');
 Route::resource('/groups', 'GroupController');
 Route::resource('/producto', 'ProductoController');
+Route::resource('/order', 'OrderController');
 
+Route::get('test', function () {
+    event(new App\Events\StatusLiked('Tienes una nueva orden'));
+    return "Event has been sent!";
+});
 
 
 Route::get('/admin',function()
@@ -49,14 +54,7 @@ Route::get('/prueba', function () {
 
 });
 
-Route::get('/test', function () {
-    
-   
- 
-    return view('test');
- 
 
-});
 
 
 

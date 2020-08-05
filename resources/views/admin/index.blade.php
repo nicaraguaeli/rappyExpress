@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/mdb.min.css')}}">
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
    
 </head>
 <body class="fixed-sn white-skin">
+ 
 <div id="admin">
 
 <admin-nav></admin-nav>
@@ -21,6 +23,8 @@
 <router-view></router-view>
 </div>
 <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+
+
   
 <!-- SCRIPTS -->
    

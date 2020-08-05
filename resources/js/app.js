@@ -8,7 +8,7 @@ require('./bootstrap');
 
 import {Ziggy} from '../assets/js/ziggy';
 
-import route from 'ziggy-js';
+
 
 
 
@@ -18,17 +18,12 @@ import VueRouter from 'vue-router';
 import { template } from 'lodash';
 window.Vue = require('vue');
 
-window.route = route;
-window.Ziggy = Ziggy;
+
 
 Vue.use(VueRouter);
 
 
-Vue.mixin({
-    methods: {
-        route: (name, params, absolute) => route(name, params, absolute, Ziggy),
-    },
-});
+
 
 
 
@@ -56,6 +51,7 @@ Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').defau
 
 
 Vue.component('admin-nav', require('./components/admin/NavBar.vue').default);
+Vue.component('push-notification', require('./components/admin/PushNotification.vue').default);
 
 
 
@@ -66,6 +62,7 @@ const routes = [
     { path: '/categorias', name:'categorias', component: Vue.component('categorias', require('./components/admin/Categorias.vue').default)   },
     { path: '/grupos', name:'grupos', component: Vue.component('grupos', require('./components/admin/Grupos.vue').default)   },
     { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
+    { path: '/listaproductos', name:'listaproductos', component: Vue.component('getProduct', require('./components/admin/getProduct.vue').default)   },
    
 ];
 
