@@ -76,8 +76,8 @@ class OrderController extends Controller
               
 
             DB::commit();
+            
             event(new App\Events\StatusLiked('Tienes una nueva orden'));
-           
             return "Gracias!";
         } catch (\PDOException $e) {
             // Woopsy
