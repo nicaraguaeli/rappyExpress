@@ -2471,7 +2471,11 @@ __webpack_require__.r(__webpack_exports__);
             return console.log(error);
           });
         }, 4000);
-        this.stateModal = false; //setTimeout(() => {$("#modalLoginForm").modal('hide'); location.reload();} ,8000);
+        this.stateModal = false;
+        setTimeout(function () {
+          $("#modalLoginForm").modal('hide');
+          location.reload();
+        }, 8000);
       }
     },
     sendState: function sendState() {

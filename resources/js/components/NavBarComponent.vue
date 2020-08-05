@@ -352,7 +352,7 @@ export default {
            
             this.stateModal = false;
 
-           //setTimeout(() => {$("#modalLoginForm").modal('hide'); location.reload();} ,8000);
+           setTimeout(() => {$("#modalLoginForm").modal('hide'); location.reload();} ,8000);
            
          
             

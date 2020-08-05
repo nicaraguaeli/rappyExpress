@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\StatusLiked;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Order;
@@ -76,15 +77,16 @@ class OrderController extends Controller
               
 
             DB::commit();
-            
-            event(new App\Events\StatusLiked('Tienes una nueva orden'));
+            event(new StatusLiked('Tienes una nueva orden'));
             return "Gracias!";
+           
+
         } catch (\PDOException $e) {
             // Woopsy
             DB::rollBack();
         }
 
-          
+       
        
     }
 
