@@ -17,6 +17,9 @@ class OrderController extends Controller
     public function index()
     {
         //
+        $orders = Order::where('enviado',0)->get();
+
+        return response()->json($orders);
     }
 
     /**
@@ -78,13 +81,15 @@ class OrderController extends Controller
 
             DB::commit();
             event(new StatusLiked('Tienes una nueva orden'));
-            return "Gracias!";
+            return "Gracias! Su pedido a sido enviado en breve le llamaremos.";
            
 
         } catch (\PDOException $e) {
             // Woopsy
             DB::rollBack();
         }
+
+       
 
        
        

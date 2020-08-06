@@ -1,7 +1,7 @@
 <template>
     <div >
        
-         <nav aria-label="breadcrumb animated fadeIn " class=" grey lighten-4 text-muted">
+         <nav aria-label="breadcrumb animated fadeIn fixed" class=" grey lighten-4 text-muted">
   <ol class="breadcrumb m-0 mt-2" style="background-color: transparent;">
     <li class="breadcrumb-item inicio " style="background-color: transparent;"><a  ><i class="fas fa-chevron-left mr-2"></i>
     <b>Atras</b>
@@ -16,7 +16,7 @@
 
 
 
-    <div class="container p-1 cloudy-knoxville-gradient   " style="height: 70vh; overflow: scroll;" >
+    <div class="container p-1 cloudy-knoxville-gradient   " >
       <div v-if="state" >
   
       <div class="row">

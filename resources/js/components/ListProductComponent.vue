@@ -15,7 +15,7 @@
 <!--FIN-GRUPOS--> 
 
 <!--CONTENT-TAB-->
-<div class="tab-content bg-white" id="myTabContent" style="height: 70vh; overflow: scroll;">
+<div class="tab-content bg-white" id="myTabContent" style="height: calc(100vh - 190px); overflow: scroll;">
   
 
          <div class="row" v-if="state">

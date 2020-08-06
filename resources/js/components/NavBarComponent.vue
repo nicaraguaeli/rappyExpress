@@ -78,7 +78,7 @@
     <p class="mt-1">Trabajando</p>
   </div>
   <div class="tab-pane fade cloudy-knoxville-gradient" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic">
-           <div class="container p-0">
+           <div class="container p-0" >
     <div class="row grey lighten-4 p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
             <h4>Su Orden</h4></div>
@@ -93,36 +93,15 @@
    </div>
  </div>
 
-
-    
-    <table class="table   table-sm " >
-  <thead class="special-color-dark white-text">
-    <tr class="font-weight-bold">
-      
-    
-      <th scope="col font-weight-bold">ART</th>
-      <th scope="col font-weight-bold">CANT.</th>      
-      <th scope="col font-weight-bold">P/U</th>
-      <th scope="col font-weight-bold">IMP.</th>
-      <th scope="col font-weight-bold"></th>
-      
-    </tr>
-  </thead>
-  <tbody class="tabla">
-
+  <div style="height: calc(100vh - 190px); overflow: scroll;" >
     <cart v-for="(item, index) in articles" :key="index" :article="item"   @delete="deleteRow(index,item)" @update="update(index,item.cantidad)"></cart>
+  </div>
+    
    
-  </tbody>
-  
-</table>
 
+   
   
 
-  
-    
-    
-
-    
     </div>
     <!--modal-->
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -130,18 +109,18 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">{{received}}</h4>
+        <h4 class="modal-title w-100 font-weight-bold"></h4>
        
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-if="stateModal" >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="text-center">
-
+          <p class="font-weight-bold">{{received}}</p>
          <div class="spinner-border text-success" role="status" v-if="spin">
   <span class="sr-only">Loading...</span>
 </div>
-        <h4 v-if="stateModal">¿Donde se entregará el pedido?</h4>
+        
         <p v-if="errors" class="text-red">
           Todos los campos son requeridos!.
     
@@ -150,32 +129,36 @@
       </div>
        
       <div class="modal-body mx-3" v-if="stateModal">
-        <form v-on:submit.prevent="formdata()">
-         
-         <div class="md-form mb-5">
-          <input type="text"  class="form-control validate" v-model="nombre">
-          <label data-error="falta" data-success="correcto" >Su nombre</label>
-        </div>
+        <div class="card card-signup z-depth-1">
 
-        <div class="md-form mb-4">
-         
-          <input type="number"  class="form-control validate" v-model="telefono">
-          <label data-error="falta" data-success="correcto" >Télefono</label>
-        </div>
+            <div class="card-body text-center">
 
-         <div class="md-form mb-5">
-         
-          <input type="text"  class="form-control validate" v-model="direccion">
-          <label data-error="falta" data-success="correcto" >Dirección</label>
-        </div>
+              <img src="img/LOGO1.png" class="logo">
+              <h3 class="card-title my-2">Datos de Entrega</h3>
+              <p class="slogan" v-if="stateModal">¿Donde se entregará el pedido?</p>
 
-        <div class="modal-footer d-flex justify-content-center">
-       <button type="submit" class="btn btn-success btn-rounded btn-sm my-0 waves-effect waves-light"  >Realizar Pedido</button>
-       
-      </div>
+              <div class="md-form md-outline">
+                <input type="text" id="username" class="form-control" v-model="nombre">
+                <label for="username" class="" >Nombre</label>
+              </div>
 
-        
-        </form>
+              <div class="md-form md-outline">
+                <input type="number" id="number" class="form-control" v-model="telefono">
+                <label for="number" class="">Telefono</label>
+              </div>
+
+              <div class="md-form md-outline">
+                <input type="text" id="addres" class="form-control" v-model="direccion">
+                <label for="addres" class="">Dirección</label>
+              </div>
+
+              <div class="card-foter text-right">
+                <button type="button" class="btn btn-outline-success btn-sm waves-effect waves-light" style="width: 140px;" v-on:click.prevent="formdata()">Enviar</button>
+              </div>
+
+            </div>
+
+          </div>
         
 
         
@@ -206,6 +189,9 @@
 </div> 
 </template>
 <script>
+var audioElement = document.createElement('audio');
+audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86ea612dec96096c5e0fcc8dd42ab6d/file-sounds-1144-me-too.mp3');
+
 export default {
       
 
@@ -215,7 +201,7 @@ export default {
       counter: 0,
       articles: [],
       stateModal: true,
-      received: "DATOS DE ENTREGA",
+      received: "",
       spin: false,
       state_n: true,
       state_p: false,
@@ -246,11 +232,13 @@ export default {
        {
            this.articles.push(item)
            this.counter++
-           toastr.success('¡Agregado a la cesta!', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
+           toastr.success('¡Agregado a la cesta!', '', {positionClass: 'md-toast-top-right'});$('#toast-container').attr('class','md-toast-top-right')
+           audioElement.currentTime = 0;
+           audioElement.play()
        }
        else
        {
-          toastr.info('¡El artículo ya esta!.', '', {positionClass: 'md-toast-bottom-right'});$('#toast-container').attr('class','md-toast-bottom-center')
+          toastr.info('¡El artículo ya esta!.', '', {positionClass: 'md-toast-top-right'});$('#toast-container').attr('class','md-toast-top-right')
        }
 
   
@@ -311,8 +299,7 @@ export default {
          
 
          
-         console.log("desde update",this.articles[index].cantidad);
-         console.log(cantidad+"enviado desde aca")
+        
         
          this.articles[index].cantidad = parseInt(cantidad);
          this.totalPagar = 0;
@@ -326,7 +313,8 @@ export default {
          });
 
         $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
-        this.sendState();
+        audioElement.currentTime = 0;
+        audioElement.play()
         
          
       },
@@ -346,8 +334,8 @@ export default {
             
             setTimeout(() => axios
             .post('./order',this.$data)
-            .then((response) => console.log(response.data))
-            .catch(error => console.log(error)), 4000)
+            .then((response) => (this.received = response.data))
+            .catch(error => (this.received= "No a sido posible realizar el pedido!.")), 4000)
             
            
             this.stateModal = false;
