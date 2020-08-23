@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('presentacion');
             $table->float('precio',10,2);
             $table->string('imagen');
+            $table->enum('estado',[0,1])->default(0);
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
         });
