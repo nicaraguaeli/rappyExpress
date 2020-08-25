@@ -86,7 +86,7 @@
 
       <!-- Breadcrumb -->
       <div class="breadcrumb-dn mr-auto">
-        <p>Alerts</p>
+        <p>Administrador</p>
       </div>
 
       <!-- Navbar links -->
