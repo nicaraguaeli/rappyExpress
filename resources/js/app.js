@@ -6,7 +6,7 @@
 
 require('./bootstrap');
 
-import {Ziggy} from '../assets/js/ziggy';
+//import {Ziggy} from '../assets/js/ziggy';
 
 
 
@@ -52,6 +52,8 @@ Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').defau
 
 Vue.component('admin-nav', require('./components/admin/NavBar.vue').default);
 Vue.component('push-notification', require('./components/admin/PushNotification.vue').default);
+
+
 
 
 

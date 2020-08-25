@@ -16,6 +16,7 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->longText('imagen');
             $table->enum('estado',[0,1])->default(0);
         });
     }

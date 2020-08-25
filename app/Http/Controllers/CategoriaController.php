@@ -15,9 +15,10 @@ class CategoriaController extends Controller
     {
         //
        
-        $categorias = Category::join('groups','group_id','=','groups.id')->select('categories.nombre as nombrec','imagen','groups.nombre as nombreg','categories.id')->get();
-        
+      $categorias = Category::join('groups','group_id','=','groups.id')->select('categories.nombre as nombrec','categories.imagen as imagen','groups.nombre as nombreg','categories.id','categories.estado')->get();
+       
         return response()->json($categorias);
+        
     }
 
     /**
@@ -39,8 +40,22 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
+        $categoria = new Category;
+        $request->validate([
+        'nombre'=>'required',
+        'idgrupo'=>'required|numeric',
+        'file' => 'dimensions:width=128,height=128|mimes:jpeg,jpg,png',
+        ]);
 
-        return "desde el estore";
+        $file = $request->file('file')->getClientOriginalExtension();               
+        $image = base64_encode(file_get_contents($request->file('file')));
+        
+        $categoria->nombre = $request->nombre;
+        $categoria->group_id = $request->idgrupo;
+        $categoria->imagen = "data:image/".$file.";base64,".$image;
+        $categoria->save();
+
+        return "Almacenado..";
    
     }
 
@@ -75,57 +90,69 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-       // $dato = Category::find($id)->update($request->all());
-        
-       # return response
-      
-       $categoria = Category::find($id);
-     
-       if($request->hasFile('file'))
-       {
-            Request()->validate([
-                'file' => 'dimensions:width=128,height=128|mimes:jpeg,jpg,png',
-                'nombre' =>'required',
-        
-                ]);
-       
+        if($id == 0)
+        {
+            $categoryState = Category::find($request->id);
 
-            $file = $request->file('file')->getClientOriginalExtension();
+            if($categoryState->estado == '0')
+            {
+                $categoryState->estado = '1';
+                $categoryState->save();
+                return "Ahora visible...";
+            }
+            else
+            {
+                $categoryState->estado = '0';
+                $categoryState->save();
+                return "Ahora oculto...";
                 
-            $image = base64_encode(file_get_contents($request->file('file')));
-           
-            try {
-                
-            
-            $categoria->nombre = $request->nombre;
-            $categoria->group_id = $request->group_id;
-            $categoria->imagen = "data:image/".$file.";base64,".$image;
-            
-
-            return $categoria;
-
-            } catch (\Illuminate\Database\QueryException $ex) {
-                //throw $th;
-                return $ex->getMessage();
             }
             
-
-
-                
-
-       }
-       else
-       {
-           
-           $categoria->nombre = $request->nombre;
-           $categoria->group_id = $request->group_id;
-           $categoria->save();
-           return "Ha sido actualizado";
-       }
-
+            
+        }
+        else
+        {
+            $categorias = Category::find($id);
+        
+        try {
        
+        $request->validate([
 
+            'nombre'=>'required',
+            'idgrupo'=>'required|numeric',
+            
+        ]);
+       
+        if($request->hasFile('file'))
+        {
+            $file = $request->file('file')->getClientOriginalExtension();
+            $image = base64_encode(file_get_contents($request->file('file')));
+            $categorias->imagen = "data:image/".$file.";base64,".$image;
+            $categorias->nombre = $request->nombre;
+            $categorias->save();
+        }
+        else
+        {
+            $categorias->nombre = $request->nombre;
+            $categorias->group_id = $request->idgrupo;
+            $categorias->save();
+
+        }
+        
+       
+       
+       
+       
+       return "Actualizado...";
+       } catch (\Illuminate\Database\QueryException $ex) {
+           //throw $th;
+
+           return "Algo salio mal";
+       }
+
+        }
+       
+        
     }
 
     /**
@@ -138,6 +165,7 @@ class CategoriaController extends Controller
     {
         //
        
-        return "ELIMiNADO".$id;
+        Category::find($id)->delete();
+        return "Eliminado...";
     }
 }

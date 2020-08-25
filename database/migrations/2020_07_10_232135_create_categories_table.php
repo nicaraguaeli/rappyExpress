@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('group_id');
             $table->string('nombre');
-            $table->text('imagen');
+            $table->longText('imagen');
             $table->enum('estado',[0,1])->default(0);
             $table->foreign('group_id')
             ->references('id')->on('groups');

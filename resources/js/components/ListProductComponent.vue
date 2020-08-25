@@ -56,7 +56,7 @@
                     <div class="d-flex">
 
                           <div class="view float-left mr-3 " style="min-width: 128px;">
-                      <img :src="item2.imagen" class="img-responsive rounded-left " >
+                      <img :src="item2.imagen" class="img-responsive rounded-left border border-warning" >
                       <a href="#!">
                         <div class=" rounded-left waves-effect waves-light"></div>
                       </a>

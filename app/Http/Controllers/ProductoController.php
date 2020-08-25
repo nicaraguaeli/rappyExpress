@@ -15,8 +15,8 @@ class ProductoController extends Controller
     public function index()
     {
         //
-      $product = Product::all();
-        return response()->json($product);
+      $product = Product::join('categories','category_id','=','categories.id')->select('products.id','precio','presentacion','categories.nombre as nombrec','products.imagen','products.nombre as nombrep','products.estado')->get();
+      return response()->json($product);
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductoController extends Controller
             } catch (\Throwable $th) {
                 //throw $th;
 
-                return $th;
+                return "Algo salio mal";
             }
             
        
@@ -116,7 +116,85 @@ class ProductoController extends Controller
     public function update(Request $request, $id)
     {
         //
-        return "update";
+        if($id == 0)
+        {
+            $productState = Product::find($request->id);
+
+            if($productState->estado == '0')
+            {
+                $productState->estado = '1';
+                $productState->save();
+                return "Ahora visible...";
+            }
+            else
+            {
+                $productState->estado = '0';
+                $productState->save();
+                return "Ahora oculto...";
+                
+            }
+            
+            
+        }
+        else
+        {
+            $productUpdate = Product::find($id);
+        
+        try {
+       
+        $request->validate([
+
+            'nombre'=>'required',
+            'idcategoria'=>'required|numeric',
+            'presentacion'=>'required',
+            'precio'=>'required|numeric',
+            
+        ]);
+       
+        if($request->hasFile('file'))
+        {
+            
+            if(file_exists(public_path($productUpdate->imagen))){
+                unlink(public_path($productUpdate->imagen));
+                };
+
+            $imageName = time().'.'.request()->file->getClientOriginalExtension();
+            request()->file->move(public_path('img/img-product'), $imageName);
+        
+                
+        
+                
+               
+            $productUpdate->imagen = "img/img-product/".$imageName;
+            $productUpdate->nombre = $request->nombre;
+            $productUpdate->presentacion = $request->presentacion;
+            $productUpdate->precio = $request->precio;
+            $productUpdate->category_id = $request->idcategoria;
+            $productUpdate->save();
+        }
+        else
+        {
+            $productUpdate->nombre = $request->nombre;
+            $productUpdate->presentacion = $request->presentacion;
+            $productUpdate->precio = $request->precio;
+            $productUpdate->category_id = $request->idcategoria;
+            $productUpdate->save();
+
+        }
+        
+       
+       
+       
+       
+       return "Actualizado...";
+       } catch (\Illuminate\Database\QueryException $ex) {
+           //throw $th;
+
+           return "Algo salio mal";
+       }
+
+        }
+       
     }
 
     /**
