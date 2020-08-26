@@ -2,12 +2,12 @@
     <div >
  
      <!-- Classic tabs -->
-<div class="classic-tabs fixed-top unique-color-dark">
+<div class="classic-tabs fixed-top bg-white">
   
  <!--LOGO-->
 <div class="container">
 <div class="row d-flex justify-content-between">
-<div class="col-xs-4 aling-self-center mt-1"><img  src="img/LOGO1.png" alt=""></div>
+<div class="col-xs-4 align-self-center "><p class="h6 ml-3 green-text mt-2">RAPPY EXPRESS</p></div>
 <div class="col-xs-8 align-self-center wow animated " v-show="buscador" v-bind:class="{fadeIn: buscador}">
 
 <!-- Search form -->
@@ -24,26 +24,35 @@
 
 
 <!--LOGO-->  
-<ul class="nav special-color-dark rounded-0" id="myClassicTab" role="tablist">
+<ul class="nav bg-white rounded-0 " id="myClassicTab" role="tablist">
   
   
   <li class="nav-item">
-    <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
-      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1rem;" class="fas fa-home pr-2"></i></a>
+    <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
+      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1.3rem;" class="fas fa-home pr-2 text-black-50"></i></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
-      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1rem;" class="fas fa-star white-text mr-2"></i>Ofertas</a>
+    <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
+      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.3rem;" class="fas fa-star  mr-2 text-black-50"></i></a>
+  </li>
+ 
+  <li class="nav-item" id="cart">
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><i class="fas fa-user mr-2 text-black-50" style="font-size: 1.3rem;"></i></a>
   </li>
   <li class="nav-item" id="cart">
-    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1rem;"  class="fas fa-shopping-cart pr-2"></i>Cesta</a>
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 text-black-50" style="font-size: 1.3rem;"></i></a>
+  </li>
+   <li class="nav-item" id="cart">
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 text-black-50"></i></a>
   </li>
   
 </ul>
 
  <!-- Image and text -->
-<nav class="navbar light-green darken-4 primary-color">
+<nav class="navbar   green accent-4 ">
 
 </nav>
 
@@ -77,9 +86,9 @@
   <div class="tab-pane fade " id="follow-classic" role="tabpanel" aria-labelledby="follow-tab-classic">
     <p class="mt-1">Trabajando</p>
   </div>
-  <div class="tab-pane fade cloudy-knoxville-gradient" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic">
+  <div class="tab-pane fade bg-white" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic">
            <div class="container p-0" >
-    <div class="row grey lighten-4 p-3 justify-content-between m-0">
+    <div class="row bg-white p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
             <h4>Su Orden</h4></div>
           <div class="col-xs-6 "  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;" >C${{totalPagar + envio | formato}}  </span></h4></div>
@@ -87,7 +96,7 @@
  <div class="row fixed-bottom">
    <div class="col-sm-12">
      <div class="text-center">
-  <a href="" class="btn btn-elegant waves-effect waves-light" data-toggle="modal" data-target="#modalLoginForm" v-if="totalPagar>0">Confirmar</a>
+  <a href="" class="btn btn-elegant waves-effect waves-light btn-confirm m-0" data-toggle="modal" data-target="#modalLoginForm" v-if="totalPagar>0" > Confirmar Pedido</a>
   
 </div>
    </div>
@@ -185,15 +194,34 @@
   
 </div>
 </div>    
-   
+   <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-lg green accent-4 waves-effect waves-light">
+      <i class="fas fa-pencil-alt"></i>
+    </a>
+
+    <ul class="list-unstyled">
+      <li><a class="btn-floating green waves-effect waves-light"><i class="fas fa-star"></i></a></li>
+      <li><a class="btn-floating yellow darken-1 waves-effect waves-light"><i class="fas fa-user"></i></a></li>
+      <li><a class="btn-floating green waves-effect waves-light"><i class="fas fa-envelope"></i></a></li>
+      <li><a v-on:click="state()" class="btn-floating green waves-effect waves-light" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><i   class="fas fa-shopping-cart "></i></a></a></li>
+    </ul>
+  </div>
 </div> 
 </template>
 <script>
 var audioElement = document.createElement('audio');
 audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86ea612dec96096c5e0fcc8dd42ab6d/file-sounds-1144-me-too.mp3');
 
+$( document ).ready(function() {
+        window.history.pushState('forward', null, './#forward');
+        $(window).on('popstate', function() {
+          alert('Back');
+        });
+});
 export default {
       
+
 
       data () {
     return {
@@ -360,7 +388,8 @@ export default {
         {
           this.envio = 0
         }
-      }
+      },
+     
      
 
       
@@ -381,3 +410,25 @@ export default {
   
 }
 </script>
+<style  lang="scss">
+
+.btn-confirm
+{
+border-radius: 1rem 1rem 0 0px;
+@media only screen and (max-width: 600px) {
+  
+    width: 100% !important;
+  
+}
+
+}
+#myClassicTab
+{
+  @media only screen and (max-width: 600px) {
+  
+   justify-content: space-evenly;
+  
+}
+}
+ 
+</style>

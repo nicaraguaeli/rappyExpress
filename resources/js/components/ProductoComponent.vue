@@ -61,8 +61,8 @@
       
       <vue-image-loader class="text-center">
       <img slot="image" :src="item.imagen" class="img-fluid " :alt="item.nombre"/>
-      <img slot="preloader" src="img/spin.gif" class="img-fluid  "/>
-      <div slot="error">error image</div>
+      <img slot="preloader" src="img/DualRing.gif" class="img-fluid  "/>
+      <div slot="error"> <img  src="img/placeholder.jpg" class="img-fluid  "/></div>
       </vue-image-loader>
       <a>
 

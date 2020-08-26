@@ -1,7 +1,7 @@
 <template>
 <!-- Main layout -->
   <main>
-    <div class="container-fluid">
+    <div class="container">
         
         <div class="card">
           <div class="card-header grey lighten-2">
@@ -58,15 +58,14 @@
         </form>
           <div class="row">
               <div class="col-sm-12">
-                    <table class="table text-center">
+                    <table class="table text-center table-responsive">
   <thead class="black white-text">
     <tr>
       <th scope="col">#</th>
       <th scope="col">IMAGEN</th>
       <th scope="col">GRUPO</th>
-      <th scope="col">MOSTRAR</th>
-      <th scope="col">EDITAR</th>
-      <th scope="col">ELIMINAR</th>
+      <th scope="col">ACCION</th>
+     
     </tr>
   </thead>
   <tbody>
@@ -75,16 +74,28 @@
       <th scope="row" v-text="index+1"></th>
       <td ><img :src="item.imagen" :alt="item.nombre"></td>
       <td v-text="item.nombre"></td>
-      <td><!-- Material switch -->
+      <td>
+        <div class="dropdown">
+  <button class="btn btn-sm  dropdown-toggle" type="button" id="dropdownMenuMenu" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    ...
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuMenu">
+   <!-- Material switch -->
 <div class="switch">
   <label>
     
     <input  type="checkbox" :checked="item.estado == 1" v-on:change="updateState(item)">
     <span class="lever"></span> 
   </label>
-</div></td>
-      <td><button type="button"  class="btn btn-warning btn-large btn-rounded waves-effect waves-light" v-on:click="alerta(item)"><i class="waves-effect mdb-icon-copy fas fa-edit pr-2 pt-1" aria-hidden="true"></i></button></td>
-      <td><button type="button" class="btn btn-danger btn-large btn-rounded waves-effect waves-light" v-on:click.prevent="destroy(item.id)"><i class="waves-effect mdb-icon-copy fas fa-trash pr-2 pt-1" aria-hidden="true"></i></button></td>
+</div>
+   <button type="button"  class="btn btn-warning btn-sm btn-rounded waves-effect waves-light" v-on:click="alerta(item)"><i class="waves-effect mdb-icon-copy fas fa-edit pr-2 pt-1" aria-hidden="true"></i></button>
+ <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" v-on:click.prevent="destroy(item.id)"><i class="waves-effect mdb-icon-copy fas fa-trash pr-2 pt-1" aria-hidden="true"></i></button>
+  </div>
+</div>
+        
+       </td>
+     
     </tr>
    
   </tbody>
