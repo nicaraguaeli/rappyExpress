@@ -1,6 +1,6 @@
 <template>
 <div >
- <div  class="   pr-md-2 mb-3  ">
+ <div  class="mb-3  ">
 
                 <div :title="article.nombre" class="card   cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  >
                   

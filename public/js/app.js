@@ -2417,34 +2417,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var audioElement = document.createElement('audio');
 audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86ea612dec96096c5e0fcc8dd42ab6d/file-sounds-1144-me-too.mp3');
-$(document).ready(function () {
-  window.history.pushState('forward', null, './#forward');
-  $(window).on('popstate', function () {
-    alert('Back');
-  });
-});
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       counter: 0,
       articles: [],
+      envio: 30,
       stateModal: true,
       received: "",
       spin: false,
       state_n: true,
-      state_p: false,
-      state_display: false,
+      displayArt: false,
+      displayCart: false,
+      displayList: false,
       totalPagar: 0,
       idd: Number,
       itemName: "",
       itemCategoria: "",
       buscador: false,
-      envio: 0,
       nombre: "",
       telefono: "",
       direccion: "",
+      tabs: true,
       errors: false,
       isActive: false
     };
@@ -2458,17 +2477,8 @@ $(document).ready(function () {
       })) {
         this.articles.push(item);
         this.counter++;
-        toastr.success('¡Agregado a la cesta!', '', {
-          positionClass: 'md-toast-top-right'
-        });
-        $('#toast-container').attr('class', 'md-toast-top-right');
         audioElement.currentTime = 0;
         audioElement.play();
-      } else {
-        toastr.info('¡El artículo ya esta!.', '', {
-          positionClass: 'md-toast-top-right'
-        });
-        $('#toast-container').attr('class', 'md-toast-top-right');
       }
 
       this.totalPagar = 0;
@@ -2483,17 +2493,24 @@ $(document).ready(function () {
       this.itemName = itemNombre;
       this.itemCategoria = itemCate;
       this.state_n = false;
-      this.state_p = true;
+      this.displayArt = true;
       this.idd = id;
-      this.buscador = true; //setTimeout(() => this.state_display = true  ,500)
+      this.buscador = true;
+      this.tabs = false; //setTimeout(() => this.displayList = true  ,500)
 
-      this.state_display = true;
+      this.displayList = true;
     },
-    state: function state() {
-      this.state_n = true;
-      this.state_p = false;
-      this.state_display = false;
-      this.buscador = false;
+    state: function state(valor) {
+      if (valor == false) {
+        this.tabs = valor;
+        this.displayCart = true;
+      } else {
+        this.state_n = true;
+        this.displayArt = false;
+        this.displayCart = false;
+        this.displayList = false;
+        this.buscador = false;
+      }
     },
     deleteRow: function deleteRow(index, item) {
       this.totalPagar -= this.articles[index].cantidad * this.articles[index].precio;
@@ -2508,7 +2525,7 @@ $(document).ready(function () {
       this.counter = 0;
       this.articles.forEach(function (element) {
         _this2.totalPagar += element.cantidad * element.precio;
-        _this2.counter += element.cantidad;
+        _this2.counter += parseInt(element.cantidad);
       });
       $('#cart').addTempClass('wow animated bounceIn', 1000);
       audioElement.currentTime = 0;
@@ -2536,15 +2553,9 @@ $(document).ready(function () {
         }, 8000);
       }
     },
-    sendState: function sendState() {
-      if (this.totalPagar < 200) {
-        console.log("desdeSend" + this.totalPagar);
-        this.envio = 40;
-      } else this.totalPagar >= 200;
-
-      {
-        this.envio = 0;
-      }
+    closeBreadcum: function closeBreadcum() {
+      this.tabs = true;
+      this.state();
     }
   },
   filters: {
@@ -2567,21 +2578,6 @@ $(document).ready(function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_content_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-content-loading */ "./node_modules/vue-content-loading/dist/vuecontentloading.js");
 /* harmony import */ var vue_content_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_content_loading__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -40364,7 +40360,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "   pr-md-2 mb-3  " }, [
+    _c("div", { staticClass: "mb-3  " }, [
       _c(
         "div",
         {
@@ -40568,7 +40564,7 @@ var render = function() {
     _c(
       "ul",
       {
-        staticClass: "nav nav-tabs grey lighten-4 mt-2",
+        staticClass: "nav nav-tabs grey lighten-4 ",
         attrs: { id: "myTab", role: "tablist" }
       },
       _vm._l(_vm.info, function(item, index) {
@@ -40813,170 +40809,156 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "classic-tabs fixed-top bg-white" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row d-flex justify-content-between" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.tabs,
+            expression: "tabs"
+          }
+        ],
+        staticClass: "classic-tabs  bg-white wow animated",
+        class: [_vm.tabs ? "fadeIn" : "fadeOut"]
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass: "nav bg-white rounded-0 ",
+            attrs: { id: "myClassicTab", role: "tablist" }
+          },
+          [
+            _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
                 {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.buscador,
-                  expression: "buscador"
-                }
-              ],
-              staticClass: "col-xs-8 align-self-center wow animated ",
-              class: { fadeIn: _vm.buscador }
-            },
-            [_vm._m(1)]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        {
-          staticClass: "nav bg-white rounded-0 ",
-          attrs: { id: "myClassicTab", role: "tablist" }
-        },
-        [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                attrs: {
-                  id: "profile-tab-classic",
-                  "data-toggle": "tab",
-                  href: "#profile-classic",
-                  role: "tab",
-                  "aria-controls": "profile-classic",
-                  "aria-selected": "true"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.state()
+                  staticClass:
+                    "nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                  attrs: {
+                    id: "profile-tab-classic",
+                    "data-toggle": "tab",
+                    href: "#profile-classic",
+                    role: "tab",
+                    "aria-controls": "profile-classic",
+                    "aria-selected": "true"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.state()
+                    }
                   }
-                }
-              },
-              [
-                _c("i", {
-                  staticClass: "fas fa-home pr-2 text-black-50",
-                  staticStyle: { "font-size": "1.3rem" }
-                })
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                attrs: {
-                  id: "contact-tab-classic",
-                  "data-toggle": "tab",
-                  href: "#contact-classic",
-                  role: "tab",
-                  "aria-controls": "contact-classic",
-                  "aria-selected": "false"
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.state()
+                [
+                  _c("i", {
+                    staticClass: "fas fa-home pr-2 text-black-50",
+                    staticStyle: { "font-size": "1.3rem" }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                  attrs: {
+                    id: "contact-tab-classic",
+                    "data-toggle": "tab",
+                    href: "#contact-classic",
+                    role: "tab",
+                    "aria-controls": "contact-classic",
+                    "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.state()
+                    }
                   }
-                }
-              },
-              [
-                _c("i", {
-                  staticClass: "fas fa-user mr-2 text-black-50",
-                  staticStyle: { "font-size": "1.3rem" }
-                })
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                attrs: {
-                  id: "contact-tab-classic",
-                  "data-toggle": "tab",
-                  href: "#contact-classic",
-                  role: "tab",
-                  "aria-controls": "contact-classic",
-                  "aria-selected": "false"
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.state()
+                [
+                  _c("i", {
+                    staticClass: "fas fa-user mr-2 text-black-50",
+                    staticStyle: { "font-size": "1.3rem" }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                  attrs: {
+                    id: "contact-tab-classic",
+                    "data-toggle": "tab",
+                    href: "#contact-classic",
+                    role: "tab",
+                    "aria-controls": "contact-classic",
+                    "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.state()
+                    }
                   }
-                }
-              },
-              [
-                _c("i", {
-                  staticClass: "fas fa-info-circle mr-2 text-black-50",
-                  staticStyle: { "font-size": "1.3rem" }
-                })
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                attrs: {
-                  id: "contact-tab-classic",
-                  "data-toggle": "tab",
-                  href: "#contact-classic",
-                  role: "tab",
-                  "aria-controls": "contact-classic",
-                  "aria-selected": "false"
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.state()
+                [
+                  _c("i", {
+                    staticClass: "fas fa-info-circle mr-2 text-black-50",
+                    staticStyle: { "font-size": "1.3rem" }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item", attrs: { id: "cart" } }, [
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                  attrs: {
+                    id: "contact-tab-classic",
+                    "data-toggle": "tab",
+                    href: "#contact-classic",
+                    role: "tab",
+                    "aria-controls": "contact-classic",
+                    "aria-selected": "false"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.state(false)
+                    }
                   }
-                }
-              },
-              [
-                _c("span", { staticClass: "badge danger-color mr-2" }, [
-                  _vm._v(_vm._s(_vm.counter))
-                ]),
-                _c("i", {
-                  staticClass: "fas fa-shopping-cart pr-2 text-black-50",
-                  staticStyle: { "font-size": "1.3rem" }
-                })
-              ]
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("nav", { staticClass: "navbar   green accent-4 " })
-    ]),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("br"),
+                },
+                [
+                  _c("span", { staticClass: "badge danger-color mr-2" }, [
+                    _vm._v(_vm._s(_vm.counter))
+                  ]),
+                  _c("i", {
+                    staticClass: "fas fa-shopping-cart pr-2 text-black-50",
+                    staticStyle: { "font-size": "1.3rem" }
+                  })
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("nav", { staticClass: "navbar   green accent-4 " })
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "container p-0" }, [
       _c(
@@ -41000,7 +40982,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  class: { "d-none": _vm.state_display },
+                  class: { "d-none": _vm.displayList },
                   attrs: { id: "navegacion" }
                 },
                 [
@@ -41011,23 +40993,71 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.state_p
-                ? _c(
-                    "div",
-                    { attrs: { id: "producto" } },
-                    [
-                      _c("getproduct", {
-                        attrs: {
-                          nombre: _vm.itemName,
-                          categoria: _vm.itemCategoria,
-                          idd: _vm.idd
-                        },
-                        on: { escucharhijo: _vm.variablehijo }
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e()
+              _c("div", { attrs: { id: "search-container" } }, [
+                _vm.displayArt
+                  ? _c(
+                      "div",
+                      { attrs: { id: "producto" } },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "grey special-color-dark fixed-top ",
+                            staticStyle: { height: "3rem" }
+                          },
+                          [
+                            _c("div", { staticClass: "row p-2" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "col-1 col-md-4 align-self-center",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.closeBreadcum()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass:
+                                      "fas fa-chevron-left mr-2 text-white"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "col-4 col-md-4 align-self-center text-white font-weight-bold",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.closeBreadcum()
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.itemCategoria))]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(2)
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("getproduct", {
+                          attrs: {
+                            nombre: _vm.itemName,
+                            categoria: _vm.itemCategoria,
+                            idd: _vm.idd
+                          },
+                          on: { escucharhijo: _vm.variablehijo }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ])
             ]
           ),
           _vm._v(" "),
@@ -41044,95 +41074,263 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "container p-0" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "row bg-white p-3 justify-content-between m-0"
-                  },
-                  [
-                    _vm._m(4),
-                    _vm._v(" "),
+              _vm.displayCart
+                ? _c("div", [
                     _c(
                       "div",
                       {
-                        staticClass: "col-xs-6 ",
-                        staticStyle: { "font-size": "1.5rem" }
+                        staticClass: "grey special-color-dark fixed-top ",
+                        staticStyle: { height: "3rem" }
                       },
                       [
-                        _c("h4", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Total:  "),
+                        _c("div", { staticClass: "row p-2" }, [
                           _c(
-                            "span",
+                            "div",
                             {
-                              staticClass: "badge badge-light total p-2",
-                              staticStyle: { "font-size": "1.5rem" }
-                            },
-                            [
-                              _vm._v(
-                                "C$" +
-                                  _vm._s(
-                                    _vm._f("formato")(
-                                      _vm.totalPagar + _vm.envio
-                                    )
-                                  ) +
-                                  "  "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "row fixed-bottom" }, [
-                  _c("div", { staticClass: "col-sm-12" }, [
-                    _c("div", { staticClass: "text-center" }, [
-                      _vm.totalPagar > 0
-                        ? _c(
-                            "a",
-                            {
-                              staticClass:
-                                "btn btn-elegant waves-effect waves-light btn-confirm m-0",
-                              attrs: {
-                                href: "",
-                                "data-toggle": "modal",
-                                "data-target": "#modalLoginForm"
+                              staticClass: "col-1 col-md-4 align-self-center",
+                              on: {
+                                click: function($event) {
+                                  return _vm.closeBreadcum()
+                                }
                               }
                             },
-                            [_vm._v(" Confirmar Pedido")]
-                          )
-                        : _vm._e()
+                            [
+                              _c("i", {
+                                staticClass:
+                                  "fas fa-chevron-left mr-2 text-white"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-7 col-md-4 align-self-center text-white font-weight-bold",
+                              on: {
+                                click: function($event) {
+                                  return _vm.closeBreadcum()
+                                }
+                              }
+                            },
+                            [_vm._v("Su Orden")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-4" }, [
+                            _c("span", {
+                              staticClass: "badge danger-color mr-2",
+                              domProps: { textContent: _vm._s(_vm.counter) }
+                            }),
+                            _c("i", {
+                              staticClass:
+                                "fas fa-shopping-cart pr-2 text-white",
+                              staticStyle: { "font-size": "1.3rem" }
+                            })
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.totalPagar > 0
+                      ? _c(
+                          "div",
+                          { staticClass: "p-2 mt-5 wow animated slideInLeft" },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "row bg-white p-3 justify-content-between m-0"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-xs-6 align-self-center" },
+                                  [
+                                    _c("small", { staticClass: "text-muted" }, [
+                                      _vm._v("Envio gratis a partir de C$200")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "h6",
+                                      { staticClass: "font-weight-bold" },
+                                      [
+                                        _vm._v("Envio:  "),
+                                        _vm.totalPagar < 200
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "badge badge-light p-2",
+                                                staticStyle: {
+                                                  "font-size": "1rem"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "C$" + _vm._s(_vm.envio) + " "
+                                                )
+                                              ]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "badge badge-light p-2",
+                                                staticStyle: {
+                                                  "font-size": "1rem"
+                                                }
+                                              },
+                                              [_vm._v("C$0.00 ")]
+                                            )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm.totalPagar < 200
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass: "col-xs-6 align-self-end",
+                                        staticStyle: { "font-size": "1.5rem" }
+                                      },
+                                      [
+                                        _c(
+                                          "h4",
+                                          { staticClass: "font-weight-bold" },
+                                          [
+                                            _vm._v("Total:  "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "badge badge-light total p-2",
+                                                staticStyle: {
+                                                  "font-size": "1.5rem"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "C$" +
+                                                    _vm._s(
+                                                      _vm._f("formato")(
+                                                        _vm.totalPagar +
+                                                          _vm.envio
+                                                      )
+                                                    ) +
+                                                    "  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _c(
+                                      "div",
+                                      {
+                                        staticClass: "col-xs-6 align-self-end",
+                                        staticStyle: { "font-size": "1.5rem" }
+                                      },
+                                      [
+                                        _c(
+                                          "h4",
+                                          { staticClass: "font-weight-bold" },
+                                          [
+                                            _vm._v("Total:  "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "badge badge-light total p-2",
+                                                staticStyle: {
+                                                  "font-size": "1.5rem"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "C$" +
+                                                    _vm._s(
+                                                      _vm._f("formato")(
+                                                        _vm.totalPagar
+                                                      )
+                                                    ) +
+                                                    "  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "pb-5",
+                                staticStyle: {
+                                  height: "calc(100vh - 180px)",
+                                  overflow: "scroll"
+                                }
+                              },
+                              _vm._l(_vm.articles, function(item, index) {
+                                return _c("cart", {
+                                  key: index,
+                                  attrs: { article: item },
+                                  on: {
+                                    delete: function($event) {
+                                      return _vm.deleteRow(index, item)
+                                    },
+                                    update: function($event) {
+                                      return _vm.update(index, item.cantidad)
+                                    }
+                                  }
+                                })
+                              }),
+                              1
+                            )
+                          ]
+                        )
+                      : _c("div", { staticClass: "align-middle vh-100" }, [
+                          _c(
+                            "p",
+                            { staticClass: "mt-5 h1-responsive text-center" },
+                            [_vm._v("Tu cesta esta vacia, Pide ahora!")]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "mt-3 text-center" }, [
+                            _vm._v(
+                              "Tus envios gratis a partir de compras mayores a C$200"
+                            )
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row fixed-bottom" }, [
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c("div", { staticClass: "text-center" }, [
+                          _vm.totalPagar > 0
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "btn btn-elegant waves-effect waves-light btn-confirm m-0",
+                                  attrs: {
+                                    href: "",
+                                    "data-toggle": "modal",
+                                    "data-target": "#modalLoginForm"
+                                  }
+                                },
+                                [_vm._v(" Confirmar Pedido")]
+                              )
+                            : _vm._e()
+                        ])
+                      ])
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      height: "calc(100vh - 190px)",
-                      overflow: "scroll"
-                    }
-                  },
-                  _vm._l(_vm.articles, function(item, index) {
-                    return _c("cart", {
-                      key: index,
-                      attrs: { article: item },
-                      on: {
-                        delete: function($event) {
-                          return _vm.deleteRow(index, item)
-                        },
-                        update: function($event) {
-                          return _vm.update(index, item.cantidad)
-                        }
-                      }
-                    })
-                  }),
-                  1
-                )
-              ]),
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
@@ -41392,49 +41590,7 @@ var render = function() {
           )
         ]
       )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "fixed-action-btn",
-        staticStyle: { bottom: "45px", right: "24px" }
-      },
-      [
-        _vm._m(5),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-unstyled" }, [
-          _vm._m(6),
-          _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
-          _vm._m(8),
-          _vm._v(" "),
-          _c("li", [
-            _c(
-              "a",
-              {
-                staticClass: "btn-floating green waves-effect waves-light",
-                attrs: {
-                  id: "contact-tab-classic",
-                  "data-toggle": "tab",
-                  href: "#contact-classic",
-                  role: "tab",
-                  "aria-controls": "contact-classic",
-                  "aria-selected": "false"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.state()
-                  }
-                }
-              },
-              [_c("i", { staticClass: "fas fa-shopping-cart " })]
-            )
-          ])
-        ])
-      ]
-    )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -41442,37 +41598,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-xs-4 align-self-center " }, [
-      _c("p", { staticClass: "h6 ml-3 green-text mt-2" }, [
-        _vm._v("RAPPY EXPRESS")
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row d-flex justify-content-between" }, [
+        _c("div", { staticClass: "col-xs-4 align-self-center " }, [
+          _c("p", { staticClass: "h6 ml-3 green-text mt-2" }, [
+            _vm._v("RAPPY EXPRESS")
+          ])
+        ])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "form",
-      { staticClass: "form-inline d-flex justify-content-center   mt-0" },
-      [
-        _c("i", {
-          staticClass: "fas fa-search",
-          attrs: { "aria-hidden": "true" }
-        }),
-        _vm._v(" "),
-        _c("input", {
-          staticClass:
-            "form-control form-control-sm ml-3 w-75  mt-2 mb-2 rounded-pill",
-          attrs: {
-            id: "search",
-            type: "text",
-            placeholder: "¿Que buscas?",
-            "aria-label": "Search"
-          }
-        })
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -41506,6 +41640,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-7 col-md-4" }, [
+      _c(
+        "form",
+        { staticClass: "form-inline d-flex justify-content-center   mt-0" },
+        [
+          _c("input", {
+            staticClass:
+              "form-control form-control-sm ml-3 w-75   rounded-pill",
+            attrs: {
+              id: "search",
+              type: "text",
+              placeholder: "¿Que buscas?",
+              "aria-label": "Search"
+            }
+          })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -41518,61 +41675,6 @@ var staticRenderFns = [
       },
       [_c("p", { staticClass: "mt-1" }, [_vm._v("Trabajando")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-xs-6 align-self-center" }, [
-      _c("h4", [_vm._v("Su Orden")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass:
-          "btn-floating btn-lg green accent-4 waves-effect waves-light"
-      },
-      [_c("i", { staticClass: "fas fa-pencil-alt" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { staticClass: "btn-floating green waves-effect waves-light" }, [
-        _c("i", { staticClass: "fas fa-star" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "a",
-        {
-          staticClass: "btn-floating yellow darken-1 waves-effect waves-light"
-        },
-        [_c("i", { staticClass: "fas fa-user" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { staticClass: "btn-floating green waves-effect waves-light" }, [
-        _c("i", { staticClass: "fas fa-envelope" })
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -41596,265 +41698,227 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "wow animated slideInLeft faster mt-5" }, [
     _c(
-      "nav",
-      {
-        staticClass: " grey lighten-4 text-muted",
-        attrs: { "aria-label": "breadcrumb animated fadeIn fixed" }
-      },
+      "div",
+      { staticClass: "container p-1 cloudy-knoxville-gradient  min-vh-100 " },
       [
-        _c(
-          "ol",
-          {
-            staticClass: "breadcrumb m-0 mt-2",
-            staticStyle: { "background-color": "transparent" }
-          },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("li", {
-              staticClass: "breadcrumb-item active  text-muted",
-              domProps: { textContent: _vm._s(_vm.nombre) }
-            }),
-            _vm._v(" "),
-            _c("li", {
-              staticClass: "breadcrumb-item  text-muted",
-              domProps: { textContent: _vm._s(_vm.categoria) }
-            })
-          ]
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "container p-1 cloudy-knoxville-gradient   " }, [
-      _vm.state
-        ? _c("div", [
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "div",
-                { staticClass: "col-6 col-md-3  " },
-                [
-                  _c("vue-content-loading", { attrs: { height: 500 } }, [
-                    _c("rect", {
-                      attrs: {
-                        x: "0 ",
-                        y: "13",
-                        rx: "4",
-                        ry: "4",
-                        width: "100%",
-                        height: "500"
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-6 col-md-3 " },
-                [
-                  _c("vue-content-loading", { attrs: { height: 500 } }, [
-                    _c("rect", {
-                      attrs: {
-                        x: "0",
-                        y: "13",
-                        rx: "4",
-                        ry: "4",
-                        width: "100%",
-                        height: "500"
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-6 col-md-3 " },
-                [
-                  _c("vue-content-loading", { attrs: { height: 500 } }, [
-                    _c("rect", {
-                      attrs: {
-                        x: "0",
-                        y: "13",
-                        rx: "4",
-                        ry: "4",
-                        width: "100%",
-                        height: "500"
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-6 col-md-3 " },
-                [
-                  _c("vue-content-loading", { attrs: { height: 500 } }, [
-                    _c("rect", {
-                      attrs: {
-                        x: "0",
-                        y: "13",
-                        rx: "4",
-                        ry: "4",
-                        width: "100%",
-                        height: "500"
-                      }
-                    })
-                  ])
-                ],
-                1
-              )
+        _vm.state
+          ? _c("div", [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3  " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0 ",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                )
+              ])
             ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "row animated fadeIn m-0  ", attrs: { id: "myList" } },
-        _vm._l(_vm.productos, function(item) {
-          return _c(
-            "div",
-            {
-              key: item.id,
-              staticClass: "col-6 col-md-3 p-0 list-card ",
-              attrs: { title: item.nombre }
-            },
-            [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card card-ecommerce mr-2 mb-2 wow fadeIn animated"
-                },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "view overlay " },
-                    [
-                      _c("vue-image-loader", { staticClass: "text-center" }, [
-                        _c("img", {
-                          staticClass: "img-fluid ",
-                          attrs: {
-                            slot: "image",
-                            src: item.imagen,
-                            alt: item.nombre
-                          },
-                          slot: "image"
-                        }),
-                        _vm._v(" "),
-                        _c("img", {
-                          staticClass: "img-fluid  ",
-                          attrs: { slot: "preloader", src: "img/DualRing.gif" },
-                          slot: "preloader"
-                        }),
-                        _vm._v(" "),
-                        _c("div", { attrs: { slot: "error" }, slot: "error" }, [
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "row animated fadeIn m-0  ", attrs: { id: "myList" } },
+          _vm._l(_vm.productos, function(item) {
+            return _c(
+              "div",
+              {
+                key: item.id,
+                staticClass: "col-6 col-md-3 p-0 list-card ",
+                attrs: { title: item.nombre }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card card-ecommerce mr-2 mb-2 wow fadeIn animated"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "view overlay " },
+                      [
+                        _c("vue-image-loader", { staticClass: "text-center" }, [
+                          _c("img", {
+                            staticClass: "img-fluid ",
+                            attrs: {
+                              slot: "image",
+                              src: item.imagen,
+                              alt: item.nombre
+                            },
+                            slot: "image"
+                          }),
+                          _vm._v(" "),
                           _c("img", {
                             staticClass: "img-fluid  ",
-                            attrs: { src: "img/placeholder.jpg" }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(1, true),
-                      _vm._v(" "),
-                      _c("span", {
-                        staticClass: "badge badge-danger mb-2 p-2 rounded-lg",
-                        staticStyle: {
-                          transform: "translateY(-39px)",
-                          position: "absolute"
-                        },
-                        domProps: { textContent: _vm._s(item.presentacion) }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 rounded-lg"
-                    },
-                    [
-                      _c("h6", {
-                        staticClass: " mb-1 ml-1  text-uppercase ",
-                        domProps: { textContent: _vm._s(item.nombre) }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        {
-                          staticClass: "mb-0 ml-1",
-                          staticStyle: { "font-size": "0.7rem" }
-                        },
-                        [
-                          _c("span", { staticClass: "float-left " }, [
-                            _vm._v(
-                              "C$ " +
-                                _vm._s(_vm._f("formato")(item.precio)) +
-                                "  "
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "add product green p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm",
-                          on: {
-                            click: function($event) {
-                              return _vm.enviarpadre(item)
+                            attrs: {
+                              slot: "preloader",
+                              src: "img/DualRing.gif"
+                            },
+                            slot: "preloader"
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { slot: "error" }, slot: "error" },
+                            [
+                              _c("img", {
+                                staticClass: "img-fluid  ",
+                                attrs: { src: "img/placeholder.jpg" }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(0, true),
+                        _vm._v(" "),
+                        _c("span", {
+                          staticClass: "badge badge-danger mb-2 p-2 rounded-lg",
+                          staticStyle: {
+                            transform: "translateY(-39px)",
+                            position: "absolute"
+                          },
+                          domProps: { textContent: _vm._s(item.presentacion) }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 rounded-lg"
+                      },
+                      [
+                        _c("h6", {
+                          staticClass: " mb-1 ml-1  text-uppercase ",
+                          domProps: { textContent: _vm._s(item.nombre) }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          {
+                            staticClass: "mb-0 ml-1",
+                            staticStyle: { "font-size": "0.7rem" }
+                          },
+                          [
+                            _c("span", { staticClass: "float-left " }, [
+                              _vm._v(
+                                "C$ " +
+                                  _vm._s(_vm._f("formato")(item.precio)) +
+                                  "  "
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "add product green p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.enviarpadre(item)
+                              }
                             }
-                          }
-                        },
-                        [
-                          _c("a", { staticClass: " text-white " }, [
-                            _c("i", { class: "fas fa-shopping-cart mr-1" }),
-                            _vm._v("Agregar\n\n                      ")
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              )
-            ]
-          )
-        }),
-        0
-      )
-    ])
+                          },
+                          [
+                            _c("a", { staticClass: " text-white " }, [
+                              _c("i", { class: "fas fa-shopping-cart mr-1" }),
+                              _vm._v("Agregar\n\n                      ")
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "li",
-      {
-        staticClass: "breadcrumb-item inicio ",
-        staticStyle: { "background-color": "transparent" }
-      },
-      [
-        _c("a", [
-          _c("i", { staticClass: "fas fa-chevron-left mr-2" }),
-          _vm._v(" "),
-          _c("b", [_vm._v("Atras")])
-        ])
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -3,7 +3,7 @@
     <div >
 
 <!--GRUPOS-->
-<ul class="nav nav-tabs grey lighten-4 mt-2" id="myTab" role="tablist">
+<ul class="nav nav-tabs grey lighten-4 " id="myTab" role="tablist">
       <li class="nav-item" v-for="(item, index) in info" :key="index">
     
     <a class="nav-link green-text font-weight-bold" v-bind:class="{active: index == 0}" id="home-tab" data-toggle="tab" :href="'#'+item.nombre" role="tab" aria-controls="home"
@@ -129,7 +129,7 @@ export default {
     enviarid(itemID, itemNombre, itemCategoria)
     {
         this.$emit('recibirid',itemID, itemNombre, itemCategoria)
-        ;
+        
        
     },
     indice(val)

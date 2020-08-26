@@ -1,22 +1,7 @@
 <template>
-    <div >
-       
-         <nav aria-label="breadcrumb animated fadeIn fixed" class=" grey lighten-4 text-muted">
-  <ol class="breadcrumb m-0 mt-2" style="background-color: transparent;">
-    <li class="breadcrumb-item inicio " style="background-color: transparent;"><a  ><i class="fas fa-chevron-left mr-2"></i>
-    <b>Atras</b>
-    </a></li>
-      <li class="breadcrumb-item active  text-muted" v-text="nombre"></li>
-      <li class="breadcrumb-item  text-muted" v-text="categoria"></li>
-  </ol>
-</nav>
+    <div class="wow animated slideInLeft faster mt-5" >
 
-
-
-
-
-
-    <div class="container p-1 cloudy-knoxville-gradient   " >
+    <div class="container p-1 cloudy-knoxville-gradient  min-vh-100 " >
       <div v-if="state" >
   
       <div class="row">
@@ -157,9 +142,7 @@ export default {
     nombre: String,
     categoria: String,
     idd: Number,
-    
-    
-    
+      
     
   },
   
@@ -175,6 +158,7 @@ export default {
           
           
       },
+     
   },
   filters: {
   

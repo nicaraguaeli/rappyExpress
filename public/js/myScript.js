@@ -1,14 +1,10 @@
 var audioElement = document.createElement('audio');
 
-$('#navegacion').on('click','li.product',function()
+$('#navegacion').on('click','li .product',function()
 {
   audioPlay('https://notificationsounds.com/soundfiles/d07e70efcfab08731a97e7b91be644de/file-sounds-1049-knob.mp3');
   
   
-   
-
-
-
 
 });
 
@@ -41,7 +37,7 @@ $('body').on('click','a.add',function()
  
 
 
-$('#search').on('keyup',function()
+$('#search-container').on('keyup','input', function()
 {
 
 var value = $(this).val().toLowerCase();

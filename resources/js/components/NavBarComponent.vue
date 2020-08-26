@@ -2,23 +2,13 @@
     <div >
  
      <!-- Classic tabs -->
-<div class="classic-tabs fixed-top bg-white">
+<div class="classic-tabs  bg-white wow animated" v-show="tabs" v-bind:class="[tabs ? 'fadeIn' : 'fadeOut']">
   
  <!--LOGO-->
 <div class="container">
 <div class="row d-flex justify-content-between">
 <div class="col-xs-4 align-self-center "><p class="h6 ml-3 green-text mt-2">RAPPY EXPRESS</p></div>
-<div class="col-xs-8 align-self-center wow animated " v-show="buscador" v-bind:class="{fadeIn: buscador}">
 
-<!-- Search form -->
-<form class="form-inline d-flex justify-content-center   mt-0" >
-  <i class="fas fa-search" aria-hidden="true"></i>
-  <input id="search" class="form-control form-control-sm ml-3 w-75  mt-2 mb-2 rounded-pill" type="text" placeholder="¿Que buscas?"
-    aria-label="Search">
-</form>
-<!-- Search form -->
-
-</div>
 </div>
 </div>
 
@@ -45,7 +35,7 @@
       aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 text-black-50" style="font-size: 1.3rem;"></i></a>
   </li>
    <li class="nav-item" id="cart">
-    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+    <a v-on:click="state(false)"  class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
       aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 text-black-50"></i></a>
   </li>
   
@@ -59,10 +49,7 @@
 </div>
 <!-- Classic tabs -->
 
-<br>
-<br>
-<br>
-<br>
+
 
 <div class="container p-0">
 
@@ -70,30 +57,73 @@
   <div class="tab-pane fade active show " id="profile-classic" role="tabpanel" aria-labelledby="profile-tab-classic" >
   
   <!--Navegacion Heredada-->
-<div id="navegacion"  v-bind:class="{'d-none': state_display }">
+<div id="navegacion"  v-bind:class="{'d-none': displayList }">
   
   <listproduct-component @recibirid="identificador" > </listproduct-component>
 
 </div>
-<div id="producto" v-if="state_p">
 
-<getproduct  :nombre="itemName" :categoria="itemCategoria" :idd="idd" @escucharhijo="variablehijo"></getproduct>
+<div id="search-container">
+  <div id="producto" v-if="displayArt">
+<div class="grey special-color-dark fixed-top " style="height: 3rem;" >
+           <div class="row p-2">
+             <div class="col-1 col-md-4 align-self-center" v-on:click="closeBreadcum()"><i class="fas fa-chevron-left mr-2 text-white"></i></div>
+             <div class="col-4 col-md-4 align-self-center text-white font-weight-bold" v-on:click="closeBreadcum()">{{itemCategoria}}</div>
+            <div class="col-7 col-md-4"><!-- Search form -->
+<form class="form-inline d-flex justify-content-center   mt-0" >
+ 
+  <input id="search" class="form-control form-control-sm ml-3 w-75   rounded-pill" type="text" placeholder="¿Que buscas?"
+    aria-label="Search">
+</form>
+<!-- Search form --></div>
+           </div>
+           </div>    
+<getproduct  :nombre="itemName" :categoria="itemCategoria" :idd="idd" @escucharhijo="variablehijo" ></getproduct>
 
 </div>
+</div>
+
 <!--Fin Navegacion Heredada-->
 
   </div>
   <div class="tab-pane fade " id="follow-classic" role="tabpanel" aria-labelledby="follow-tab-classic">
     <p class="mt-1">Trabajando</p>
   </div>
-  <div class="tab-pane fade bg-white" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic">
-           <div class="container p-0" >
-    <div class="row bg-white p-3 justify-content-between m-0">
+  <div class="tab-pane fade bg-white" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic" >
+    
+    <div v-if="displayCart">
+         <div class="grey special-color-dark fixed-top " style="height: 3rem;" >
+           <div class="row p-2">
+             <div class="col-1 col-md-4 align-self-center" v-on:click="closeBreadcum()"><i class="fas fa-chevron-left mr-2 text-white"></i></div>
+             <div class="col-7 col-md-4 align-self-center text-white font-weight-bold" v-on:click="closeBreadcum()">Su Orden</div>
+             <div class="col-4"><span class="badge danger-color mr-2" v-text="counter"></span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 text-white"></i></div>
+           
+           </div>
+           </div>
+
+             <div class="p-2 mt-5 wow animated slideInLeft" v-if="totalPagar > 0">
+    <div  class="row bg-white p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
-            <h4>Su Orden</h4></div>
-          <div class="col-xs-6 "  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;" >C${{totalPagar + envio | formato}}  </span></h4></div>
+            <small class="text-muted">Envio gratis a partir de C$200</small>
+            <h6 class="font-weight-bold" >Envio:  <span class="badge badge-light p-2" style="font-size: 1rem;"  v-if="totalPagar < 200">C${{envio}} </span>
+            <span class="badge badge-light p-2" style="font-size: 1rem;"  v-else>C$0.00 </span></h6>
+            </div>
+          <div v-if="totalPagar < 200" class="col-xs-6 align-self-end"  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;"   >C${{totalPagar + envio | formato}}  </span></h4></div>
+           <div v-else class="col-xs-6 align-self-end"  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;"  >C${{totalPagar  | formato}}  </span></h4></div>
     </div>
- <div class="row fixed-bottom">
+    
+
+
+  <div style="height: calc(100vh - 180px); overflow: scroll;" class="pb-5" >
+    <cart v-for="(item, index) in articles" :key="index" :article="item"   @delete="deleteRow(index,item)" @update="update(index,item.cantidad)"></cart>
+  </div>
+
+    </div>
+    <div v-else class="align-middle vh-100">
+         <p class="mt-5 h1-responsive text-center">Tu cesta esta vacia, Pide ahora!</p>
+          <p class="mt-3 text-center">Tus envios gratis a partir de compras mayores a C$200</p>
+    </div>  
+     <div class="row fixed-bottom">
    <div class="col-sm-12">
      <div class="text-center">
   <a href="" class="btn btn-elegant waves-effect waves-light btn-confirm m-0" data-toggle="modal" data-target="#modalLoginForm" v-if="totalPagar>0" > Confirmar Pedido</a>
@@ -101,17 +131,9 @@
 </div>
    </div>
  </div>
-
-  <div style="height: calc(100vh - 190px); overflow: scroll;" >
-    <cart v-for="(item, index) in articles" :key="index" :article="item"   @delete="deleteRow(index,item)" @update="update(index,item.cantidad)"></cart>
-  </div>
-    
-   
-
-   
-  
-
     </div>
+    
+         
     <!--modal-->
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
@@ -193,8 +215,9 @@
   </div>
   
 </div>
-</div>    
-   <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+</div> 
+   
+   <!--<div class="fixed-action-btn" style="bottom: 45px; right: 24px;" >
     <a class="btn-floating btn-lg green accent-4 waves-effect waves-light">
       <i class="fas fa-pencil-alt"></i>
     </a>
@@ -204,21 +227,16 @@
       <li><a class="btn-floating yellow darken-1 waves-effect waves-light"><i class="fas fa-user"></i></a></li>
       <li><a class="btn-floating green waves-effect waves-light"><i class="fas fa-envelope"></i></a></li>
       <li><a v-on:click="state()" class="btn-floating green waves-effect waves-light" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><i   class="fas fa-shopping-cart "></i></a></a></li>
+      aria-controls="contact-classic" aria-selected="false"><i   class="fas fa-shopping-cart "></i></a></li>
     </ul>
-  </div>
+  </div>-->
 </div> 
 </template>
 <script>
 var audioElement = document.createElement('audio');
 audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86ea612dec96096c5e0fcc8dd42ab6d/file-sounds-1144-me-too.mp3');
 
-$( document ).ready(function() {
-        window.history.pushState('forward', null, './#forward');
-        $(window).on('popstate', function() {
-          alert('Back');
-        });
-});
+
 export default {
       
 
@@ -228,21 +246,23 @@ export default {
       
       counter: 0,
       articles: [],
+      envio: 30,
       stateModal: true,
       received: "",
       spin: false,
       state_n: true,
-      state_p: false,
-      state_display: false,      
+      displayArt: false,
+      displayCart: false,
+      displayList: false,      
       totalPagar: 0,
       idd: Number,
       itemName: "",
       itemCategoria: "",
       buscador: false,
-      envio: 0,
       nombre: "",
       telefono: "",
       direccion: "",
+      tabs: true,
       
       errors: false,
       isActive: false,
@@ -259,15 +279,11 @@ export default {
        if(!this.articles.find(e => e.id == item.id))
        {
            this.articles.push(item)
-           this.counter++
-           toastr.success('¡Agregado a la cesta!', '', {positionClass: 'md-toast-top-right'});$('#toast-container').attr('class','md-toast-top-right')
+           this.counter++         
            audioElement.currentTime = 0;
            audioElement.play()
        }
-       else
-       {
-          toastr.info('¡El artículo ya esta!.', '', {positionClass: 'md-toast-top-right'});$('#toast-container').attr('class','md-toast-top-right')
-       }
+     
 
   
 
@@ -297,20 +313,32 @@ export default {
       this.itemName = itemNombre;
       this.itemCategoria = itemCate;
       this.state_n = false;
-      this.state_p = true;
+      this.displayArt = true;
       this.idd = id;
       this.buscador= true;
+      this.tabs = false;
       
-      //setTimeout(() => this.state_display = true  ,500)
-      this.state_display = true;
+      //setTimeout(() => this.displayList = true  ,500)
+      this.displayList = true;
       
       },
-      state()
-      {
+      state(valor)
+      { 
+        if(valor == false)
+        {
+          this.tabs = valor;
+          this.displayCart = true;
+        }
+        else
+        {
         this.state_n = true;
-        this.state_p = false; 
-        this.state_display = false;
+        this.displayArt = false; 
+        this.displayCart=false
+        this.displayList = false;
         this.buscador= false;
+
+        }
+      
       },
       
       deleteRow(index,item)
@@ -332,13 +360,15 @@ export default {
          this.articles[index].cantidad = parseInt(cantidad);
          this.totalPagar = 0;
          this.counter = 0;
-     
+        
          this.articles.forEach(element => {
            
          this.totalPagar += element.cantidad * element.precio;
-         this.counter += element.cantidad
+         this.counter += parseInt(element.cantidad)
 
          });
+
+         
 
         $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
         audioElement.currentTime = 0;
@@ -376,19 +406,15 @@ export default {
       }
          
       },
-      sendState()
+     
+      closeBreadcum()
       {
+        this.tabs = true
+        this.state()
         
-        if(this.totalPagar < 200)
-        {
-          console.log("desdeSend"+this.totalPagar)
-          this.envio = 40
-        }
-        else(this.totalPagar >= 200)
-        {
-          this.envio = 0
-        }
-      },
+
+
+      }
      
      
 
