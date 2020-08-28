@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Group;
 use App\Category;
 use App\Product;
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -113,3 +114,9 @@ Route::get('getCart',function()
 
     return response()->json([$datos]);
 });
+
+Auth::routes();
+
+Route::middleware('auth:sanctum')->resource('/user', 'UserController');
+
+Route::get('/home', 'HomeController@index')->name('home');

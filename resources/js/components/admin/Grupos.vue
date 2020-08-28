@@ -34,7 +34,7 @@
   </div>
   <div class="custom-file">
     <input ref="file" type="file" class="custom-file-input" id="inputGroupFile01"
-      aria-describedby="inputGroupFileAddon01" accept="image/*" v-on:change="change()">
+      aria-describedby="inputGroupFileAddon01" accept="image/*" >
     <label class="custom-file-label" for="inputGroupFile01">Elegir imagen 128*128px</label>
   </div>
 </div>

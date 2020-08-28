@@ -26,23 +26,24 @@
       
       <navbar></navbar>
      
+     
 </div>
 
   
-  </script>
-<script type="text/javascript" src="{{asset('js/app.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/wow.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/myScript.js')}}" defer></script>
-   
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="{{asset('js/mdb.min.js')}}"></script>
- 
+  
+      <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/wow.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/myScript.js')}}" defer></script>
+        
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{{asset('js/mdb.min.js')}}"></script>
+      
 
-  <script type="text/javascript">
-    /* WOW.js init */
-    new WOW().init();
-    // Tooltips Initialization
-
+        <script type="text/javascript">
+          /* WOW.js init */
+          new WOW().init();
+          // Tooltips Initialization
+      </script>
 
 </body>
 </html>

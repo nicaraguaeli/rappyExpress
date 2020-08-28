@@ -7,20 +7,29 @@
 require('./bootstrap');
 
 //import {Ziggy} from '../assets/js/ziggy';
-
-
+import { template } from 'lodash';
+window.Vue = require('vue');
 
 
 
 
 
 import VueRouter from 'vue-router';
-import { template } from 'lodash';
-window.Vue = require('vue');
 
 
 
 Vue.use(VueRouter);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -49,8 +58,12 @@ Vue.component('getproduct', require('./components/ProductoComponent.vue').defaul
 Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').default);
 
 
+Vue.component('register', require('./components/auth/Register.vue').default);
+
+
 
 Vue.component('admin-nav', require('./components/admin/NavBar.vue').default);
+
 Vue.component('push-notification', require('./components/admin/PushNotification.vue').default);
 
 

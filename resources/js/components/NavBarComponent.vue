@@ -18,31 +18,32 @@
   
   
   <li class="nav-item">
-    <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50" id="profile-tab-classic" data-toggle="tab" href="#profile-classic"
-      role="tab" aria-controls="profile-classic" aria-selected="true" v-on:click="state()" ><i style="font-size: 1.3rem;" class="fas fa-home pr-2 text-black-50"></i></a>
+    <a class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50" id="profile-tab-classic" data-toggle="tab" href="#product-list"
+      role="tab" aria-controls="product-list" aria-selected="true" v-on:click="state()" ><i style="font-size: 1.3rem;" class="fas fa-home pr-2 nav-item-color"></i></a>
   </li>
   <li class="nav-item">
     <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
-      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.3rem;" class="fas fa-star  mr-2 text-black-50"></i></a>
+      aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.3rem;" class="fas fa-star  mr-2 nav-item-color"></i></a>
+  </li>
+   <li class="nav-item cart-item" id="cart">
+    <a v-on:click="state(false)"  class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 nav-item-color"></i></a>
   </li>
  
-  <li class="nav-item" id="cart">
+  <li class="nav-item" >
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="user-tab-classic" data-toggle="tab" href="#user" role="tab"
+      aria-controls="user-classic" aria-selected="false"><i class="fas fa-user mr-2 nav-item-color" style="font-size: 1.3rem;"></i></a>
+  </li>
+  <li class="nav-item" >
     <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><i class="fas fa-user mr-2 text-black-50" style="font-size: 1.3rem;"></i></a>
+      aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 nav-item-color" style="font-size: 1.3rem;"></i></a>
   </li>
-  <li class="nav-item" id="cart">
-    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 text-black-50" style="font-size: 1.3rem;"></i></a>
-  </li>
-   <li class="nav-item" id="cart">
-    <a v-on:click="state(false)"  class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
-      aria-controls="contact-classic" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 text-black-50"></i></a>
-  </li>
+  
   
 </ul>
 
  <!-- Image and text -->
-<nav class="navbar   green accent-4 ">
+<nav class="navbar nav-border   green accent-4 ">
 
 </nav>
 
@@ -54,7 +55,7 @@
 <div class="container p-0">
 
 <div class="tab-content  p-0" id="myClassicTabContent">
-  <div class="tab-pane fade active show " id="profile-classic" role="tabpanel" aria-labelledby="profile-tab-classic" >
+  <div class="tab-pane fade active show " id="product-list" role="tabpanel" aria-labelledby="profile-tab-classic" >
   
   <!--Navegacion Heredada-->
 <div id="navegacion"  v-bind:class="{'d-none': displayList }">
@@ -87,8 +88,17 @@
 
   </div>
   <div class="tab-pane fade " id="follow-classic" role="tabpanel" aria-labelledby="follow-tab-classic">
-    <p class="mt-1">Trabajando</p>
+    <p class="mt-1">{{user}}</p>
   </div>
+
+  <!--USER-REGISTER-->
+  <div class="tab-pane fade " id="user" role="tabpanel" aria-labelledby="user-tab-classic">
+    
+     <register :user="user" @username="(item)"></register>
+
+  </div>
+  <!--END-USER-->
+
   <div class="tab-pane fade bg-white" id="contact-classic" role="tabpanel" aria-labelledby="contact-tab-classic" >
     
     <div v-if="displayCart">
@@ -101,7 +111,7 @@
            </div>
            </div>
 
-             <div class="p-2 mt-5 wow animated slideInLeft" v-if="totalPagar > 0">
+             <div class="p-2 mt-5 wow animated fadeInLeft faster" v-if="totalPagar > 0">
     <div  class="row bg-white p-3 justify-content-between m-0">
           <div class="col-xs-6 align-self-center">
             <small class="text-muted">Envio gratis a partir de C$200</small>
@@ -239,6 +249,20 @@ audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86e
 
 export default {
       
+      mounted()
+      {
+          axios.get('./user').then(response =>(this.user = response.data))
+  
+          if(localStorage.counter)
+          {
+            this.counter = localStorage.counter
+          }
+      },
+      watch:{
+    counter(newName) {
+      localStorage.name = newName;
+    }
+  },
 
 
       data () {
@@ -246,6 +270,7 @@ export default {
       
       counter: 0,
       articles: [],
+      user: {},
       envio: 30,
       stateModal: true,
       received: "",
@@ -414,6 +439,10 @@ export default {
         
 
 
+      },
+      username(item)
+      {
+        this.user = item;
       }
      
      
@@ -455,6 +484,16 @@ border-radius: 1rem 1rem 0 0px;
    justify-content: space-evenly;
   
 }
+
+}
+
+.nav-item-color
+{
+  color: #37474F;
+}
+.nav-border
+{
+  border-radius: 10px 10px 0 0;
 }
  
 </style>

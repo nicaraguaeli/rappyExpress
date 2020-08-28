@@ -50,7 +50,7 @@
                 <div class="row">
                      <div v-for="item2 in item.categories" :key="item2.id" class="   pr-md-2 mb-3 col-sm-4 ">
 
-                <div :title="item2.nombre" class="card  wow bounceIn animated mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  :data-wow-delay="'0.'+(delay)+'s'" v-on:click="enviarid(item2.id,item.nombre,item2.nombre)" style="border-radius: 1rem 0 0 1rem; border-bottom: 1px solid #00c853!important;" >
+                <div :title="item2.nombre" class="card  mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  :data-wow-delay="'0.'+(delay)+'s'" v-on:click="enviarid(item2.id,item.nombre,item2.nombre)"  >
                   
                   <div class="card-body p-0">
                     <div class="d-flex">
@@ -63,7 +63,7 @@
                     </div>
                     
                           <div class="pt-3 pr-3 align-self-center ">
-                      <h6 class="font-weight-bold h6-responsive" style=" font-size: 1rem;" v-text="item2.nombre"></h6> 
+                      <h6 class="font-weight-bold " style=" font-size: 1rem;" v-text="item2.nombre"></h6> 
                     </div>
                    
                     
@@ -141,3 +141,13 @@ export default {
   
 }
 </script>
+
+<style lang="scss" scoped>
+  
+  .card
+  {
+    border-radius: 1rem 0 0 1rem; 
+    border-bottom: 1px solid #00c853!important;
+    
+  }
+</style>
