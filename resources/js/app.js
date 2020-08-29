@@ -58,11 +58,12 @@ Vue.component('getproduct', require('./components/ProductoComponent.vue').defaul
 Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').default);
 
 
-Vue.component('register', require('./components/auth/Register.vue').default);
+
 
 
 
 Vue.component('admin-nav', require('./components/admin/NavBar.vue').default);
+
 
 Vue.component('push-notification', require('./components/admin/PushNotification.vue').default);
 
@@ -74,23 +75,22 @@ Vue.component('push-notification', require('./components/admin/PushNotification.
 //Admin Component
 
 const routes = [
+    
     { path: '/categorias', name:'categorias', component: Vue.component('categorias', require('./components/admin/Categorias.vue').default)   },
     { path: '/grupos', name:'grupos', component: Vue.component('grupos', require('./components/admin/Grupos.vue').default)   },
     { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
     { path: '/listaproductos', name:'listaproductos', component: Vue.component('getProduct', require('./components/admin/getProduct.vue').default)   },
+    { path: '/register', name:'register',  component: Vue.component('register', require('./components/auth/Register.vue').default )  },
+    { path: '/login', name:'login',  component: Vue.component('register', require('./components/auth/Login.vue').default )  },
+    
    
 ];
+
 
 const router = new VueRouter({
     routes, // short for routes: routes
     
 });
-
-
-
-
-
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -98,12 +98,16 @@ const router = new VueRouter({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router,
+    
     
     
     
 });
+
 const admin = new Vue({
     el: '#admin',
     router
@@ -111,3 +115,4 @@ const admin = new Vue({
     
     
 });
+

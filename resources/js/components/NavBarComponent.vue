@@ -92,10 +92,17 @@
   </div>
 
   <!--USER-REGISTER-->
-  <div class="tab-pane fade " id="user" role="tabpanel" aria-labelledby="user-tab-classic">
+  <div class="tab-pane fade  card-background " id="user" role="tabpanel" aria-labelledby="user-tab-classic" style="height: calc(100vh - 80px)">
+       
+       <ul class="nav" >
+       
+       <li v-if="!user.id" class="nav-item"><router-link :to="{name: 'login'}" class="waves-effect nav-link text-white" >Entrar</router-link></li>
+       <li v-if="!user.id" class="nav-item"><router-link :to="{name: 'register'}" class="waves-effect nav-link text-white" >registrarse</router-link></li>  
+       <li v-if="user.id" class="nav-item"><router-link :to="{name: 'perfil'}" class="waves-effect nav-link text-white" >perfil</router-link></li>
+       <li v-if="user.id"  class="nav-item"><router-link :to="{name: 'perfil'}" class="waves-effect nav-link text-white" >pedidos</router-link></li></ul>
+      
+      <router-view :user="user" @username="username" > </router-view>
     
-     <register :user="user" @username="(item)"></register>
-
   </div>
   <!--END-USER-->
 
@@ -253,10 +260,7 @@ export default {
       {
           axios.get('./user').then(response =>(this.user = response.data))
   
-          if(localStorage.counter)
-          {
-            this.counter = localStorage.counter
-          }
+         console.log("ok")
       },
       watch:{
     counter(newName) {
@@ -442,7 +446,7 @@ export default {
       },
       username(item)
       {
-        this.user = item;
+        this.user = item
       }
      
      
@@ -494,6 +498,21 @@ border-radius: 1rem 1rem 0 0px;
 .nav-border
 {
   border-radius: 10px 10px 0 0;
+}
+.card-background
+{
+  &:before
+  {
+    background: #11998e;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to top, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to top, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    width: 100%;
+    height: 100%;
+    content: "";
+    position: absolute;
+    overflow: hidden;
+  }
 }
  
 </style>
