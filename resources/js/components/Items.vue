@@ -1,5 +1,22 @@
 <template>
-    <div class="wow animated slideInLeft faster mt-5" >
+   <div >
+     <div class="grey special-color-dark  animated wow slideInUp faster" style="height: 3rem;" >
+           <div class="row p-2">
+             <div class="col-3 col-md-4 align-self-center" ><router-link :to="{name: 'home'}" ><i class="fas fa-chevron-left mr-2 text-white"></i><span class="text-white ml-1">atras</span></router-link>
+             </div>
+             <div class="col-4 col-md-4 align-self-center text-white font-weight-bold" >Pend        
+             </div>
+            <div class="col-5 col-md-4"><!-- Search form -->
+<form class="form-inline d-flex justify-content-center   mt-0" >
+ 
+  <input id="search" class="form-control form-control-sm ml-3 w-75   rounded-pill" type="text" placeholder="¿Que buscas?"
+    aria-label="Search">
+</form>
+<!-- Search form -->
+</div>
+           </div> 
+     </div>    
+       <div class="wow animated slideInLeft faster " >
 
     <div class="container p-1 cloudy-knoxville-gradient  min-vh-100 " >
       <div v-if="state" >
@@ -38,7 +55,7 @@
 <div class="col-6 col-md-3 p-0 list-card " v-for="item in productos" :key="item.id" :title="item.nombre">
 
   <!-- Card -->
-  <div class="card card-ecommerce mr-2 mb-2 wow fadeIn animated"  >
+  <div class="card card-ecommerce mr-2 mb-2 wow fadeIn animated"  style="box-shadow: none !important;">
 
     <!-- Card image -->
     <div class="view overlay " >
@@ -60,7 +77,8 @@
     <!-- Card image -->
 
     <!-- Card content -->
-    <div class="card-body  special-color-dark  text-white d-flex flex-column  p-0 pt-2 rounded-lg">
+    <hr class="m-0">
+    <div class="card-body    text-black d-flex flex-column  p-0 pt-2 rounded-lg">
 
       <!-- Category & Title -->
       <h6 class=" mb-1 ml-1  text-uppercase " v-text="item.nombre"> </h6> 
@@ -73,7 +91,7 @@
        
 
         
-        <div class="add product green p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm" v-on:click="enviarpadre(item)">
+        <div class="add product green accent-4 p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm" v-on:click="enviarpadre(item)">
           <a  class=" text-white "  >
 
               <i :class="'fas fa-shopping-cart mr-1'" ></i>Agregar
@@ -109,6 +127,8 @@
 
 
     </div>
+   </div>
+  
     
 </template>
 
@@ -135,16 +155,7 @@ export default {
     }
   },
   
-  props: 
-  {
-    
-    
-    nombre: String,
-    categoria: String,
-    idd: Number,
-      
-    
-  },
+  
   
    
   methods:{
@@ -154,7 +165,7 @@ export default {
          
          
         
-          this.$emit('escucharhijo',item)
+          this.$emit('cartItem',item)
           
           
       },
@@ -172,7 +183,7 @@ mounted ()
  
   
   axios
-      .get('./prueba/'+this.$props.idd)
+      .get('./prueba/'+this.$route.params.id)
       .then(response => (this.productos =  response.data, this.state = false) )
      
 }

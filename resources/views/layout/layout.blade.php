@@ -22,15 +22,25 @@
 
 
 
+@guest
 <div id="app">
       
-      <navbar></navbar>
-     
-     
-     
+
+      <navbar ></navbar>
+      
+</div>
+@else
+
+<div id="app">
+      
+
+      <navbar :user="{{ Auth::user() }}"></navbar>
+      
 </div>
 
-  
+@endguest
+
+
   
       <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
       <script type="text/javascript" src="{{asset('js/wow.js')}}"></script>

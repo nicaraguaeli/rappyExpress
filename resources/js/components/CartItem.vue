@@ -1,8 +1,8 @@
 <template>
-<div >
- <div  class="mb-3  ">
+    <div  class="mb-3  ">
+                <div  >
 
-                <div :title="article.nombre" class="card   cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  >
+                       <div :title="article.nombre" class="card   cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  >
                   
                   <div class="card-body p-0">
                      <div class="row">
@@ -60,42 +60,21 @@
                 </div>
 
               </div>
-
-</div>
- 
+                </div>
 </template>
 <script>
-export default { 
-    data()
-    {
-        return { 
-        
-          cantidad: 1,
-
-        }
-    },
-
+export default {
     props:
     {
-        article: {},
-       
-        
+        article: {}
     },
-    filters: {
-  formato: function (value) {
-     
-     
-      return (parseFloat(value).toFixed(2));
-  },
-
-},
-methods:
-{
-  deleteRow()
-  {
-    this.$emit('delete')
-  },
-  update()
+    methods:
+    {
+        deleteRow()
+    {
+        this.$emit('delete')
+    },
+      update()
 {
     
   if(this.$props.article.cantidad >= 1)
@@ -107,14 +86,19 @@ methods:
     this.$props.article.cantidad = 1
   }  
   
-    
-    
+ 
  
 },
- 
-},
-
-
     
+    },
+    filters: {
+  formato: function (value) {
+     
+     
+      return (parseFloat(value).toFixed(2));
+  },
+    
+    
+    }
 }
 </script>

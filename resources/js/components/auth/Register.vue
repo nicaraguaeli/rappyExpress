@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="!user.id">
+<div>
    <div  class="card card-signup z-depth-1 wow animated slideInRight faster" style="height: calc(100vh - 80px)" >
 
             <div class="card-body text-center">
@@ -43,37 +43,7 @@
 
           </div>
            
-         <div class="modal fade" id="centralModalSuccessDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog modal-notify modal-success" role="document">
-            <!-- Content -->
-            <div class="modal-content">
-              <!-- Header -->
-              <div class="modal-header">
-                <p class="heading lead">Registrado!</p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true" class="white-text">×</span>
-                </button>
-              </div>
-
-              <!-- Body -->
-              <div class="modal-body">
-                <div class="text-center">
-                  <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
-                  <p>Has sido registrado en nuestro sistema, ya puedes realizar tus pedidos desde la comodidad de tu hogar, estaremos muy atentos a tu solicitud.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Footer -->
-              <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-success waves-effect waves-light close"  data-dismiss="modal" aria-label="Close">Entendido </a>
-              
-              </div>
-            </div>
-            <!-- Content -->
-          </div>
-        </div>
+        
 
 
        
@@ -84,25 +54,31 @@
 </template>
 <script>
 export default {
-    
+    mounted()
+    {
+      if(this.$props.user)
+      {
+        this.$router.push('perfil')
+      }
+
+    },
     data()
     {
         return{
             data:{
-                name: "Eli Jose",
-                email: "123@gmail.com",
-                password: "123456789",
-                password_confirmation: "123456789",
-                number: 83218727,
+                name: "",
+                email: "",
+                password: "",
+                password_confirmation: "",
+                number: "",
             },
-            email: "",
-            password: "",
+          
             
         }
     },
     props:
     {
-          user: [],
+          user: {},
     },
 
     methods:
@@ -133,19 +109,19 @@ export default {
             const valor = parseInt(value)
             if(valor == 201)
             {
-                $('#centralModalSuccessDemo').modal('show')
-                axios.get('./user').then(response=>(this.$props.user = response.data, this.emitir())).catch(error => (console.log(error)))
+                
+                axios.get('./user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
             }
              if(valor == 204)
             {
                 
-                axios.get('./user').then(response=>(this.$props.user = response.data, this.emitir())).catch(error => (console.log(error)))
+               // axios.get('./user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
             }
            
         },
         emitir()
         {
-        this.$emit('user',this.$refs.user)
+        this.$router.push('perfil')
         console.log('emitido')
         }
     }

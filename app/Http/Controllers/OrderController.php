@@ -43,6 +43,7 @@ class OrderController extends Controller
         //
        
            # code...
+           /*
            Request()->validate([
            
             'nombre'=>'required',
@@ -89,7 +90,9 @@ class OrderController extends Controller
             DB::rollBack();
         }
 
-       
+       */
+
+       return "ok";
 
        
        

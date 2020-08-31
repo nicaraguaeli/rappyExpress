@@ -77,17 +77,34 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+       
         
+        try {
+        
+          
+            
         $user = User::find($id);
         $user->name = Request()->name;
         $user->email = Request()->email;
         $user->number = Request()->number;
         $user->address = Request()->address;
-        $user->address_alt = Request()->address;
+        $user->address_alt = Request()->address_alt;
         
         $user->save();
+        
+        return response()->json("Información actualizada");  
 
-        return "Actualizado...";
+        } catch (\Illuminate\Database\QueryException $ex) {
+            //throw $th;
+          
+            
+            return response()->json($ex);  
+                                  
+           
+        } 
+        
+
+        
     }
 
     /**

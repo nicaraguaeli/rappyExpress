@@ -1,9 +1,9 @@
 <template>
     
-    <div >
+    <div class="container p-0 wow animated fadeInLeft">
 
 <!--GRUPOS-->
-<ul class="nav nav-tabs grey lighten-4 " id="myTab" role="tablist">
+<ul class="nav nav-tabs grey lighten-4   " id="myTab" role="tablist">
       <li class="nav-item" v-for="(item, index) in info" :key="index">
     
     <a class="nav-link green-text font-weight-bold" v-bind:class="{active: index == 0}" id="home-tab" data-toggle="tab" :href="'#'+item.nombre" role="tab" aria-controls="home"
@@ -15,7 +15,7 @@
 <!--FIN-GRUPOS--> 
 
 <!--CONTENT-TAB-->
-<div class="tab-content bg-white" id="myTabContent" style="height: calc(100vh - 190px); overflow: scroll;">
+<div class="tab-content bg-white" id="myTabContent"  style="height: calc(100vh - 80px); overflow: scroll;">
   
 
          <div class="row" v-if="state">
@@ -46,11 +46,11 @@
   
  <!-- Grid column -->
              
- 
+   
                 <div class="row">
                      <div v-for="item2 in item.categories" :key="item2.id" class="   pr-md-2 mb-3 col-sm-4 ">
-
-                <div :title="item2.nombre" class="card  mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  :data-wow-delay="'0.'+(delay)+'s'" v-on:click="enviarid(item2.id,item.nombre,item2.nombre)"  >
+                <router-link :to="{name: 'items',params:{id: item2.id}}" >
+                <div :title="item2.nombre" class="card  mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  :data-wow-delay="'0.'+(delay)+'s'"  >
                   
                   <div class="card-body p-0">
                     <div class="d-flex">
@@ -74,6 +74,7 @@
                      
                   </div>
                 </div>
+                </router-link>
 
               </div>
                 </div>
@@ -124,20 +125,7 @@ export default {
       .get('./prueba')
       .then(response => (this.info =  response.data, this.state = false))
   },
-  methods:
-  {
-    enviarid(itemID, itemNombre, itemCategoria)
-    {
-        this.$emit('recibirid',itemID, itemNombre, itemCategoria)
-        
-       
-    },
-    indice(val)
-    {
-     
-    }
-   
-  }
+
   
 }
 </script>

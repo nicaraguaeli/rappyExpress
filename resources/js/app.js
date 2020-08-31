@@ -52,12 +52,18 @@ Vue.use(VueRouter);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar', require('./components/NavBarComponent.vue').default);
-Vue.component('cart', require('./components/CarComponent.vue').default);
-Vue.component('listproduct-component', require('./components/ListProductComponent.vue').default);
-Vue.component('getproduct', require('./components/ProductoComponent.vue').default);
+
+
+
+
+
+
+
+//CSSMODAL
 Vue.component('vue-image-loader', require('./components/VueLoadImage.vue').default);
 
 
+//ENDCSSMODAL
 
 
 
@@ -81,14 +87,24 @@ const routes = [
     { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
     { path: '/listaproductos', name:'listaproductos', component: Vue.component('getProduct', require('./components/admin/getProduct.vue').default)   },
     { path: '/register', name:'register',  component: Vue.component('register', require('./components/auth/Register.vue').default )  },
-    { path: '/login', name:'login',  component: Vue.component('register', require('./components/auth/Login.vue').default )  },
+    { path: '/login', name:'login',  component: Vue.component('login', require('./components/auth/Login.vue').default )  },
+    { path: '/perfil', name:'perfil',  component: Vue.component('perfil', require('./components/auth/Perfil.vue').default )  },
+
+    
+    { path: '/', name:'home',  component: Vue.component('home', require('./components/Home.vue').default )  },
+    { path: '/order/', name:'order',  component: Vue.component('order', require('./components/Order.vue').default )  },
+    { path: '/items/:id', name:'items',  component: Vue.component('items', require('./components/Items.vue').default )  },
+    
     
    
 ];
 
 
 const router = new VueRouter({
-    routes, // short for routes: routes
+    routes,
+   
+     
+    // short for routes: routes
     
 });
 
@@ -102,6 +118,8 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
+    
+    
     
     
     
