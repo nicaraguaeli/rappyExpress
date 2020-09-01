@@ -49,7 +49,7 @@
    
                 <div class="row">
                      <div v-for="item2 in item.categories" :key="item2.id" class="   pr-md-2 mb-3 col-sm-4 ">
-                <router-link :to="{name: 'items',params:{id: item2.id}}" >
+                <router-link :to="{name: 'items',params:{id: item2.id}}" class="black-text" >
                 <div :title="item2.nombre" class="card  mr-3 cloudy-knoxville-gradient mask rgba-white-slight waves-effect waves-light"  :data-wow-delay="'0.'+(delay)+'s'"  >
                   
                   <div class="card-body p-0">

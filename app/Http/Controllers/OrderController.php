@@ -5,7 +5,8 @@ use App\Events\StatusLiked;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Order;
-use App\Customer;
+use App\Detail;
+use Auth;
 
 class OrderController extends Controller
 {
@@ -14,6 +15,11 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
@@ -43,58 +49,57 @@ class OrderController extends Controller
         //
        
            # code...
-           /*
-           Request()->validate([
-           
-            'nombre'=>'required',
-            'telefono'=>'required|numeric',
-            'direccion'=>'required'
-
-           ]);
+         
            
            try {
             DB::beginTransaction();
             // database queries here
+     
+            $order = new Order;
+            $order->user_id = Auth::user()->id;
+            $order->address = $request->address;
+            $order->save();
             
-            $customer = new Customer;
-            $customer->nombre = $request->nombre;
-            $customer->telefono = $request->telefono;
-            $customer->direccion = $request->direccion;
-            $customer->save();
             
-            foreach ($request->articles as $key) {
+            foreach ($request->article as $key) {
                 # code...
 
-            $order = new Order;
-            $order->product_id = $key['id'];
-            $order->customer_id = $customer->id;
-            $order->nombre = $key['nombre'];
-            $order->precio = $key['precio'];
-            $order->presentacion = $key['presentacion'];
-            $order->cantidad = $key['cantidad'];
-            $order->imagen = $key['imagen'];
-            $order->save();
-
-                   
+            $detail = new Detail;
+            $detail->order_id = $order->id;
+            $detail->product_id = $key['id'];
+            $detail->precio = $key['precio'];
+            $detail->cantidad = $key['cantidad'];
+            $detail->save();
+       
             }
-
-              
+ 
 
             DB::commit();
-            event(new StatusLiked('Tienes una nueva orden'));
+           /* event(new StatusLiked('Tienes una nueva orden'));
             return "Gracias! Su pedido a sido enviado en breve le llamaremos.";
-           
+           */
+
+          return "ok";
 
         } catch (\PDOException $e) {
             // Woopsy
             DB::rollBack();
+            return $e;
         }
 
-       */
-
-       return "ok";
+       
 
        
+
+       
+     
+          # code...
+         
+             # code...
+           
+        
+      
+      
        
     }
 

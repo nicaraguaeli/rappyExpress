@@ -1,7 +1,7 @@
 <template>
    <div >
      <div class="grey special-color-dark  animated wow slideInUp faster" style="height: 3rem;" >
-           <div class="row p-2">
+           <div class="d-flex p-2">
              <div class="col-3 col-md-4 align-self-center" ><router-link :to="{name: 'home'}" ><i class="fas fa-chevron-left mr-2 text-white"></i><span class="text-white ml-1">atras</span></router-link>
              </div>
              <div class="col-4 col-md-4 align-self-center text-white font-weight-bold" >Pend        
@@ -16,9 +16,10 @@
 </div>
            </div> 
      </div>    
+     
        <div class="wow animated slideInLeft faster " >
 
-    <div class="container p-1 cloudy-knoxville-gradient  min-vh-100 " >
+    <div class=" cloudy-knoxville-gradient " >
       <div v-if="state" >
   
       <div class="row">
@@ -47,7 +48,7 @@
     
    
 </div>
-    <div class="row animated fadeIn m-0  " id="myList">
+    <div class="row animated fadeIn m-0  " id="myList" style="height: calc(100vh - 80px); overflow: scroll; pb-5" >
 
 
 
@@ -55,7 +56,7 @@
 <div class="col-6 col-md-3 p-0 list-card " v-for="item in productos" :key="item.id" :title="item.nombre">
 
   <!-- Card -->
-  <div class="card card-ecommerce mr-2 mb-2 wow fadeIn animated"  style="box-shadow: none !important;">
+  <div class="card card-ecommerce  p-2 wow fadeIn animated"  style="box-shadow: none !important;">
 
     <!-- Card image -->
     <div class="view overlay " >

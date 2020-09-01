@@ -2330,6 +2330,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2611,12 +2612,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
 
-    this.$props.articles.forEach(function (element) {
+    this.articles.forEach(function (element) {
       _this.amount += element.cantidad * element.precio;
     });
   },
@@ -2627,13 +2656,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       quantity: 1,
       amount: 0,
-      shipping: 30
+      shipping: 30,
+      request: {
+        address: "",
+        article: this.articles
+      },
+      spin: false,
+      modal: false
     };
   },
   props: {
     articles: {},
     counter: 0,
-    user: {}
+    user: undefined
   },
   filters: {
     formato: function formato(value) {
@@ -2644,11 +2679,12 @@ __webpack_require__.r(__webpack_exports__);
     deleteRow: function deleteRow(index, item) {
       var _this2 = this;
 
-      this.$props.articles.forEach(function (element) {
-        _this2.amount -= parseInt(element.cantidad) * parseInt(element.precio);
-        _this2.$parent.counter -= parseInt(element.cantidad);
-
-        _this2.articles.splice(index, 1);
+      this.amount = 0;
+      this.$parent.counter = 0;
+      this.articles.splice(index, 1);
+      this.articles.forEach(function (element) {
+        _this2.amount += parseInt(element.cantidad) * parseInt(element.precio);
+        _this2.$parent.counter += parseInt(element.cantidad);
       });
     },
     update: function update(index, cantidad) {
@@ -2667,13 +2703,29 @@ __webpack_require__.r(__webpack_exports__);
     formdata: function formdata() {
       var _this4 = this;
 
+      this.spin = true;
+      this.request.address = this.$refs.optionSelected.value;
       setTimeout(function () {
-        return axios.post('./order', _this4.$props.articles).then(function (response) {
-          return console.log(response.data);
+        return axios.post('./order', _this4.request).then(function (response) {
+          return console.log(response.data), _this4.reset();
         })["catch"](function (error) {
-          return _this4.received = "No a sido posible realizar el pedido!.";
+          return toastr.error("No a sido posible realizar el pedido!.");
         });
       }, 4000); //setTimeout(() => {$("#modalLoginForm").modal('hide');} ,8000);
+    },
+    reset: function reset() {
+      var _this5 = this;
+
+      this.spin = false;
+      this.$parent.articles.splice(0);
+      this.$parent.counter = 0;
+      this.amount = 0;
+      this.modal = true;
+      setTimeout(function () {
+        $("#modalLoginForm").modal('hide');
+
+        _this5.$router.push('/');
+      }, 5000);
     },
     back: function back() {
       this.$router.back();
@@ -40823,7 +40875,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-3  " }, [
+  return _c("div", { staticClass: "mb-3 " }, [
     _c("div", [
       _c(
         "div",
@@ -41168,6 +41220,7 @@ var render = function() {
                       _c(
                         "router-link",
                         {
+                          staticClass: "black-text",
                           attrs: {
                             to: { name: "items", params: { id: item2.id } }
                           }
@@ -41276,7 +41329,7 @@ var render = function() {
         staticStyle: { height: "3rem" }
       },
       [
-        _c("div", { staticClass: "row p-2" }, [
+        _c("div", { staticClass: "d-flex p-2" }, [
           _c(
             "div",
             { staticClass: "col-3 col-md-4 align-self-center" },
@@ -41306,234 +41359,225 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", { staticClass: "wow animated slideInLeft faster " }, [
-      _c(
-        "div",
-        { staticClass: "container p-1 cloudy-knoxville-gradient  min-vh-100 " },
-        [
-          _vm.state
-            ? _c("div", [
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-6 col-md-3  " },
-                    [
-                      _c("vue-content-loading", { attrs: { height: 500 } }, [
-                        _c("rect", {
-                          attrs: {
-                            x: "0 ",
-                            y: "13",
-                            rx: "4",
-                            ry: "4",
-                            width: "100%",
-                            height: "500"
-                          }
-                        })
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-6 col-md-3 " },
-                    [
-                      _c("vue-content-loading", { attrs: { height: 500 } }, [
-                        _c("rect", {
-                          attrs: {
-                            x: "0",
-                            y: "13",
-                            rx: "4",
-                            ry: "4",
-                            width: "100%",
-                            height: "500"
-                          }
-                        })
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-6 col-md-3 " },
-                    [
-                      _c("vue-content-loading", { attrs: { height: 500 } }, [
-                        _c("rect", {
-                          attrs: {
-                            x: "0",
-                            y: "13",
-                            rx: "4",
-                            ry: "4",
-                            width: "100%",
-                            height: "500"
-                          }
-                        })
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-6 col-md-3 " },
-                    [
-                      _c("vue-content-loading", { attrs: { height: 500 } }, [
-                        _c("rect", {
-                          attrs: {
-                            x: "0",
-                            y: "13",
-                            rx: "4",
-                            ry: "4",
-                            width: "100%",
-                            height: "500"
-                          }
-                        })
-                      ])
-                    ],
-                    1
-                  )
-                ])
+      _c("div", { staticClass: " cloudy-knoxville-gradient " }, [
+        _vm.state
+          ? _c("div", [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3  " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0 ",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6 col-md-3 " },
+                  [
+                    _c("vue-content-loading", { attrs: { height: 500 } }, [
+                      _c("rect", {
+                        attrs: {
+                          x: "0",
+                          y: "13",
+                          rx: "4",
+                          ry: "4",
+                          width: "100%",
+                          height: "500"
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                )
               ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "row animated fadeIn m-0  ",
-              attrs: { id: "myList" }
-            },
-            _vm._l(_vm.productos, function(item) {
-              return _c(
-                "div",
-                {
-                  key: item.id,
-                  staticClass: "col-6 col-md-3 p-0 list-card ",
-                  attrs: { title: item.nombre }
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "card card-ecommerce mr-2 mb-2 wow fadeIn animated",
-                      staticStyle: { "box-shadow": "none !important" }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "view overlay " },
-                        [
-                          _c(
-                            "vue-image-loader",
-                            { staticClass: "text-center" },
-                            [
-                              _c("img", {
-                                staticClass: "img-fluid ",
-                                attrs: {
-                                  slot: "image",
-                                  src: item.imagen,
-                                  alt: item.nombre
-                                },
-                                slot: "image"
-                              }),
-                              _vm._v(" "),
-                              _c("img", {
-                                staticClass: "img-fluid  ",
-                                attrs: {
-                                  slot: "preloader",
-                                  src: "img/DualRing.gif"
-                                },
-                                slot: "preloader"
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { attrs: { slot: "error" }, slot: "error" },
-                                [
-                                  _c("img", {
-                                    staticClass: "img-fluid  ",
-                                    attrs: { src: "img/placeholder.jpg" }
-                                  })
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(1, true),
-                          _vm._v(" "),
-                          _c("span", {
-                            staticClass:
-                              "badge badge-danger mb-2 p-2 rounded-lg",
-                            staticStyle: {
-                              transform: "translateY(-39px)",
-                              position: "absolute"
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "row animated fadeIn m-0  ",
+            staticStyle: { height: "calc(100vh - 80px)", overflow: "scroll" },
+            attrs: { id: "myList" }
+          },
+          _vm._l(_vm.productos, function(item) {
+            return _c(
+              "div",
+              {
+                key: item.id,
+                staticClass: "col-6 col-md-3 p-0 list-card ",
+                attrs: { title: item.nombre }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "card card-ecommerce  p-2 wow fadeIn animated",
+                    staticStyle: { "box-shadow": "none !important" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "view overlay " },
+                      [
+                        _c("vue-image-loader", { staticClass: "text-center" }, [
+                          _c("img", {
+                            staticClass: "img-fluid ",
+                            attrs: {
+                              slot: "image",
+                              src: item.imagen,
+                              alt: item.nombre
                             },
-                            domProps: { textContent: _vm._s(item.presentacion) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("hr", { staticClass: "m-0" }),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "card-body    text-black d-flex flex-column  p-0 pt-2 rounded-lg"
-                        },
-                        [
-                          _c("h6", {
-                            staticClass: " mb-1 ml-1  text-uppercase ",
-                            domProps: { textContent: _vm._s(item.nombre) }
+                            slot: "image"
+                          }),
+                          _vm._v(" "),
+                          _c("img", {
+                            staticClass: "img-fluid  ",
+                            attrs: {
+                              slot: "preloader",
+                              src: "img/DualRing.gif"
+                            },
+                            slot: "preloader"
                           }),
                           _vm._v(" "),
                           _c(
-                            "p",
-                            {
-                              staticClass: "mb-0 ml-1",
-                              staticStyle: { "font-size": "0.7rem" }
-                            },
-                            [
-                              _c("span", { staticClass: "float-left " }, [
-                                _vm._v(
-                                  "C$ " +
-                                    _vm._s(_vm._f("formato")(item.precio)) +
-                                    "  "
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
                             "div",
-                            {
-                              staticClass:
-                                "add product green accent-4 p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm",
-                              on: {
-                                click: function($event) {
-                                  return _vm.enviarpadre(item)
-                                }
-                              }
-                            },
+                            { attrs: { slot: "error" }, slot: "error" },
                             [
-                              _c("a", { staticClass: " text-white " }, [
-                                _c("i", { class: "fas fa-shopping-cart mr-1" }),
-                                _vm._v("Agregar\n\n                      ")
-                              ])
+                              _c("img", {
+                                staticClass: "img-fluid  ",
+                                attrs: { src: "img/placeholder.jpg" }
+                              })
                             ]
                           )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ]
-      )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(1, true),
+                        _vm._v(" "),
+                        _c("span", {
+                          staticClass: "badge badge-danger mb-2 p-2 rounded-lg",
+                          staticStyle: {
+                            transform: "translateY(-39px)",
+                            position: "absolute"
+                          },
+                          domProps: { textContent: _vm._s(item.presentacion) }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("hr", { staticClass: "m-0" }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "card-body    text-black d-flex flex-column  p-0 pt-2 rounded-lg"
+                      },
+                      [
+                        _c("h6", {
+                          staticClass: " mb-1 ml-1  text-uppercase ",
+                          domProps: { textContent: _vm._s(item.nombre) }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          {
+                            staticClass: "mb-0 ml-1",
+                            staticStyle: { "font-size": "0.7rem" }
+                          },
+                          [
+                            _c("span", { staticClass: "float-left " }, [
+                              _vm._v(
+                                "C$ " +
+                                  _vm._s(_vm._f("formato")(item.precio)) +
+                                  "  "
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "add product green accent-4 p-1 text-center mask waves-effect waves-light rgba-white-slight rounded-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.enviarpadre(item)
+                              }
+                            }
+                          },
+                          [
+                            _c("a", { staticClass: " text-white " }, [
+                              _c("i", { class: "fas fa-shopping-cart mr-1" }),
+                              _vm._v("Agregar\n\n                      ")
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ])
     ])
   ])
 }
@@ -41812,19 +41856,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "bg-white", staticStyle: { height: "calc(100vh - 80px )" } },
-    [
-      _c(
-        "div",
-        {
-          staticClass:
-            "grey special-color-dark  wow animated slideInUp faster ",
-          staticStyle: { height: "3rem" }
-        },
-        [
-          _c("div", { staticClass: "row p-2  " }, [
+  return _c("div", { staticClass: "bg-white" }, [
+    _c(
+      "div",
+      {
+        staticClass: "grey special-color-dark  wow animated slideInUp faster ",
+        staticStyle: { height: "3rem" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "d-flex p-2  ", staticStyle: { height: "3rem" } },
+          [
             _c("div", { staticClass: "col-4 col-md-4 align-self-center" }, [
               _c(
                 "a",
@@ -41857,122 +41900,113 @@ var render = function() {
                 staticClass:
                   "col-5 col-md-4 align-self-center text-white font-weight-bold"
               },
-              [_vm._v("Su Orden")]
+              [_vm._v("Su orden")]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-3" }, [
-              _c("span", {
-                staticClass: "badge danger-color mr-2",
-                domProps: { textContent: _vm._s(_vm.counter) }
-              }),
-              _c("i", {
-                staticClass: "fas fa-shopping-cart pr-2 text-white",
-                staticStyle: { "font-size": "1.3rem" }
-              })
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _vm.counter > 0
-        ? _c("div", { staticClass: " wow animated fadeInLeft faster" }, [
-            _c(
-              "div",
-              { staticClass: "row bg-white p-3 justify-content-between m-0" },
-              [
-                _c("div", { staticClass: "col-xs-6 align-self-center" }, [
-                  _c("small", { staticClass: "text-muted" }, [
-                    _vm._v("Envio gratis a partir de C$200")
-                  ]),
+            _vm.counter > 0
+              ? _c("div", { staticClass: "col-3 col-md-4 align-self-center" }, [
+                  _vm.amount < 200
+                    ? _c("span", {
+                        staticClass: "badge success-color mr-2 black-text",
+                        domProps: {
+                          textContent: _vm._s("Envio: C$" + _vm.shipping)
+                        }
+                      })
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("h6", { staticClass: "font-weight-bold" }, [
-                    _vm._v("Envio:  "),
-                    _vm.amount < 200
-                      ? _c(
+                  _vm.amount > 200
+                    ? _c("span", {
+                        staticClass: "badge success-color mr-2 black-text",
+                        domProps: { textContent: _vm._s("Envio: C$0.00") }
+                      })
+                    : _vm._e()
+                ])
+              : _vm._e()
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm.counter > 0
+      ? _c("div", { staticClass: " wow animated fadeInLeft faster" }, [
+          _c(
+            "div",
+            { staticClass: "row bg-white p-3 justify-content-between m-0" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm.amount < 200
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-xs-6 align-self-end",
+                      staticStyle: { "font-size": "1.5rem" }
+                    },
+                    [
+                      _c("h5", { staticClass: "font-weight-bold" }, [
+                        _vm._v("Total:  "),
+                        _c(
                           "span",
                           {
-                            staticClass: "badge badge-light p-2",
+                            staticClass: "badge badge-light total p-2",
                             staticStyle: { "font-size": "1rem" }
                           },
-                          [_vm._v("C$" + _vm._s(_vm.shipping) + " ")]
+                          [
+                            _vm._v(
+                              "C$" +
+                                _vm._s(
+                                  _vm._f("formato")(_vm.amount + _vm.shipping)
+                                ) +
+                                "  "
+                            )
+                          ]
                         )
-                      : _c(
+                      ])
+                    ]
+                  )
+                : _c(
+                    "div",
+                    {
+                      staticClass: "col-xs-8 align-self-end",
+                      staticStyle: { "font-size": "1.5rem" }
+                    },
+                    [
+                      _c("h5", { staticClass: "font-weight-bold" }, [
+                        _vm._v("Total:  "),
+                        _c(
                           "span",
                           {
-                            staticClass: "badge badge-light p-2",
+                            staticClass: "badge badge-light total p-2",
                             staticStyle: { "font-size": "1rem" }
                           },
-                          [_vm._v("C$0.00 ")]
+                          [
+                            _vm._v(
+                              "C$" +
+                                _vm._s(_vm._f("formato")(_vm.amount)) +
+                                "  "
+                            )
+                          ]
                         )
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm.amount < 200
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "col-xs-6 align-self-end",
-                        staticStyle: { "font-size": "1.5rem" }
-                      },
-                      [
-                        _c("h4", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Total:  "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "badge badge-light total p-2",
-                              staticStyle: { "font-size": "1.5rem" }
-                            },
-                            [
-                              _vm._v(
-                                "C$" +
-                                  _vm._s(
-                                    _vm._f("formato")(_vm.amount + _vm.shipping)
-                                  ) +
-                                  "  "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  : _c(
-                      "div",
-                      {
-                        staticClass: "col-xs-6 align-self-end",
-                        staticStyle: { "font-size": "1.5rem" }
-                      },
-                      [
-                        _c("h4", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Total:  "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "badge badge-light total p-2",
-                              staticStyle: { "font-size": "1.5rem" }
-                            },
-                            [
-                              _vm._v(
-                                "C$" +
-                                  _vm._s(_vm._f("formato")(_vm.amount)) +
-                                  "  "
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-              ]
-            )
-          ])
-        : _c("div", [
-            _c("h1", { staticClass: "text-center" }, [
-              _vm._v("La cesta esta vacia.")
-            ]),
-            _vm._v(" "),
-            _c("hr")
+                      ])
+                    ]
+                  )
+            ]
+          )
+        ])
+      : _c("div", [
+          _c("h1", { staticClass: "text-center" }, [
+            _vm._v("La cesta esta vacia.")
           ]),
-      _vm._v(" "),
+          _vm._v(" "),
+          _c("hr")
+        ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "mb-5",
+        staticStyle: { height: "calc(100vh - 180px)", overflow: "scroll" }
+      },
       _vm._l(_vm.articles, function(item, index) {
         return _c("cartitem", {
           key: index,
@@ -41985,136 +42019,194 @@ var render = function() {
           }
         })
       }),
-      _vm._v(" "),
-      _c("div", { staticClass: "row fixed-bottom" }, [
-        _c("div", { staticClass: "col-sm-12" }, [
-          _c(
-            "div",
-            { staticClass: "text-center" },
-            [
-              !_vm.user
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass:
-                        "btn btn-elegant waves-effect waves-light btn-confirm m-0",
-                      attrs: { to: { name: "login" } }
-                    },
-                    [_vm._v(" Inciciar sesion")]
-                  )
-                : _vm.counter > 0
-                ? _c(
-                    "a",
-                    {
-                      staticClass:
-                        "btn btn-elegant waves-effect waves-light btn-confirm m-0",
-                      attrs: {
-                        href: "",
-                        "data-toggle": "modal",
-                        "data-target": "#modalLoginForm"
-                      }
-                    },
-                    [_vm._v(" Confirmar Pedido")]
-                  )
-                : _vm._e()
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.user
-        ? _c(
-            "div",
-            {
-              staticClass: "modal fade",
-              attrs: {
-                id: "modalLoginForm",
-                tabindex: "-1",
-                role: "dialog",
-                "aria-labelledby": "myModalLabel",
-                "aria-hidden": "true"
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "modal-dialog", attrs: { role: "document" } },
-                [
-                  _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body mx-3" }, [
-                      _c("div", { staticClass: "card card-signup z-depth-1" }, [
-                        _c("div", { staticClass: "card-body text-center" }, [
-                          _c("img", {
-                            staticClass: "logo",
-                            attrs: { src: "img/LOGO1.png" }
-                          }),
-                          _vm._v(" "),
-                          _c("h3", { staticClass: "card-title my-2" }, [
-                            _vm._v("Dirección de Entrega")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "slogan" }, [
-                            _vm._v("¿Donde se entregará el pedido?")
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "md-form md-outline" }, [
-                            _c(
-                              "select",
-                              {
-                                ref: "optionSelected",
-                                staticClass: "form-control mb-2"
-                              },
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row fixed-bottom" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c(
+          "div",
+          { staticClass: "text-center" },
+          [
+            !_vm.user
+              ? _c(
+                  "router-link",
+                  {
+                    staticClass:
+                      "btn btn-elegant waves-effect waves-light btn-confirm m-0",
+                    attrs: { to: { name: "login" } }
+                  },
+                  [_vm._v(" Inciciar sesion")]
+                )
+              : _vm.counter > 0
+              ? _c(
+                  "a",
+                  {
+                    staticClass:
+                      "btn btn-elegant waves-effect waves-light btn-confirm m-0",
+                    attrs: {
+                      href: "",
+                      "data-toggle": "modal",
+                      "data-target": "#modalLoginForm"
+                    }
+                  },
+                  [_vm._v(" Confirmar Pedido")]
+                )
+              : _vm._e()
+          ],
+          1
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.user
+      ? _c(
+          "div",
+          {
+            staticClass: "modal fade",
+            attrs: {
+              id: "modalLoginForm",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "myModalLabel",
+              "aria-hidden": "true"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm.spin
+                    ? _c("div", { staticClass: "text-center" }, [
+                        _c("p", { staticClass: "font-weight-bold" }),
+                        _vm._v(" "),
+                        _vm._m(2)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.user.address
+                    ? _c("div", { staticClass: "modal-body mx-3" }, [
+                        !_vm.modal
+                          ? _c(
+                              "div",
+                              { staticClass: "card card-signup z-depth-1" },
                               [
-                                _c("label", { attrs: { for: "" } }, [
-                                  _vm._v("Selecciona una dirección")
-                                ]),
-                                _vm._v(" "),
-                                _c("option", {
-                                  domProps: {
-                                    textContent: _vm._s(_vm.user.address)
-                                  }
-                                })
+                                _c(
+                                  "div",
+                                  { staticClass: "card-body text-center" },
+                                  [
+                                    _c("img", {
+                                      staticClass: "logo",
+                                      attrs: { src: "img/LOGO1.png" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "h3",
+                                      { staticClass: "card-title my-2" },
+                                      [_vm._v("Dirección de Entrega")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "slogan" }, [
+                                      _vm._v("¿Donde se entregará el pedido?")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "md-form md-outline" },
+                                      [
+                                        _c(
+                                          "select",
+                                          {
+                                            ref: "optionSelected",
+                                            staticClass: "form-control mb-2"
+                                          },
+                                          [
+                                            _c(
+                                              "label",
+                                              { attrs: { for: "" } },
+                                              [
+                                                _vm._v(
+                                                  "Selecciona una dirección"
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm.user.address
+                                              ? _c("option", {
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      _vm.user.address
+                                                    )
+                                                  }
+                                                })
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "card-foter text-right" },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-outline-success btn-sm waves-effect waves-light",
+                                            staticStyle: { width: "140px" },
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.formdata()
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Enviar")]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "card-foter text-right" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-outline-success btn-sm waves-effect waves-light",
-                                staticStyle: { width: "140px" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.formdata()
-                                  }
-                                }
-                              },
-                              [_vm._v("Enviar")]
-                            )
-                          ])
-                        ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.modal
+                          ? _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(3),
+                              _vm._v(" "),
+                              _vm._m(4),
+                              _vm._v(" "),
+                              _vm._m(5)
+                            ])
+                          : _vm._e()
                       ])
-                    ])
-                  ])
-                ]
-              )
-            ]
-          )
-        : _vm._e()
-    ],
-    2
-  )
+                    : _vm._e()
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xs-4 align-self-center" }, [
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Envio gratis a partir de C$200")
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -42140,21 +42232,74 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("p", { staticClass: "font-weight-bold" }),
+    return _c(
+      "div",
+      { staticClass: "spinner-border text-success", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header " }, [
+      _c("p", { staticClass: "heading lead " }, [
+        _vm._v("Su pedido a sido enviado!.")
+      ]),
       _vm._v(" "),
       _c(
-        "div",
+        "button",
         {
-          staticClass: "spinner-border text-success",
-          attrs: { role: "status" }
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
         },
-        [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
-      ),
-      _vm._v(" "),
-      _c("p", { staticClass: "text-red" }, [
-        _vm._v("\r\n          Todos los campos son requeridos!.\r\n    \r\n  ")
+        [
+          _c(
+            "span",
+            { staticClass: "white-text", attrs: { "aria-hidden": "true" } },
+            [_vm._v("×")]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c("i", { staticClass: "fas fa-check fa-4x mb-3 animated rotateIn" }),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\r\n                    Le atenderemos en menos que canta un gallo!.\r\n                  "
+          )
+        ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer justify-content-center" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-success waves-effect waves-light close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_vm._v("Entendido ")]
+      )
     ])
   }
 ]

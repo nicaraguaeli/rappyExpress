@@ -1,5 +1,5 @@
 <template>
-    <div class="container p-0" >
+    <div class="container p-0">
  
      <!-- Classic tabs -->
 <div class="classic-tabs  bg-white wow animated faster" v-show="tabs" v-bind:class="[tabs ? 'slideInDown' : 'fadeOut']">

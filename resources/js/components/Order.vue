@@ -1,24 +1,25 @@
 <template>
-<div style="height: calc(100vh - 80px )" class="bg-white">
+<div  class="bg-white">
    <div class="grey special-color-dark  wow animated slideInUp faster " style="height: 3rem;" >
-           
-           <div class="row p-2  ">
+             <div class="d-flex p-2  "  style="height: 3rem;" >
              <div class="col-4 col-md-4 align-self-center" ><a data-toggle="tab" role="tab" href="#product_list" v-on:click="back()"><i class="fas fa-chevron-left mr-2 text-white"></i><span class="text-white ml-1">atras</span></a></div>
-             <div class="col-5 col-md-4 align-self-center text-white font-weight-bold">Su Orden</div>
-             <div class="col-3"><span class="badge danger-color mr-2" v-text="counter"></span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 text-white"></i></div>
+             <div class="col-5 col-md-4 align-self-center text-white font-weight-bold">Su orden</div>
+             <div v-if="counter > 0" class="col-3 col-md-4 align-self-center"><span v-if="amount < 200" class="badge success-color mr-2 black-text" v-text="'Envio: C$'+shipping"></span>
+             <span v-if="amount > 200" class="badge success-color mr-2 black-text" v-text="'Envio: C$0.00'"></span>
+             </div>
            
            </div>
+          
            </div>
 
         <div class=" wow animated fadeInLeft faster" v-if="counter > 0" >
     <div  class="row bg-white p-3 justify-content-between m-0">
-          <div class="col-xs-6 align-self-center">
+          <div class="col-xs-4 align-self-center">
             <small class="text-muted">Envio gratis a partir de C$200</small>
-            <h6 class="font-weight-bold" >Envio:  <span class="badge badge-light p-2" style="font-size: 1rem;"  v-if="amount < 200">C${{shipping}} </span>
-            <span class="badge badge-light p-2" style="font-size: 1rem;"  v-else>C$0.00 </span></h6>
+           
             </div>
-          <div v-if="amount < 200" class="col-xs-6 align-self-end"  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;"   >C${{amount + shipping  | formato}}  </span></h4></div>
-           <div v-else class="col-xs-6 align-self-end"  style="font-size: 1.5rem;"> <h4 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1.5rem;"  >C${{amount | formato}}  </span></h4></div>
+          <div v-if="amount < 200" class="col-xs-6 align-self-end"  style="font-size: 1.5rem;"> <h5 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1rem;"   >C${{amount + shipping  | formato}}  </span></h5></div>
+           <div v-else class="col-xs-8 align-self-end"  style="font-size: 1.5rem;"> <h5 class="font-weight-bold" >Total:  <span class="badge badge-light total p-2" style="font-size: 1rem;"  >C${{amount | formato}}  </span></h5></div>
     </div>
         </div>
         
@@ -27,8 +28,11 @@
           <hr>
         </div>
 
-  
-             <cartitem v-for="(item, index) in articles" :key="index" :article="item" @delete="deleteRow(index,item)" @update="update" ></cartitem>
+                  <div style="height: calc(100vh - 180px); overflow: scroll; " class="mb-5">
+                   <cartitem v-for="(item, index) in articles" :key="index" :article="item" @delete="deleteRow(index,item)" @update="update" ></cartitem>
+                  </div>
+             
+          
              
    <div class="row fixed-bottom">
    <div class="col-sm-12">
@@ -52,21 +56,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="text-center">
+      <div class="text-center" v-if="spin">
           <p class="font-weight-bold"></p>
          <div class="spinner-border text-success" role="status" >
   <span class="sr-only">Loading...</span>
 </div>
         
-        <p class="text-red">
-          Todos los campos son requeridos!.
-    
-  </p>
 
       </div>
        
-      <div class="modal-body mx-3" >
-        <div class="card card-signup z-depth-1">
+      <div class="modal-body mx-3" v-if="user.address">
+        <div class="card card-signup z-depth-1" v-if="!modal">
 
             <div class="card-body text-center">
 
@@ -79,7 +79,8 @@
                
                 <select ref="optionSelected" class="form-control mb-2" >
                 <label class="" for="">Selecciona una dirección</label>
-          <option v-text="user.address" ></option>
+                <option v-text="user.address" v-if="user.address" ></option>
+               
     </select>
     
               </div>
@@ -92,7 +93,34 @@
 
           </div>
         
+   <!-- Content -->
+            <div class="modal-content" v-if="modal">
+              <!-- Header -->
+              <div class="modal-header ">
+                <p class="heading lead " >Su pedido a sido enviado!.</p>
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" class="white-text">×</span>
+                </button>
+              </div>
+
+              <!-- Body -->
+              <div class="modal-body">
+                <div class="text-center">
+                  <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                  <p >
+                    Le atenderemos en menos que canta un gallo!.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-success waves-effect waves-light close"  data-dismiss="modal" aria-label="Close">Entendido </a>
+              
+              </div>
+            </div>
+            <!-- Content -->
         
 
         
@@ -120,7 +148,7 @@ export default {
     mounted(){
         
        
-       this.$props.articles.forEach(element => {
+       this.articles.forEach(element => {
            
          this.amount += element.cantidad * element.precio;
 
@@ -138,7 +166,10 @@ export default {
         
           quantity: 1,
           amount: 0,
-          shipping: 30
+          shipping: 30,
+          request: {address: "" ,article: this.articles},
+          spin: false,
+          modal: false,
 
         }
     },
@@ -147,7 +178,9 @@ export default {
     {
         articles: {},
         counter: 0,
-        user: {}
+        user: undefined,
+        
+        
        
         
     },
@@ -163,16 +196,20 @@ methods:
 {
   deleteRow(index,item)
   {
-    
-    this.$props.articles.forEach(element => {
-           
-         this.amount  -= parseInt(element.cantidad) * parseInt(element.precio)
-         this.$parent.counter -= parseInt(element.cantidad)
+        
+        
+         this.amount = 0;
+         this.$parent.counter = 0;
          this.articles.splice(index,1)
 
+         this.articles.forEach(element => {
+           
+         this.amount += parseInt(element.cantidad) * parseInt(element.precio)
+         this.$parent.counter += parseInt(element.cantidad)
+        
     });
     
-   
+     
   },
   update(index, cantidad)
       { 
@@ -198,21 +235,29 @@ methods:
       formdata()
       {  
         
-  
+            this.spin = true
+            this.request.address = this.$refs.optionSelected.value
             
             
-            setTimeout(() => axios
-            .post('./order',this.$props.articles)
-            .then((response) => (console.log(response.data)))
-            .catch(error => (this.received= "No a sido posible realizar el pedido!.")), 4000)
-            
-           
-      
+             setTimeout(() => axios
+            .post('./order',this.request)
+            .then((response) => (console.log(response.data),this.reset()))
+            .catch(error => (toastr.error("No a sido posible realizar el pedido!."))), 4000)
 
            //setTimeout(() => {$("#modalLoginForm").modal('hide');} ,8000);
-
-      
          
+      },
+      reset()
+      {
+        this.spin = false
+        this.$parent.articles.splice(0)
+        this.$parent.counter = 0
+        this.amount = 0
+        this.modal = true
+        setTimeout(() => {
+          $("#modalLoginForm").modal('hide');
+          this.$router.push('/')
+          } ,5000);
       },
 
 back()
