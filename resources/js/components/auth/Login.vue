@@ -83,11 +83,11 @@ export default {
 
             if(this.$refs.email && this.$refs.password)
             {
-            axios.get('./sanctum/csrf-cookie').then(response => {
+            
             // Login...
             axios.post('./login',formdata).then(response=>(this.validator(response.status))).catch(error=> (toastr.error('Ups! No hemos podido procesar tu solicitud asegurate que las credenciales sean las correctas.')))
  
-            });
+            
             }
             else
             {
