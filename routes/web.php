@@ -43,7 +43,11 @@ Route::get('test', function () {
 
 Route::get('/admin',function()
 {
-    return view('admin.index')->with('mensaje','holaa');
+    //return view('admin.index')->with('mensaje','holaa');
+
+    $user = User::all()->select('created_at')->first();
+
+    return $user;
 });
 
 Route::get('/prueba', function () {

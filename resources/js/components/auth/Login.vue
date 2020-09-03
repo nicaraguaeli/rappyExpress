@@ -95,6 +95,7 @@ export default {
            
             formdata.append('email',this.$refs.email.value)
             formdata.append('password',this.$refs.password.value)
+            
 
             if(this.$refs.email.value  && this.$refs.password.value )
             {

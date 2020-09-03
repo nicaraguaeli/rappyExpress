@@ -108,7 +108,7 @@ const router = new VueRouter({
     
 });
 
-console.log(Vue.prototype.$user = document.querySelector("meta[name='csrf-token']").getAttribute('content'));
+axios.defaults.baseURL = 'http://www.rappyexpress.com/';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

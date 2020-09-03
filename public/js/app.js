@@ -60472,7 +60472,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes // short for routes: routes
 
 });
-console.log(Vue.prototype.$user = document.querySelector("meta[name='csrf-token']").getAttribute('content'));
+axios.defaults.baseURL = 'http://www.rappyexpress.com/';
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
