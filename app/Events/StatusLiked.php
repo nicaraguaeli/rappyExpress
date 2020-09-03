@@ -21,7 +21,8 @@ class StatusLiked implements ShouldBroadcast
   }
 
   public function broadcastOn()
-  {
+  {   
+      
       return ['my-channel'];
   }
 

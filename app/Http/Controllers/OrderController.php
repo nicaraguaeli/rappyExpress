@@ -15,15 +15,12 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+   
 
     public function index()
     {
         //
-        $orders = Order::where('enviado',0)->get();
+        $orders = Order::where('estado','0')->get();
 
         return response()->json($orders);
     }
@@ -75,11 +72,11 @@ class OrderController extends Controller
  
 
             DB::commit();
-           /* event(new StatusLiked('Tienes una nueva orden'));
+           event(new StatusLiked('Tienes una nueva orden'));
             return "Gracias! Su pedido a sido enviado en breve le llamaremos.";
-           */
+           
 
-          return "ok";
+                                                                                                                                          
 
         } catch (\PDOException $e) {
             // Woopsy

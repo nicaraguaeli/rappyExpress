@@ -4,7 +4,7 @@
      <div>
          <div  class="card wow slideInLeft animated faster" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; height: calc(100vh - 80px" >
                 <div class="card-body">
-
+                  
                   <!--Header-->
                   <div class=" text-center mt-3">
                     <h3 class="text-gray"><i class="fas fa-user mt-2 mb-2" style="font-size: 3rem; color: #00c853; "></i> Inicia session:</h3>
@@ -26,13 +26,13 @@
                 <label for="form7" data-error="falta" data-success="bien" class="">Contraseña</label>
               </div>
 
-                  <div class="text-center">
-                    <button  class="btn dusty-grass-gradient btn-lg waves-effect waves-light">Entrar</button>
+                  <div class="text-center btn-login">
+                    <button  class=" btn dusty-grass-gradient btn-lg waves-effect waves-light">Entrar</button>
                     <hr>
                
                   </div>
                    <div class="text-center">
-                    <router-link :to="{name: 'register'}"  class="  waves-effect waves-light">No tienes una cuenta?</router-link>
+                    <router-link :to="{name: 'register' }"  class="  waves-effect waves-light">No tienes una cuenta?</router-link>
                     <hr>
                
                   </div>
@@ -55,17 +55,21 @@
 export default {
   mounted()
   {
-   if(this.$props.user)
-   {
-     this.$router.push('perfil') 
-   }
+     if(this.$props.user.id)
+     {
+       this.$router.push('perfil')
+     }
+
   },
   data()
   {
       return{
         modalstate: false,
+        
       }
   },
+  
+
    props:
     {
       user: {},
@@ -81,17 +85,19 @@ export default {
             formdata.append('email',this.$refs.email.value)
             formdata.append('password',this.$refs.password.value)
 
-            if(this.$refs.email && this.$refs.password)
+            if(this.$refs.email.value  && this.$refs.password.value )
             {
-            
+
+            axios.get('sanctum/csrf-cookie').then(response => {
             // Login...
-            axios.post('./login',formdata).then(response=>(this.validator(response.status))).catch(error=> (toastr.error('Ups! No hemos podido procesar tu solicitud asegurate que las credenciales sean las correctas.')))
- 
+            axios.post('login',formdata).then(response=>(this.validator(response.status))).catch(error=> (toastr.error('Ups! No hemos podido procesar tu solicitud asegurate que las credenciales sean las correctas.')))
             
+            });
+
             }
             else
             {
-                toastr.info("Ambos campos son obligatorios")
+                 $('.btn-login').addTempClass( 'wow animated shake', 1000 );
             }
           
           
@@ -104,7 +110,7 @@ export default {
              if(valor == 204)
             {
                 
-                axios.get('./user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
+                axios.get('/user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
                 
                 this.modalstate = true
             }

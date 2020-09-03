@@ -5,6 +5,7 @@ use App\Group;
 use App\Category;
 use App\Product;
 use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,10 +60,13 @@ Route::get('/prueba', function () {
 
 
 
-Route::get('/prueba/{id}', function ($id) {
+Route::get('/items/{id}', function ($id) {
     
     
-    $producto = Product::where('category_id',$id)->get();
+    $producto = Product::where('category_id',$id)
+    ->join('categories','category_id','=','categories.id')
+    ->select('products.id','products.presentacion','products.nombre','products.precio','products.imagen','products.cantidad','categories.nombre as c_nombre')
+    ->get();
     
     
     

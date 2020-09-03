@@ -3,42 +3,54 @@
           
           <!--PERFIL-->
           <div>
+             <div class="grey special-color-dark  wow animated slideInUp faster " style="height: 3rem;" >
+             <div class="d-flex p-2  "  style="height: 3rem;" >
+             <div class="col-4 col-md-4 align-self-center" ><a data-toggle="tab" role="tab" href="#product_list" v-on:click="back()"><i class="fas fa-arrow-left text-white"></i><span class="text-white ml-1">Atras</span></a></div>
+             <div class="col-5 col-md-4 align-self-center text-white font-weight-bold">Perfil</div>
+             <div  class="col-3 col-md-4 align-self-center">
+            
+             </div>
+           
+           </div>
+          
+           </div>
+           <div v-if="modalstate" class=" bg-warning font-weight-bold text-center "><p class="  mt-1 p-3 wow animated shake">¡AGREGA UNA DIRECCIÓN!</p></div>
               <div class="card wow animated fadeIn faster" style="height: calc(100vh - 80px); overflow: scroll;">
                   <div class="card-header text-center">
-                      Información sobre mi perfil
+                     Datos Generales
                   </div>
                 <div class="card-body">
 
                     <!-- name -->
             <div class="md-form">
-                <input type="text" :readonly="edit" id="" class="form-control" v-model="user.name">
+                <input type="text" :readonly="edit" id="" class="form-control" v-model="userAuth.name">
                 <label class="active">Nombre</label>
             </div>
          <!--end-name-->
 
          <!-- name -->
             <div class="md-form">
-                <input type="email" :readonly="edit"  class="form-control validate" v-model="user.email">
+                <input type="email" :readonly="edit"  class="form-control validate" v-model="userAuth.email">
                 <label class="active">E-mail</label>
             </div>
          <!--end-name-->
 
           <!-- numero -->
             <div class="md-form">
-                <input type="number" maxlength="8" :readonly="edit"  v-model.number="user.number" class="form-control"  >
+                <input type="number" maxlength="8" :readonly="edit"  v-model.number="userAuth.number" class="form-control"  >
                 <label class="active">Número</label>
             </div>
          <!--end-numero-->
           <!-- direccion -->
             <div class="md-form">
-                <input type="text"  :readonly="edit"  v-model="user.address" class="form-control" >
+                <input type="text"  :readonly="edit"  v-model="userAuth.address" class="form-control" >
                 <label class="active">Dirección</label>
             </div>
          <!--end-direccion-->
 
            <!-- direccion -->
             <div class="md-form">
-                <input type="text"  :readonly="edit"  v-model="user.address_alt" class="form-control" >
+                <input type="text"  :readonly="edit"  v-model="userAuth.address_alt" class="form-control" >
                 <label class="active">Dirección 2 (OPCIONAL)</label>
             </div>
          <!--end-direccion-->
@@ -69,40 +81,52 @@
             
 
               </div>
-               <successModal :title="'Hola!'" :text="'Agrega una o dos direcciones frecuentes. donde se entregaran los pedidos.'" :modalstate="modalstate"></successModal>
+              
           </div>
         
           <!--END-->
 
 </template>
 <script>
-import successModal from "../css/SuccessModal"
+
 export default {
    mounted()
    {
-     if(!this.user.address)
+     if(this.$props.user.id)
+     {   
+         this.userAuth = this.$props.user
+
+         if(!this.userAuth.address)
+         {
+            this.modalstate = true
+           
+         }
+         
+     }
+     else
      {
-         this.modalstate = true
+       this.$router.push('login')
      }
     
-     axios.get('./user').then(response=> (this.user = response.data)).catch(error => (console.log(error)))
+    
    },
     data()
     {
       return{
-          user: {},
+          userAuth: {},
           edit: true,
           modalstate: false,
           
          
 
-    }   
-
+    }
+  
     },
-     components:
+    props:
     {
-        successModal,
+      user: {}
     },
+    
     methods:
      {
      
@@ -123,14 +147,14 @@ export default {
             
             let formdata = new FormData();
            
-            formdata.append('email',this.user.email)
-            formdata.append('name',this.user.name)
-            formdata.append('number',this.user.number)
-            formdata.append('address',this.user.address)
-            formdata.append('address_alt',this.user.address_alt)
+            formdata.append('email',this.userAuth.email)
+            formdata.append('name',this.userAuth.name)
+            formdata.append('number',this.userAuth.number)
+            formdata.append('address',this.userAuth.address)
+            formdata.append('address_alt',this.userAuth.address_alt)
             formdata.append('_method','PUT')
 
-            axios.post('./user/'+this.user.id,formdata).then(response => (this.errors(response.data))).catch(error => (toastr.warning(error)))
+            axios.post('./user/'+this.userAuth.id,formdata).then(response => (this.errors(response.data))).catch(error => (toastr.warning(error)))
 
             }
             else
@@ -152,13 +176,13 @@ export default {
             else
             {
               toastr.success(response)
-              this.$emit('userUpdate');
+              this.$emit('userAuthUpdate');
               this.edit = true
             }
         },
         validation()
         {
-          if(String(this.user.number).length == 8 && this.user.name && this.user.email)
+          if(String(this.userAuth.number).length == 8 && this.userAuth.name && this.userAuth.email)
           {
               return true
           }
@@ -167,7 +191,11 @@ export default {
             return false
           }
             
-        }
+        },
+        back()
+{
+  this.$router.back()
+}
        
      }
     

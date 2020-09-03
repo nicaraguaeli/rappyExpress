@@ -2,7 +2,7 @@
 <div  class="bg-white">
    <div class="grey special-color-dark  wow animated slideInUp faster " style="height: 3rem;" >
              <div class="d-flex p-2  "  style="height: 3rem;" >
-             <div class="col-4 col-md-4 align-self-center" ><a data-toggle="tab" role="tab" href="#product_list" v-on:click="back()"><i class="fas fa-chevron-left mr-2 text-white"></i><span class="text-white ml-1">atras</span></a></div>
+             <div class="col-4 col-md-4 align-self-center" ><a data-toggle="tab" role="tab" href="#product_list" v-on:click="back()"><i class="fas fa-arrow-left text-white"></i><span class="text-white ml-1">Atras</span></a></div>
              <div class="col-5 col-md-4 align-self-center text-white font-weight-bold">Su orden</div>
              <div v-if="counter > 0" class="col-3 col-md-4 align-self-center"><span v-if="amount < 200" class="badge success-color mr-2 black-text" v-text="'Envio: C$'+shipping"></span>
              <span v-if="amount > 200" class="badge success-color mr-2 black-text" v-text="'Envio: C$0.00'"></span>
@@ -37,15 +37,17 @@
    <div class="row fixed-bottom">
    <div class="col-sm-12">
      <div class="text-center">
-  <router-link v-if="!user" :to="{name: 'login'}" class="btn btn-elegant waves-effect waves-light btn-confirm m-0"   > Inciciar sesion</router-link>
+  <router-link v-if="!user.id" :to="{name: 'login'}" class="btn btn-elegant waves-effect waves-light btn-confirm m-0"   > Iniciar sesion</router-link>
+  
   <a  href="" class="btn btn-elegant waves-effect waves-light btn-confirm m-0" data-toggle="modal" data-target="#modalLoginForm" v-else-if="counter>0 " > Confirmar Pedido</a>
+  
   
   
 </div>
    </div>
    </div>
    <!--modal-->
-    <div v-if="user" class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -65,7 +67,7 @@
 
       </div>
        
-      <div class="modal-body mx-3" v-if="user.address">
+      <div class="modal-body mx-3" >
         <div class="card card-signup z-depth-1" v-if="!modal">
 
             <div class="card-body text-center">
@@ -79,7 +81,8 @@
                
                 <select ref="optionSelected" class="form-control mb-2" >
                 <label class="" for="">Selecciona una dirección</label>
-                <option v-text="user.address" v-if="user.address" ></option>
+                <option v-text="user.address" v-if="user.address != null" ></option>
+                
                
     </select>
     
@@ -136,6 +139,8 @@
 </div>
 
 
+
+
     <!--FinModal-->
    
 </div>
@@ -170,6 +175,7 @@ export default {
           request: {address: "" ,article: this.articles},
           spin: false,
           modal: false,
+          
 
         }
     },
@@ -178,7 +184,7 @@ export default {
     {
         articles: {},
         counter: 0,
-        user: undefined,
+        user: {},
         
         
        
@@ -240,7 +246,7 @@ methods:
             
             
              setTimeout(() => axios
-            .post('./order',this.request)
+            .post('/order',this.request)
             .then((response) => (console.log(response.data),this.reset()))
             .catch(error => (toastr.error("No a sido posible realizar el pedido!."))), 4000)
 

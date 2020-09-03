@@ -2,9 +2,9 @@
    <div >
      <div class="grey special-color-dark  animated wow slideInUp faster" style="height: 3rem;" >
            <div class="d-flex p-2">
-             <div class="col-3 col-md-4 align-self-center" ><router-link :to="{name: 'home'}" ><i class="fas fa-chevron-left mr-2 text-white"></i><span class="text-white ml-1">atras</span></router-link>
+             <div class="col-3 col-md-4 align-self-center" ><router-link :to="{name: 'home'}" ><i class="fas fa-arrow-left text-white" ></i><span class="text-white ml-1">Atras</span></router-link>
              </div>
-             <div class="col-4 col-md-4 align-self-center text-white font-weight-bold" >Pend        
+             <div  class="col-4 col-md-4 align-self-center text-white font-weight-bold" >{{productos[0].c_nombre}}     
              </div>
             <div class="col-5 col-md-4"><!-- Search form -->
 <form class="form-inline d-flex justify-content-center   mt-0" >
@@ -147,12 +147,8 @@ export default {
       
       counter: 1,
       state: true,
-      productos: Array,
-    
-     
-      
-      
-      
+      productos: {},
+   
     }
   },
   
@@ -184,7 +180,7 @@ mounted ()
  
   
   axios
-      .get('./prueba/'+this.$route.params.id)
+      .get('./items/'+this.$route.params.id)
       .then(response => (this.productos =  response.data, this.state = false) )
      
 }

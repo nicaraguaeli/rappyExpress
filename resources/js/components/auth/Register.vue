@@ -93,15 +93,20 @@ export default {
             formdata.append('number',this.data.number)
             
 
+            axios.get('sanctum/csrf-cookie').then(response => {
+            
+             // Register...
+            axios.post('register',formdata).then(response=>(this.validator(response.status))).catch(error => (toastr.error('Ups! No hemos podido procesar tu solicitud!')))
+ 
+            });
             
             
-            
-            // Login...
-            axios.post('./register',formdata).then(response=>(this.validator(response.status))).catch(error => (toastr.error('Ups! No hemos podido procesar tu solicitud!')))
+           
                       
-
+            
                          
           
+        
         },
        
         validator(value)
@@ -110,7 +115,7 @@ export default {
             if(valor == 201)
             {
                 
-                axios.get('./user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
+                axios.get('/user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
             }
              if(valor == 204)
             {

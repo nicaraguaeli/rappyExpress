@@ -7,7 +7,7 @@
  <!--LOGO-->
 <div class="container">
 <div class="row  justify-content-between">
-<div class="col-md-4 align-self-center "><p class="h6 ml-3 green-text mt-2">RAPPY EXPRESS</p></div>
+<div class="col-md-4 align-self-center "><p class="h6 ml-3 green-text mt-2">RAPPY EXPRESS </p></div>
 
 </div>
 </div>
@@ -25,7 +25,7 @@
       aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.3rem;" class="fas fa-star  mr-2 nav-item-color"></i></a>
   </li>
    <li  class="nav-item cart-item" id="cart">
-    <router-link   :to="{name: 'order'}" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50"  aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 nav-item-color"></i></router-link>
+    <router-link   :to="{name: 'order'}" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50"  data-toggle="tab" role="tab" aria-selected="false"><span class="badge danger-color mr-2">{{counter}}</span><i style="font-size: 1.3rem;"  class="fas fa-shopping-cart pr-2 nav-item-color"></i></router-link>
    
   </li>
  
@@ -52,7 +52,7 @@
 
 
 
-<router-view :counter="counter" :articles="articles" :user="user" @cartItem="addItem" ></router-view>
+<router-view :counter="counter" :articles="articles" :user="userAuth" @cartItem="addItem" ></router-view>
 
 
    
@@ -77,7 +77,27 @@ audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86e
 
 
 export default {
-    
+    mounted()
+    {
+      if(this.$props.user)
+      {
+        this.userAuth = this.$props.user
+      }
+      
+     
+    if (localStorage.counter) {
+      this.counter = localStorage.counter;
+    }
+
+    if (localStorage.getItem('items')) {
+      try {
+        this.articles = JSON.parse(localStorage.getItem('items'));
+      } catch(e) {
+        localStorage.removeItem('items');
+      }
+    }
+      
+    },
   
     data () {
     return {
@@ -91,12 +111,16 @@ export default {
       tabs: true,    
       errors: false,
       isActive: false,
+      userAuth: {id:"",name:"",email:"",number:"",address:"",address_alt:""},
+      name: ""
+      
     
     }
   },
   props:
   {
-    user: null,
+    user: {},
+    
   },
 
   methods:
@@ -113,39 +137,30 @@ export default {
            audioElement.play()
            
        }
-     
-
   
-
-         
-        
-        //Comprobando el costo de envio 
-        //this.sendState();
-        
-        
-       
-          
         $('#cart').addTempClass( 'wow animated bounceIn', 1000 );
            
       },
      
 
       
-      
-      
-     
-      
       username(item)
       {
-        this.user = item
-      }
-      
-     
-     
-
-      
-
+        this.userAuth = item
+      },
+       
   },
+ watch: {
+    
+    counter(items) {
+      localStorage.counter = items;
+    },
+    articles()
+    {
+      const parsed = JSON.stringify(this.articles);
+      localStorage.setItem('items', parsed);
+    }
+  }
   
  
       

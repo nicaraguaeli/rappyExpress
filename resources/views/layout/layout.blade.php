@@ -34,7 +34,7 @@
 <div id="app">
       
 
-      <navbar :user="{{ Auth::user() }}"></navbar>
+      <navbar :user="{{ Auth::user() }}" ></navbar>
       
 </div>
 

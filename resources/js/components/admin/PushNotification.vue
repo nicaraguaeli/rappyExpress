@@ -37,7 +37,7 @@ export default {
     var channel = pusher.subscribe('my-channel')
 
     
-    channel.bind('my-event', (response => (this.orders = [],  this.fill() ) ))
+    channel.bind('my-event', (response => (console.log(response.data) )))
      
     
      
