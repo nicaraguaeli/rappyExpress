@@ -108,6 +108,7 @@ const router = new VueRouter({
     
 });
 
+console.log(Vue.prototype.$user = document.querySelector("meta[name='csrf-token']").getAttribute('content'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -119,7 +120,7 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
-    
+    data: {name: "eli"}
     
     
     

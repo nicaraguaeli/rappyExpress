@@ -4221,6 +4221,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     if (this.$props.user.id) {
@@ -4244,9 +4255,9 @@ __webpack_require__.r(__webpack_exports__);
       formdata.append('password', this.$refs.password.value);
 
       if (this.$refs.email.value && this.$refs.password.value) {
-        axios.get('sanctum/csrf-cookie').then(function (response) {
+        axios.get('/sanctum/csrf-cookie').then(function (response) {
           // Login...
-          axios.post('login', formdata).then(function (response) {
+          axios.post('/login', formdata).then(function (response) {
             return _this.validator(response.status);
           })["catch"](function (error) {
             return toastr.error('Ups! No hemos podido procesar tu solicitud asegurate que las credenciales sean las correctas.');
@@ -4272,6 +4283,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     emitir: function emitir() {
       this.$router.push('perfil'); //this.$emit('username',this.$refs.user)
+    },
+    back: function back() {
+      this.$router.back();
     }
   }
 });
@@ -4384,8 +4398,7 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.userAuth.address) {
         this.modalstate = true;
       }
-    } else {
-      this.$router.push('login');
+    } else {//this.$router.push('login')
     }
   },
   data: function data() {
@@ -4543,9 +4556,9 @@ __webpack_require__.r(__webpack_exports__);
       formdata.append('password', this.data.password);
       formdata.append('password_confirmation', this.data.password_confirmation);
       formdata.append('number', this.data.number);
-      axios.get('sanctum/csrf-cookie').then(function (response) {
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
         // Register...
-        axios.post('register', formdata).then(function (response) {
+        axios.post('/register', formdata).then(function (response) {
           return _this.validator(response.status);
         })["catch"](function (error) {
           return toastr.error('Ups! No hemos podido procesar tu solicitud!');
@@ -44455,6 +44468,56 @@ var render = function() {
     _c(
       "div",
       {
+        staticClass: "grey special-color-dark  wow animated slideInUp faster ",
+        staticStyle: { height: "3rem" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "d-flex p-2  ", staticStyle: { height: "3rem" } },
+          [
+            _c("div", { staticClass: "col-4 col-md-4 align-self-center" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    "data-toggle": "tab",
+                    role: "tab",
+                    href: "#product_list"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.back()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fas fa-arrow-left text-white" }),
+                  _c("span", { staticClass: "text-white ml-1" }, [
+                    _vm._v("Atras")
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "col-5 col-md-4 align-self-center text-white font-weight-bold"
+              },
+              [_vm._v("Login")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-3 col-md-4 align-self-center" })
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
         staticClass: "card wow slideInLeft animated faster",
         staticStyle: {
           visibility: "visible",
@@ -60409,6 +60472,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes // short for routes: routes
 
 });
+console.log(Vue.prototype.$user = document.querySelector("meta[name='csrf-token']").getAttribute('content'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -60417,7 +60481,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  data: {
+    name: "eli"
+  }
 });
 var admin = new Vue({
   el: '#admin',
