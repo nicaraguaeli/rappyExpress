@@ -21,7 +21,7 @@
     <router-link :to="{name: 'home'}" class="nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50"  aria-selected="true" data-toggle="tab" role="tab"  ><i style="font-size: 1.3rem;" class="fas fa-home pr-2 nav-item-color"></i></router-link>
   </li>
   <li class="nav-item">
-    <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="follow-tab-classic " data-toggle="tab" href="#follow-classic" role="tab"
+    <a class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="follow-tab-classic " data-toggle="tab"  role="tab"
       aria-controls="follow-classic" aria-selected="false"><i style="font-size: 1.3rem;" class="fas fa-star  mr-2 nav-item-color"></i></a>
   </li>
    <li  class="nav-item cart-item" id="cart">
@@ -34,7 +34,7 @@
       aria-controls="user-classic" aria-selected="false"><i class="fas fa-user mr-2 nav-item-color" style="font-size: 1.3rem;"></i></router-link>
   </li>
   <li class="nav-item" >
-    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab" href="#contact-classic" role="tab"
+    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab"  role="tab"
       aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 nav-item-color" style="font-size: 1.3rem;"></i></a>
   </li>
   

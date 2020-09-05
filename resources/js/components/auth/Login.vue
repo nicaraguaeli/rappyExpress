@@ -18,7 +18,7 @@
                   
                   <!--Header-->
                   <div class=" text-center mt-3">
-                    <h3 class="text-gray"><i class="fas fa-user mt-2 mb-2" style="font-size: 3rem; color: #00c853; "></i> Inicia session:</h3>
+                    <h3 class="text-gray"><i class="fas fa-user mt-2 mb-2" style="font-size: 3rem; color: #00c853; "></i> Inicia session: </h3>
                    
                   </div>
 
@@ -64,14 +64,7 @@
 
 
 export default {
-  mounted()
-  {
-     if(this.$props.user.id)
-     {
-       this.$router.push('perfil')
-     }
-
-  },
+  
   data()
   {
       return{
@@ -79,6 +72,13 @@ export default {
         
       }
   },
+computed: {
+        getAuth()
+        {
+          return this.$store.getters.getAuth
+        },
+      },
+  
   
 
    props:
@@ -91,6 +91,7 @@ export default {
     {
         login: function()
         {
+            
             let formdata = new FormData();
            
             formdata.append('email',this.$refs.email.value)
@@ -100,11 +101,11 @@ export default {
             if(this.$refs.email.value  && this.$refs.password.value )
             {
 
-            axios.get('/sanctum/csrf-cookie').then(response => {
-            // Login...
-            axios.post('/login',formdata).then(response=>(this.validator(response.status))).catch(error=> (toastr.error('Ups! No hemos podido procesar tu solicitud asegurate que las credenciales sean las correctas.')))
-            
-            });
+                this.$store.dispatch("login", formdata)
+                 if(this.getAuth)
+                 {
+                   this.$router.push('perfil')
+                 }
 
             }
             else

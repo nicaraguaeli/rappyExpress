@@ -8,13 +8,28 @@ require('./bootstrap');
 
 //import {Ziggy} from '../assets/js/ziggy';
 import { template } from 'lodash';
-window.Vue = require('vue');
-
-
-
+import storeData from './storeData';
 
 
 import VueRouter from 'vue-router';
+import VueX from "vuex";
+import Axios from 'axios';
+
+window.Vue = require('vue');
+
+Vue.use(VueX);
+
+
+
+const store = new VueX.Store(storeData);
+store.dispatch("getUser");
+
+
+
+
+
+
+
 
 
 
@@ -59,7 +74,6 @@ Vue.component('push-notification', require('./components/admin/PushNotification.
 
 
 
-
 //Admin Component
 
 const routes = [
@@ -68,9 +82,47 @@ const routes = [
     { path: '/grupos', name:'grupos', component: Vue.component('grupos', require('./components/admin/Grupos.vue').default)   },
     { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
     { path: '/listaproductos', name:'listaproductos', component: Vue.component('getProduct', require('./components/admin/getProduct.vue').default)   },
-    { path: '/register', name:'register',  component: Vue.component('register', require('./components/auth/Register.vue').default )  },
-    { path: '/login', name:'login',  component: Vue.component('login', require('./components/auth/Login.vue').default )  },
-    { path: '/perfil', name:'perfil',  component: Vue.component('perfil', require('./components/auth/Perfil.vue').default )  },
+    { path: '/register', 
+    name:'register',beforeEnter: (to, from, next) => {
+        // ...
+        axios.get("api/user").then(response => {
+        if(response.data)
+        {
+            next({name: 'perfil'})
+           
+        }
+    })
+    .catch(error => {if(error){next()}})
+      },   
+      
+    component: Vue.component('register', require('./components/auth/Register.vue').default )  },
+    { path: '/login', 
+    name:'login', beforeEnter: (to, from, next) => {
+        // ...
+        axios.get("api/user").then(response => {
+        if(response.data)
+        {
+            next({name: 'perfil'})
+           
+        }
+    })
+    .catch(error => {if(error){next()}})
+      },     
+      component: Vue.component('login', require('./components/auth/Login.vue').default )  },
+  
+      { path: '/perfil',  
+    name:'perfil', beforeEnter: (to, from, next) => {
+        // ...
+        axios.get("api/user").then(response => {
+        if(response.data)
+        {
+            next()
+           
+        }
+    })
+    .catch(error => {if(error){next({name: 'home'})}})
+      },  
+    component: Vue.component('perfil', require('./components/auth/Perfil.vue').default )  },
 
     
     { path: '/', name:'home',  component: Vue.component('home', require('./components/Home.vue').default )  },
@@ -82,13 +134,28 @@ const routes = [
 ];
 
 
+
+
 const router = new VueRouter({
     routes,
+   
    
      
     // short for routes: routes
     
 });
+// GOOD
+router.beforeEach((to, from, next) => {
+    
+    if(to.matched.some(record => record.meta.auth))
+    {
+
+    }else
+    {
+        next();
+    }
+     
+  })
 
 
 
@@ -102,7 +169,8 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
-    data: {name: "eli"}
+    store,
+   
     
     
     

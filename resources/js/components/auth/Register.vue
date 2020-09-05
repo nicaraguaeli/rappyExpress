@@ -54,14 +54,7 @@
 </template>
 <script>
 export default {
-    mounted()
-    {
-      if(this.$props.user)
-      {
-        this.$router.push('perfil')
-      }
-
-    },
+    
     data()
     {
         return{

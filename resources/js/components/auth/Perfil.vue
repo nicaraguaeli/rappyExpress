@@ -22,35 +22,35 @@
                 <div class="card-body">
 
                     <!-- name -->
-            <div class="md-form">
-                <input type="text" :readonly="edit" id="" class="form-control" v-model="userAuth.name">
+            <div class="md-form" >
+                <input type="text" :readonly="edit" id="" class="form-control" v-model="getUser.name">
                 <label class="active">Nombre</label>
             </div>
          <!--end-name-->
 
          <!-- name -->
             <div class="md-form">
-                <input type="email" :readonly="edit"  class="form-control validate" v-model="userAuth.email">
+                <input type="email" :readonly="edit"  class="form-control validate" v-model="getUser.email">
                 <label class="active">E-mail</label>
             </div>
          <!--end-name-->
 
           <!-- numero -->
             <div class="md-form">
-                <input type="number" maxlength="8" :readonly="edit"  v-model.number="userAuth.number" class="form-control"  >
+                <input type="number" maxlength="8" :readonly="edit"  v-model.number="getUser.number" class="form-control"  >
                 <label class="active">Número</label>
             </div>
          <!--end-numero-->
           <!-- direccion -->
             <div class="md-form">
-                <input type="text"  :readonly="edit"  v-model="userAuth.address" class="form-control" >
+                <input type="text"  :readonly="edit"  v-model="getUser.address" class="form-control" >
                 <label class="active">Dirección</label>
             </div>
          <!--end-direccion-->
 
            <!-- direccion -->
             <div class="md-form">
-                <input type="text"  :readonly="edit"  v-model="userAuth.address_alt" class="form-control" >
+                <input type="text"  :readonly="edit"  v-model="getUser.address_alt" class="form-control" >
                 <label class="active">Dirección 2 (OPCIONAL)</label>
             </div>
          <!--end-direccion-->
@@ -90,43 +90,30 @@
 <script>
 
 export default {
-   mounted()
-   {
-     if(this.$props.user.id)
-     {   
-         this.userAuth = this.$props.user
-
-         if(!this.userAuth.address)
-         {
-            this.modalstate = true
-           
-         }
-         
-     }
-     else
-     {
-       //this.$router.push('login')
-     }
-    
-    
-   },
+  
     data()
     {
       return{
           userAuth: {},
           edit: true,
           modalstate: false,
-          
+          user: {},
          
 
     }
   
     },
-    props:
-    {
-      user: {}
+    computed: {
+        getAuth()
+        {
+          return this.$store.getters.getAuth
+        },
+         getUser()
+        {
+          return this.$store.getters.getUserGetter
+        },
+   
     },
-    
     methods:
      {
      

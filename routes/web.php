@@ -123,8 +123,7 @@ Route::get('getCart',function()
     return response()->json([$datos]);
 });
 
-Auth::routes();
 
-Route::middleware('auth:sanctum')->resource('/user', 'UserController');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
