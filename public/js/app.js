@@ -62548,16 +62548,6 @@ router.beforeEach(function (to, from, next) {
     next();
   }
 });
-var token = document.head.querySelector('meta[name="csrf-token"]');
-var headers = {
-  'X-CSRF-TOKEN': token.content,
-  'Access-Control-Allow-Origin': '*',
-  'X-Requested-With': 'XMLHttpRequest',
-  'Content-Type': 'application/json'
-};
-axios.create({
-  headers: headers
-});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -62605,7 +62595,14 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.withCredentials = true;
+window.axios.defaults.withCredentials = false;
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -63805,7 +63802,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 dispatch = _ref.dispatch;
                 axios.get("sanctum/csrf-cookie").then(function (response) {
                   axios.post("login", credentials).then(function (response) {
-                    return console.log(response);
+                    return console.log(response), location.reload();
                   });
                 });
                 return _context.abrupt("return", dispatch("getUser"));

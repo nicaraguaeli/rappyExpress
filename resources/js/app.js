@@ -157,17 +157,7 @@ router.beforeEach((to, from, next) => {
      
   })
 
-  const token = document.head.querySelector('meta[name="csrf-token"]');
-
-  const headers = {
-     'X-CSRF-TOKEN': token.content,
-     'Access-Control-Allow-Origin': '*',
-     'X-Requested-With': 'XMLHttpRequest',
-     'Content-Type': 'application/json',
-  };
-  axios.create({
-    headers: headers
-});
+  
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

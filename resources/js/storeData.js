@@ -23,8 +23,8 @@ export default {
 	actions: {
       async login({dispatch},credentials){
             
-            axios.get("sanctum/csrf-cookie").then(response =>{
-              axios.post("login",credentials).then(response =>(console.log(response)));
+              axios.get("sanctum/csrf-cookie").then(response =>{
+              axios.post("login",credentials).then(response =>(console.log(response),location.reload()));
 
             });
             
