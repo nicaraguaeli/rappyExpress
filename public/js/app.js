@@ -4553,12 +4553,14 @@ __webpack_require__.r(__webpack_exports__);
       formdata.append('email', this.data.email);
       formdata.append('password', this.data.password);
       formdata.append('password_confirmation', this.data.password_confirmation);
-      formdata.append('number', this.data.number); // Register...
-
-      axios.post('api/register', formdata).then(function (response) {
-        return _this.validator(response.status);
-      })["catch"](function (error) {
-        return toastr.error('Ups! No hemos podido procesar tu solicitud!');
+      formdata.append('number', this.data.number);
+      axios.get('ssanctum/csrf-cookie').then(function (response) {
+        // Register...
+        axios.post('api/register', formdata).then(function (response) {
+          return _this.validator(response.status);
+        })["catch"](function (error) {
+          return toastr.error('Ups! No hemos podido procesar tu solicitud!');
+        });
       });
     },
     validator: function validator(value) {
@@ -62546,6 +62548,16 @@ router.beforeEach(function (to, from, next) {
     next();
   }
 });
+var token = document.head.querySelector('meta[name="csrf-token"]');
+var headers = {
+  'X-CSRF-TOKEN': token.content,
+  'Access-Control-Allow-Origin': '*',
+  'X-Requested-With': 'XMLHttpRequest',
+  'Content-Type': 'application/json'
+};
+axios.create({
+  headers: headers
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -63791,13 +63803,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 dispatch = _ref.dispatch;
-                _context.next = 3;
-                return axios.post("api/login", credentials);
-
-              case 3:
+                axios.get("sanctum/csrf-cookie").then(function (response) {
+                  axios.post("api/login", credentials).then(function (response) {
+                    return console.log(response);
+                  });
+                });
                 return _context.abrupt("return", dispatch("getUser"));
 
-              case 4:
+              case 3:
               case "end":
                 return _context.stop();
             }
