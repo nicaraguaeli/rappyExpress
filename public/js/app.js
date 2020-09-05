@@ -63804,7 +63804,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 dispatch = _ref.dispatch;
                 axios.get("sanctum/csrf-cookie").then(function (response) {
-                  axios.post("api/login", credentials).then(function (response) {
+                  axios.post("login", credentials).then(function (response) {
                     return console.log(response);
                   });
                 });
