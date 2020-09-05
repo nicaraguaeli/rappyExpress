@@ -123,7 +123,7 @@ Route::get('getCart',function()
     return response()->json([$datos]);
 });
 
-Route::auth();
+
 
 
 Route::get('/home', 'HomeController@index')->name('home');

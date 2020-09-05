@@ -62595,14 +62595,16 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.withCredentials = false;
-var token = document.head.querySelector('meta[name="csrf-token"]');
+window.axios.defaults.withCredentials = true;
+/**let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+*/
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -63801,8 +63803,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 dispatch = _ref.dispatch;
                 axios.get("sanctum/csrf-cookie").then(function (response) {
-                  axios.post("login", credentials).then(function (response) {
-                    return console.log(response), location.reload();
+                  axios.post("api/login", credentials).then(function (response) {
+                    return console.log(response);
                   });
                 });
                 return _context.abrupt("return", dispatch("getUser"));
