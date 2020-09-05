@@ -144,18 +144,7 @@ const router = new VueRouter({
     // short for routes: routes
     
 });
-// GOOD
-router.beforeEach((to, from, next) => {
-    
-    if(to.matched.some(record => record.meta.auth))
-    {
 
-    }else
-    {
-        next();
-    }
-     
-  })
 
   
 

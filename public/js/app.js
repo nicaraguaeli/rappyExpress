@@ -62539,14 +62539,6 @@ var routes = [{
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   routes: routes // short for routes: routes
 
-}); // GOOD
-
-router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
-    return record.meta.auth;
-  })) {} else {
-    next();
-  }
 });
 /**
  * Next, we will create a fresh Vue application instance and attach it to

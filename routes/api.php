@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register','Auth\RegisterController@register');
 
 
-    // your routes here
-Route::post('/login','Auth\LoginController@login');
+    
 
+
+Route::post('/login','Auth\LoginController@login');
 
 
 
