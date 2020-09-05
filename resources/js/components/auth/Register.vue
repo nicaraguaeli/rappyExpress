@@ -86,12 +86,12 @@ export default {
             formdata.append('number',this.data.number)
             
 
-           
+            axios.get('ssanctum/csrf-cookie').then(response => {
             
              // Register...
             axios.post('api/register',formdata).then(response=>(this.validator(response.status))).catch(error => (toastr.error('Ups! No hemos podido procesar tu solicitud!')))
  
-           
+            });
             
             
            
