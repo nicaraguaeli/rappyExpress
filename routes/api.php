@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('/register','Auth\RegisterController@register');
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['web']], function () {
     // your routes here
     Route::post('/login','Auth\LoginController@login');
 });
