@@ -4553,14 +4553,12 @@ __webpack_require__.r(__webpack_exports__);
       formdata.append('email', this.data.email);
       formdata.append('password', this.data.password);
       formdata.append('password_confirmation', this.data.password_confirmation);
-      formdata.append('number', this.data.number);
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
-        // Register...
-        axios.post('/register', formdata).then(function (response) {
-          return _this.validator(response.status);
-        })["catch"](function (error) {
-          return toastr.error('Ups! No hemos podido procesar tu solicitud!');
-        });
+      formdata.append('number', this.data.number); // Register...
+
+      axios.post('api/register', formdata).then(function (response) {
+        return _this.validator(response.status);
+      })["catch"](function (error) {
+        return toastr.error('Ups! No hemos podido procesar tu solicitud!');
       });
     },
     validator: function validator(value) {
@@ -63794,16 +63792,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 dispatch = _ref.dispatch;
                 _context.next = 3;
-                return axios.get("sanctum/csrf-cookie", credentials);
-
-              case 3:
-                _context.next = 5;
                 return axios.post("api/login", credentials);
 
-              case 5:
+              case 3:
                 return _context.abrupt("return", dispatch("getUser"));
 
-              case 6:
+              case 4:
               case "end":
                 return _context.stop();
             }
