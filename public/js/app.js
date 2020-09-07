@@ -2171,27 +2171,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var _this = this;
+
+    if (localStorage.getItem('items')) {
+      try {
+        this.state = false;
+        this.items = JSON.parse(localStorage.getItem('items'));
+      } catch (e) {
+        localStorage.removeItem('items');
+      }
+    } else {
+      axios.get('./categories/list').then(function (response) {
+        if (response.status == 200) {
+          _this.state = false;
+          _this.items = response.data;
+        }
+      })["catch"](function (error) {
+        return console.log(error.response);
+      });
+    }
+  },
   components: {
     VueContentLoading: vue_content_loading__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
     return {
-      info: Array,
+      items: Array,
       state: true,
       delay: 1,
       elemento: []
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  created: function created() {
+    var _this2 = this;
 
-    axios.get('./prueba').then(function (response) {
-      return _this.info = response.data, _this.state = false;
-    });
+    setInterval(function () {
+      axios.get('./categories/list').then(function (response) {
+        if (response.status == 200) {
+          _this2.items = response.data;
+        }
+      })["catch"](function (error) {
+        return console.log(error.response);
+      });
+    }, 10000);
+  },
+  watch: {
+    items: function items() {
+      var parsed = JSON.stringify(this.items);
+      localStorage.setItem('items', parsed);
+    }
   }
 });
 
@@ -2345,15 +2376,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('./items/' + this.$route.params.id).then(function (response) {
+      return _this.productos = response.data, _this.state = false;
+    });
+  },
   components: {
     VueContentLoading: vue_content_loading__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
     return {
-      counter: 1,
       state: true,
       productos: {}
     };
+  },
+  computed: {
+    items: function items() {
+      return this.productos;
+    }
   },
   methods: {
     enviarpadre: function enviarpadre(item) {
@@ -2364,13 +2406,6 @@ __webpack_require__.r(__webpack_exports__);
     formato: function formato(value) {
       return parseFloat(value).toFixed(2);
     }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('./items/' + this.$route.params.id).then(function (response) {
-      return _this.productos = response.data, _this.state = false;
-    });
   }
 });
 
@@ -2461,23 +2496,23 @@ __webpack_require__.r(__webpack_exports__);
 var audioElement = document.createElement('audio');
 audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86ea612dec96096c5e0fcc8dd42ab6d/file-sounds-1144-me-too.mp3');
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    if (this.$props.user) {
-      this.userAuth = this.$props.user;
-    }
-
-    if (localStorage.counter) {
-      this.counter = localStorage.counter;
-    }
-
-    if (localStorage.getItem('items')) {
-      try {
-        this.articles = JSON.parse(localStorage.getItem('items'));
-      } catch (e) {
-        localStorage.removeItem('items');
-      }
-    }
-  },
+  /* mounted()
+   {
+     
+     
+    
+   if (localStorage.counter) {
+     this.counter = localStorage.counter;
+   }
+     if (localStorage.getItem('items')) {
+     try {
+       this.articles = JSON.parse(localStorage.getItem('items'));
+     } catch(e) {
+       localStorage.removeItem('items');
+     }
+   }
+     
+   },*/
   data: function data() {
     return {
       counter: 0,
@@ -2488,14 +2523,6 @@ audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86e
       tabs: true,
       errors: false,
       isActive: false,
-      userAuth: {
-        id: "",
-        name: "",
-        email: "",
-        number: "",
-        address: "",
-        address_alt: ""
-      },
       name: ""
     };
   },
@@ -2514,9 +2541,6 @@ audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86e
       }
 
       $('#cart').addTempClass('wow animated bounceIn', 1000);
-    },
-    username: function username(item) {
-      this.userAuth = item;
     }
   },
   watch: {
@@ -2697,7 +2721,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.articles.forEach(function (element) {
       _this.amount += element.cantidad * element.precio;
-    });
+    }); // this.$store.dispatch('getUser')
   },
   components: {
     cartitem: _CartItem__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2717,8 +2741,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     articles: {},
-    counter: 0,
-    user: {}
+    counter: 0
   },
   filters: {
     formato: function formato(value) {
@@ -2776,6 +2799,31 @@ __webpack_require__.r(__webpack_exports__);
 
         _this5.$router.push('/');
       }, 5000);
+    },
+    confirm: function confirm() {
+      var address = JSON.stringify(this.$store.getters.getUserGetter.address);
+
+      if (!this.counter > 0) {
+        this.$toasted.show("Debe haber al menos un artículo en la cesta", {
+          theme: "bubble",
+          position: "bottom-center",
+          duration: 2000
+        });
+      }
+
+      if (address == null) {
+        this.$toasted.show("No tienes direcciones, agregalas en tu perfil", {
+          theme: "bubble",
+          position: "bottom-center",
+          duration: 2000
+        });
+      }
+
+      console.log(address);
+
+      if (this.counter > 0 && address != null) {
+        $("#modalLoginForm").modal('show');
+      }
     },
     back: function back() {
       this.$router.back();
@@ -4250,6 +4298,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var auth = JSON.stringify(this.$store.getters.getAuth);
+    console.log(auth);
+  },
   data: function data() {
     return {
       modalstate: false,
@@ -4440,11 +4492,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    if (!this.$store.getters.getUserGetter) {
-      this.$store.dispatch("getUser");
-    }
-  },
   data: function data() {
     return {
       edit: true,
@@ -4460,6 +4507,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return this.$store.getters.getUserGetter;
     }
   },
+  created: function created() {
+    var _this = this;
+
+    this.$store.dispatch('getUser').then(function () {
+      _this.$router.push("/");
+    })["catch"](function () {
+      _this.$router.push("login");
+    });
+  },
   methods: {
     fieldEdit: function fieldEdit() {
       this.edit = false;
@@ -4468,7 +4524,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.edit = true;
     },
     update: function update() {
-      var _this = this;
+      var _this2 = this;
 
       var formdata = new FormData();
       formdata.append('email', this.getUser.email);
@@ -4479,17 +4535,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       formdata.append('_method', 'PUT');
       axios.post('user/' + this.getUser.id, formdata).then(function (response) {
         if (response.status == 200) {
-          _this.$toasted.show("Perfil actualizado", {
+          _this2.$toasted.show("Perfil actualizado", {
             theme: "outline",
             position: "bottom-center",
             duration: 2000
           });
 
-          _this.$store.dispatch('getUser');
+          _this2.$store.dispatch('getUser');
         }
       })["catch"](function (error) {
         if (_typeof(error.response.data.number)) {
-          _this.$toasted.show(error.response.data.number, {
+          _this2.$toasted.show(error.response.data.number, {
             theme: "bubble",
             position: "bottom-center",
             duration: 2000
@@ -4497,7 +4553,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }
 
         if (_typeof(error.response.data.email)) {
-          _this.$toasted.show(error.response.data.email, {
+          _this2.$toasted.show(error.response.data.email, {
             theme: "bubble",
             position: "bottom-center",
             duration: 2000
@@ -4505,7 +4561,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }
 
         if (_typeof(error.response.data.name)) {
-          _this.$toasted.show(error.response.data.name, {
+          _this2.$toasted.show(error.response.data.name, {
             theme: "bubble",
             position: "bottom-center",
             duration: 2000
@@ -4604,6 +4660,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var auth = JSON.stringify(this.$store.getters.getAuth);
+
+    if (auth == true) {
+      this.$router.push("perfil");
+    }
+  },
   data: function data() {
     return {
       data: {
@@ -41961,7 +42024,7 @@ var render = function() {
         staticClass: "nav nav-tabs grey lighten-4   ",
         attrs: { id: "myTab", role: "tablist" }
       },
-      _vm._l(_vm.info, function(item, index) {
+      _vm._l(_vm.items, function(item, index) {
         return _c("li", { key: index, staticClass: "nav-item" }, [
           _c("a", {
             staticClass: "nav-link green-text font-weight-bold",
@@ -41995,15 +42058,15 @@ var render = function() {
                 "div",
                 { staticClass: "pr-md-2 mb-3 col-sm-4 " },
                 [
-                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                  _c("vue-content-loading", { attrs: { height: 180 } }, [
                     _c("rect", {
                       attrs: {
                         x: "0 ",
                         y: "13",
-                        rx: "4",
-                        ry: "4",
+                        rx: "10",
+                        ry: "10",
                         width: "100%",
-                        height: "200"
+                        height: "180"
                       }
                     })
                   ])
@@ -42015,15 +42078,15 @@ var render = function() {
                 "div",
                 { staticClass: "pr-md-2 mb-3 col-sm-4 " },
                 [
-                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                  _c("vue-content-loading", { attrs: { height: 180 } }, [
                     _c("rect", {
                       attrs: {
-                        x: "0",
+                        x: "0 ",
                         y: "13",
-                        rx: "4",
-                        ry: "4",
+                        rx: "10",
+                        ry: "10",
                         width: "100%",
-                        height: "200"
+                        height: "180"
                       }
                     })
                   ])
@@ -42035,35 +42098,15 @@ var render = function() {
                 "div",
                 { staticClass: "pr-md-2 mb-3 col-sm-4 " },
                 [
-                  _c("vue-content-loading", { attrs: { height: 200 } }, [
+                  _c("vue-content-loading", { attrs: { height: 180 } }, [
                     _c("rect", {
                       attrs: {
-                        x: "0",
+                        x: "0 ",
                         y: "13",
-                        rx: "4",
-                        ry: "4",
+                        rx: "10",
+                        ry: "10",
                         width: "100%",
-                        height: "200"
-                      }
-                    })
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "pr-md-2 mb-3 col-sm-4" },
-                [
-                  _c("vue-content-loading", { attrs: { height: 200 } }, [
-                    _c("rect", {
-                      attrs: {
-                        x: "0",
-                        y: "13",
-                        rx: "4",
-                        ry: "4",
-                        width: "100%",
-                        height: "200"
+                        height: "180"
                       }
                     })
                   ])
@@ -42073,7 +42116,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm._l(_vm.info, function(item, index) {
+        _vm._l(_vm.items, function(item, index) {
           return _c(
             "div",
             {
@@ -42222,14 +42265,16 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "col-4 col-md-4 align-self-center text-white font-weight-bold"
-            },
-            [_vm._v(_vm._s(_vm.productos[0].c_nombre) + "     \n             ")]
-          ),
+          _vm.items.length
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "col-4 col-md-4 align-self-center text-white font-weight-bold"
+                },
+                [_vm._v(_vm._s(_vm.items[0].c_nombre) + "\n             ")]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _vm._m(0)
         ])
@@ -42331,7 +42376,7 @@ var render = function() {
             staticStyle: { height: "calc(100vh - 80px)", overflow: "scroll" },
             attrs: { id: "myList" }
           },
-          _vm._l(_vm.productos, function(item) {
+          _vm._l(_vm.items, function(item) {
             return _c(
               "div",
               {
@@ -42519,158 +42564,113 @@ var render = function() {
     "div",
     { staticClass: "container p-0" },
     [
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.tabs,
-              expression: "tabs"
-            }
-          ],
-          staticClass: "classic-tabs  bg-white wow animated faster",
-          class: [_vm.tabs ? "slideInDown" : "fadeOut"]
-        },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "ul",
-            {
-              staticClass: "nav bg-white rounded-0 ",
-              attrs: { id: "myClassicTab", role: "tablist" }
-            },
-            [
-              _c(
-                "li",
-                { staticClass: "nav-item" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass:
-                        "nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                      attrs: {
-                        to: { name: "home" },
-                        "aria-selected": "true",
-                        "data-toggle": "tab",
-                        role: "tab"
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fas fa-home pr-2 nav-item-color",
-                        staticStyle: { "font-size": "1.3rem" }
-                      })
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item cart-item", attrs: { id: "cart" } },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass:
-                        "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                      attrs: {
-                        to: { name: "order" },
-                        "data-toggle": "tab",
-                        role: "tab",
-                        "aria-selected": "false"
-                      }
-                    },
-                    [
-                      _c("span", { staticClass: "badge danger-color mr-2" }, [
-                        _vm._v(_vm._s(_vm.counter))
-                      ]),
-                      _c("i", {
-                        staticClass: "fas fa-shopping-cart pr-2 nav-item-color",
-                        staticStyle: { "font-size": "1.3rem" }
-                      })
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass:
-                        "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
-                      attrs: {
-                        to: { name: "login" },
-                        id: "user-tab-classic",
-                        "data-toggle": "tab",
-                        role: "tab",
-                        "aria-controls": "user-classic",
-                        "aria-selected": "false"
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fas fa-user mr-2 nav-item-color",
-                        staticStyle: { "font-size": "1.3rem" }
-                      })
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "nav-item" }, [
+      _c("div", { staticClass: "classic-tabs  bg-white " }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass: "nav bg-white rounded-0 ",
+            attrs: { id: "myClassicTab", role: "tablist" }
+          },
+          [
+            _c(
+              "li",
+              { staticClass: "nav-item" },
+              [
                 _c(
-                  "a",
+                  "router-link",
                   {
                     staticClass:
-                      "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                      "nav-link  waves-light active show inicio font-weight-bold p-2 pl-3 pr-3 text-black-50",
                     attrs: {
-                      id: "contact-tab-classic",
+                      to: { name: "home" },
+                      "aria-selected": "true",
                       "data-toggle": "tab",
-                      role: "tab",
-                      "aria-controls": "contact-classic",
-                      "aria-selected": "false"
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.state()
-                      }
+                      role: "tab"
                     }
                   },
                   [
                     _c("i", {
-                      staticClass: "fas fa-info-circle mr-2 nav-item-color",
+                      staticClass: "fas fa-home pr-2 nav-item-color",
                       staticStyle: { "font-size": "1.3rem" }
                     })
                   ]
                 )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("nav", { staticClass: "navbar nav-border   green accent-4 " })
-        ]
-      ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item cart-item", attrs: { id: "cart" } },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass:
+                      "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                    attrs: {
+                      to: { name: "order" },
+                      "data-toggle": "tab",
+                      role: "tab",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "badge danger-color mr-2" }, [
+                      _vm._v(_vm._s(_vm.counter))
+                    ]),
+                    _c("i", {
+                      staticClass: "fas fa-shopping-cart pr-2 nav-item-color",
+                      staticStyle: { "font-size": "1.3rem" }
+                    })
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass:
+                      "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+                    attrs: {
+                      to: { name: "login" },
+                      id: "user-tab-classic",
+                      "data-toggle": "tab",
+                      role: "tab",
+                      "aria-controls": "user-classic",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fas fa-user mr-2 nav-item-color",
+                      staticStyle: { "font-size": "1.3rem" }
+                    })
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(2)
+          ]
+        ),
+        _vm._v(" "),
+        _c("nav", { staticClass: "navbar nav-border   green accent-4 " })
+      ]),
       _vm._v(" "),
       _c("router-view", {
-        attrs: {
-          counter: _vm.counter,
-          articles: _vm.articles,
-          user: _vm.userAuth
-        },
+        attrs: { counter: _vm.counter, articles: _vm.articles },
         on: { cartItem: _vm.addItem }
       })
     ],
@@ -42713,6 +42713,33 @@ var staticRenderFns = [
         [
           _c("i", {
             staticClass: "fas fa-star  mr-2 nav-item-color",
+            staticStyle: { "font-size": "1.3rem" }
+          })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50",
+          attrs: {
+            id: "contact-tab-classic",
+            "data-toggle": "tab",
+            role: "tab",
+            "aria-controls": "contact-classic",
+            "aria-selected": "false"
+          }
+        },
+        [
+          _c("i", {
+            staticClass: "fas fa-info-circle mr-2 nav-item-color",
             staticStyle: { "font-size": "1.3rem" }
           })
         ]
@@ -42880,7 +42907,11 @@ var render = function() {
           _c("h1", { staticClass: "text-center" }, [
             _vm._v("La cesta esta vacia.")
           ]),
-          _vm._v(" "),
+          _vm._v(
+            "\r\n          " +
+              _vm._s(this.$store.getters.getAuth) +
+              "\r\n          "
+          ),
           _c("hr")
         ]),
     _vm._v(" "),
@@ -42911,7 +42942,7 @@ var render = function() {
           "div",
           { staticClass: "text-center" },
           [
-            !_vm.user.id
+            this.$store.getters.getAuth == false
               ? _c(
                   "router-link",
                   {
@@ -42921,16 +42952,19 @@ var render = function() {
                   },
                   [_vm._v(" Iniciar sesion")]
                 )
-              : _vm.counter > 0
+              : _vm._e(),
+            _vm._v(" "),
+            this.$store.getters.getAuth == true
               ? _c(
                   "a",
                   {
                     staticClass:
                       "btn btn-elegant waves-effect waves-light btn-confirm m-0",
-                    attrs: {
-                      href: "",
-                      "data-toggle": "modal",
-                      "data-target": "#modalLoginForm"
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        return _vm.confirm()
+                      }
                     }
                   },
                   [_vm._v(" Confirmar Pedido")]
@@ -42999,10 +43033,13 @@ var render = function() {
                                 _vm._v("Selecciona una dirección")
                               ]),
                               _vm._v(" "),
-                              _vm.user.address != null
+                              this.$store.getters.getAuth == true
                                 ? _c("option", {
                                     domProps: {
-                                      textContent: _vm._s(_vm.user.address)
+                                      textContent: _vm._s(
+                                        this.$store.getters.getUserGetter
+                                          .address
+                                      )
                                     }
                                   })
                                 : _vm._e()
@@ -45990,7 +46027,6 @@ var render = function() {
         _c(
           "form",
           {
-            staticClass: "p-5",
             on: {
               submit: function($event) {
                 $event.preventDefault()

@@ -4,7 +4,7 @@
 
 <!--GRUPOS-->
 <ul class="nav nav-tabs grey lighten-4   " id="myTab" role="tablist">
-      <li class="nav-item" v-for="(item, index) in info" :key="index">
+      <li class="nav-item" v-for="(item, index) in items" :key="index">
     
     <a class="nav-link green-text font-weight-bold" v-bind:class="{active: index == 0}" id="home-tab" data-toggle="tab" :href="'#'+item.nombre" role="tab" aria-controls="home"
       aria-selected="true" v-text="item.nombre"></a>
@@ -14,38 +14,36 @@
 
 <!--FIN-GRUPOS--> 
 
+ 
+
+
+
 <!--CONTENT-TAB-->
 <div class="tab-content bg-white" id="myTabContent"  style="height: calc(100vh - 80px); overflow: scroll;">
   
-
-         <div class="row" v-if="state">
+ <div class="row" v-if="state">
         <div class="pr-md-2 mb-3 col-sm-4 ">
-          <vue-content-loading :height="200">
-           <rect x="0 " y="13" rx="4" ry="4" width="100%" height="200" />
+          <vue-content-loading :height="180">
+           <rect x="0 " y="13" rx="10" ry="10" width="100%" height="180" />
             </vue-content-loading>
         </div>
-         <div class="pr-md-2 mb-3 col-sm-4 ">
-          <vue-content-loading :height="200" >
-           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
+        <div class="pr-md-2 mb-3 col-sm-4 ">
+          <vue-content-loading :height="180">
+           <rect x="0 " y="13" rx="10" ry="10" width="100%" height="180" />
             </vue-content-loading>
         </div>
-         <div class="pr-md-2 mb-3 col-sm-4 ">
-          <vue-content-loading :height="200" >
-           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
+        <div class="pr-md-2 mb-3 col-sm-4 ">
+          <vue-content-loading :height="180">
+           <rect x="0 " y="13" rx="10" ry="10" width="100%" height="180" />
             </vue-content-loading>
         </div>
-         <div class="pr-md-2 mb-3 col-sm-4">
-          <vue-content-loading :height="200" >
-           <rect x="0" y="13" rx="4" ry="4" width="100%" height="200" />
-            </vue-content-loading>
-        </div>
-      </div>
+    </div>     
   
 
-  <div v-for="(item, index) in info" :key="index" class="tab-pane fade show " v-bind:class="{active: index == 0}" :id="item.nombre" role="tabpanel" aria-labelledby="home-tab" >
+  <div v-for="(item, index) in items" :key="index" class="tab-pane fade show " v-bind:class="{active: index == 0}" :id="item.nombre" role="tabpanel" aria-labelledby="home-tab" >
   
  <!-- Grid column -->
-             
+    
    
                 <div class="row">
                      <div v-for="item2 in item.categories" :key="item2.id" class="   pr-md-2 mb-3 col-sm-4 ">
@@ -105,13 +103,42 @@
 <script>
 import VueContentLoading from 'vue-content-loading';
 export default {
+   
+     mounted () {
+
+       if (localStorage.getItem('items')) {
+      try {
+        this.state = false
+        this.items = JSON.parse(localStorage.getItem('items'));
+      } catch(e) {
+        localStorage.removeItem('items');
+      }
+    }
+    else
+    {
+      axios
+      .get('./categories/list')
+      .then(response => {
+        if(response.status == 200 )
+        {
+          this.state = false
+          this.items = response.data
+        }
+      })
+      .catch(error => (console.log(error.response)))
+    }
+
+    
+   
+
+  },
     components:
   {
      VueContentLoading,
   },
     data () {
     return {
-      info: Array,
+      items: Array,
       state: true,
       delay: 1,
       elemento: []
@@ -120,13 +147,35 @@ export default {
       
     }
   },
-    mounted () {
-    axios
-      .get('./prueba')
-      .then(response => (this.info =  response.data, this.state = false))
-  },
+  created()
+  {
+    setInterval(() => {
+     
+     axios
+      .get('./categories/list')
+      .then(response => {
+        if(response.status == 200 )
+        {
+          
+          this.items = response.data
 
+        }
+      })
+      .catch(error => (console.log(error.response)))
+
+    },10000)
+  },
   
+  watch: {
+    
+    items()
+    {
+      const parsed = JSON.stringify(this.items);
+      localStorage.setItem('items', parsed);
+    }
+  }
+
+ 
 }
 </script>
 

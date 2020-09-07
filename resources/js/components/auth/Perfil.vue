@@ -114,15 +114,7 @@
 </template>
 <script>
 
-export default {
-     mounted()
-  {
-     if(!this.$store.getters.getUserGetter)
-     {
-      this.$store.dispatch("getUser");
-     }
-  },
-
+export default {   
     data()
     {
       return{
@@ -145,6 +137,10 @@ export default {
           return this.$store.getters.getUserGetter
         },
    
+    },
+    created()
+    {
+        this.$store.dispatch('getUser').then(() =>{this.$router.push("/")}).catch(()=> {this.$router.push("login")})
     },
     methods:
      {

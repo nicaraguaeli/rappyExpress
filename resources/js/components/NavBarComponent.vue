@@ -2,7 +2,7 @@
     <div class="container p-0">
  
      <!-- Classic tabs -->
-<div class="classic-tabs  bg-white wow animated faster" v-show="tabs" v-bind:class="[tabs ? 'slideInDown' : 'fadeOut']">
+<div class="classic-tabs  bg-white " >
   
  <!--LOGO-->
 <div class="container">
@@ -34,7 +34,7 @@
       aria-controls="user-classic" aria-selected="false"><i class="fas fa-user mr-2 nav-item-color" style="font-size: 1.3rem;"></i></router-link>
   </li>
   <li class="nav-item" >
-    <a v-on:click="state()" class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab"  role="tab"
+    <a  class="nav-link waves-light font-weight-bold p-2 pl-3 pr-3 text-black-50" id="contact-tab-classic" data-toggle="tab"  role="tab"
       aria-controls="contact-classic" aria-selected="false"><i class="fas fa-info-circle mr-2 nav-item-color" style="font-size: 1.3rem;"></i></a>
   </li>
   
@@ -52,7 +52,7 @@
 
 
 
-<router-view :counter="counter" :articles="articles" :user="userAuth" @cartItem="addItem" ></router-view>
+<router-view :counter="counter" :articles="articles"  @cartItem="addItem" ></router-view>
 
 
    
@@ -77,12 +77,9 @@ audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/d86e
 
 
 export default {
-    mounted()
+   /* mounted()
     {
-      if(this.$props.user)
-      {
-        this.userAuth = this.$props.user
-      }
+      
       
      
     if (localStorage.counter) {
@@ -97,7 +94,7 @@ export default {
       }
     }
       
-    },
+    },*/
   
     data () {
     return {
@@ -111,7 +108,6 @@ export default {
       tabs: true,    
       errors: false,
       isActive: false,
-      userAuth: {id:"",name:"",email:"",number:"",address:"",address_alt:""},
       name: ""
       
     
@@ -144,10 +140,7 @@ export default {
      
 
       
-      username(item)
-      {
-        this.userAuth = item
-      },
+     
        
   },
  watch: {

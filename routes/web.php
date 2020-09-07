@@ -50,7 +50,7 @@ Route::get('/admin',function()
     return $user;
 });
 
-Route::get('/prueba', function () {
+Route::get('/categories/list', function () {
     
     $grupo = Group::with('categories')->get();
     
@@ -85,45 +85,14 @@ Route::post('/store',function()
 });
 
 
-Route::get('getData',function()
-{
-    $id = Request()->id;
-    
-    $param = DB::table('categories')->where('id',$id)->first();
-
-    $datos = DB::table('products')->where('categoria',$id)->get();
-    
-    $view = view("partial.products")->with('datos',$datos)->with('param',$param)->render();
-
-    return response()->json(['html'=>$view]);
-
-});
 
 
 
-Route::get('getHome',function()
-{
-    $categorias = DB::table('categories')->orderBy('nombre')->get();
-    
-    $marcas = DB::table('products')->select('categoria','marca')->distinct('marca')->get();
-    
-    
-    $view = view("partial.abc",['categorias'=>$categorias],compact('marcas'))->render();
 
-    return response()->json(['html'=>$view]);
 
-});
 
-Route::get('getCart',function()
-{
-    
-    
-    $datos = DB::table('products')->where('id',Request()->id)->first();
-
-    return response()->json([$datos]);
-});
 
 
 
 Route::resource('/user','UserController');
-Route::get('/home', 'HomeController@index')->name('home');
+

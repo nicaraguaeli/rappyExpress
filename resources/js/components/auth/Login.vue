@@ -69,7 +69,12 @@
 
 
 export default {
-  
+  mounted()
+  {
+     const auth = JSON.stringify(this.$store.getters.getAuth)
+     
+     console.log(auth)
+  },
 
   data()
   {

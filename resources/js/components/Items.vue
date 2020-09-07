@@ -4,7 +4,7 @@
            <div class="d-flex p-2">
              <div class="col-3 col-md-4 align-self-center" ><router-link :to="{name: 'home'}" ><i class="fas fa-arrow-left text-white" ></i><span class="text-white ml-1">Atras</span></router-link>
              </div>
-             <div  class="col-4 col-md-4 align-self-center text-white font-weight-bold" >{{productos[0].c_nombre}}     
+             <div  class="col-4 col-md-4 align-self-center text-white font-weight-bold" v-if="items.length" >{{items[0].c_nombre }}
              </div>
             <div class="col-5 col-md-4"><!-- Search form -->
 <form class="form-inline d-flex justify-content-center   mt-0" >
@@ -53,7 +53,7 @@
 
 
 <!-- Grid column -->
-<div class="col-6 col-md-3 p-0 list-card " v-for="item in productos" :key="item.id" :title="item.nombre">
+<div class="col-6 col-md-3 p-0 list-card " v-for="item in items" :key="item.id" :title="item.nombre">
 
   <!-- Card -->
   <div class="card card-ecommerce  p-2 wow fadeIn animated"  style="box-shadow: none !important;">
@@ -138,29 +138,41 @@
 import VueContentLoading from 'vue-content-loading';
 
 export default {
+  mounted ()
+{
+ 
+  
+  axios
+      .get('./items/'+this.$route.params.id)
+      .then(response => (this.productos =  response.data, this.state = false) )
+     
+},
   components:
   {
      VueContentLoading,
   },
   data () {
     return {
-      
-      counter: 1,
+
       state: true,
       productos: {},
    
     }
+    
+  },
+  computed: {
+    items()
+    {
+      return this.productos
+    }
   },
   
-  
-  
-   
+ 
   methods:{
       
       enviarpadre: function(item)
       {
-         
-         
+
         
           this.$emit('cartItem',item)
           
@@ -173,17 +185,11 @@ export default {
   formato: function (value) {
     
     return (parseFloat(value).toFixed(2));
-  }
-},
-mounted ()
-{
- 
+  },
+
   
-  axios
-      .get('./items/'+this.$route.params.id)
-      .then(response => (this.productos =  response.data, this.state = false) )
-     
-}
+},
+
   
 }
  

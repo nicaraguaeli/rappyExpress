@@ -20,7 +20,7 @@
             <div class="card-body">
 
               <!-- Register form -->
-              <form @submit.prevent="insert()" class="p-5">
+              <form @submit.prevent="insert()" >
                 <div class="text-center">
                     <i class="fas fa-user-circle btn-login" style="font-size: 3rem; color: #00c853; "></i>
               <h3 class="card-title my-2">Crea tu cuenta</h3>
@@ -73,6 +73,14 @@
 </template>
 <script>
 export default {
+  mounted()
+  {
+    const auth = JSON.stringify(this.$store.getters.getAuth)
+    if(auth == true)
+    {
+       this.$router.push("perfil")
+    }
+  },
     
     data()
     {

@@ -98,18 +98,21 @@ class UserController extends Controller
         }
      
        
-  
-            
-        $user = User::find($id);
-        $user->name = Request()->name;
-        $user->email = Request()->email;
-        $user->number = Request()->number;
-        $user->address = Request()->address;
-        $user->address_alt = Request()->address_alt;
         
-        $user->save();
+            //code...
+            $user = User::find($id);
+            $user->name = Request()->name;
+            $user->email = Request()->email;
+            $user->number = Request()->number;
+            $user->address = Request()->address;
+            $user->address_alt = Request()->address_alt;
+            
+            $user->save();
 
-        return "update";
+        
+        
+
+            return "update";
       
     }
 

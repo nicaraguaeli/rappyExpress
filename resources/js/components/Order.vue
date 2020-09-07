@@ -1,4 +1,4 @@
-<template>
+<template >
 <div  class="bg-white">
    <div class="grey special-color-dark  wow animated slideInUp faster " style="height: 3rem;" >
              <div class="d-flex p-2  "  style="height: 3rem;" >
@@ -11,7 +11,7 @@
            </div>
           
            </div>
-
+  
         <div class=" wow animated fadeInLeft faster" v-if="counter > 0" >
     <div  class="row bg-white p-3 justify-content-between m-0">
           <div class="col-xs-4 align-self-center">
@@ -25,6 +25,7 @@
         
         <div v-else>
           <h1 class="text-center">La cesta esta vacia.</h1>
+          {{this.$store.getters.getAuth}}
           <hr>
         </div>
 
@@ -37,9 +38,8 @@
    <div class="row fixed-bottom">
    <div class="col-sm-12">
      <div class="text-center">
-  <router-link v-if="!user.id" :to="{name: 'login'}" class="btn btn-elegant waves-effect waves-light btn-confirm m-0"   > Iniciar sesion</router-link>
-  
-  <a  href="" class="btn btn-elegant waves-effect waves-light btn-confirm m-0" data-toggle="modal" data-target="#modalLoginForm" v-else-if="counter>0 " > Confirmar Pedido</a>
+  <router-link v-if="this.$store.getters.getAuth == false" :to="{name: 'login'}" class="btn btn-elegant waves-effect waves-light btn-confirm m-0"   > Iniciar sesion</router-link>
+   <a v-if="this.$store.getters.getAuth == true"  href="#" class="btn btn-elegant waves-effect waves-light btn-confirm m-0" v-on:click="confirm()"> Confirmar Pedido</a>
   
   
   
@@ -81,7 +81,7 @@
                
                 <select ref="optionSelected" class="form-control mb-2" >
                 <label class="" for="">Selecciona una dirección</label>
-                <option v-text="user.address" v-if="user.address != null" ></option>
+                <option v-if="this.$store.getters.getAuth == true"  v-text="this.$store.getters.getUserGetter.address"></option>
                 
                
     </select>
@@ -153,13 +153,12 @@ export default {
     mounted(){
         
        
-       this.articles.forEach(element => {
+         this.articles.forEach(element => {
            
-         this.amount += element.cantidad * element.precio;
-
-         
-           
+         this.amount += element.cantidad * element.precio;   
          });
+        
+        // this.$store.dispatch('getUser')
     },
     components:
     {
@@ -176,6 +175,7 @@ export default {
           spin: false,
           modal: false,
           
+          
 
         }
     },
@@ -184,11 +184,7 @@ export default {
     {
         articles: {},
         counter: 0,
-        user: {},
-        
-        
-       
-        
+    
     },
     filters: {
   formato: function (value) {
@@ -198,6 +194,7 @@ export default {
   },
 
 },
+
 methods:
 {
   deleteRow(index,item)
@@ -264,6 +261,38 @@ methods:
           $("#modalLoginForm").modal('hide');
           this.$router.push('/')
           } ,5000);
+      },
+      confirm()
+      {
+         const address = JSON.stringify(this.$store.getters.getUserGetter.address)
+        
+         if(!this.counter > 0)
+          {
+            this.$toasted.show("Debe haber al menos un artículo en la cesta", { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+          }
+           
+         
+           if( address == null)
+          {
+            this.$toasted.show("No tienes direcciones, agregalas en tu perfil", { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+
+          })
+          }
+          console.log(address)
+          if(this.counter > 0 && address != null)
+          {
+            $("#modalLoginForm").modal('show')
+          }
+
+        
+
       },
 
 back()

@@ -25,23 +25,14 @@
 
 
 
-@guest
+
 <div id="app">
       
       
       <navbar ></navbar>
       
 </div>
-@else
 
-<div id="app">
-      
-
-      <navbar :user="{{ Auth::user() }}" ></navbar>
-      
-</div>
-
-@endguest
 
 
   
