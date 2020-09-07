@@ -15,7 +15,7 @@
           
            </div>
 
-               <div class="classic-tabs">
+               <div class="classic-tabs wow animated fadeIn faster">
 
               <!-- Nav tabs -->
               <div class="tabs-wrapper">

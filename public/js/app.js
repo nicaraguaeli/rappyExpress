@@ -4593,6 +4593,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -45380,7 +45390,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "card", staticStyle: { height: "calc(100vh - 80px)" } },
+      {
+        staticClass: "card wow animated fadeIn faster",
+        staticStyle: { height: "calc(100vh - 80px)" }
+      },
       [
         _c("div", { staticClass: "card-body" }, [
           _c(
@@ -45814,86 +45827,90 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "classic-tabs" }, [
-      _c("div", { staticClass: "tabs-wrapper" }, [
-        _c(
-          "ul",
-          {
-            staticClass: "nav tabs grey lighten-2",
-            attrs: { role: "tablist" }
-          },
-          [
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "nav-link waves-light waves-effect waves-light active black-text",
-                  attrs: {
-                    "data-toggle": "tab",
-                    href: "#panel36",
-                    role: "tab",
-                    "aria-selected": "true"
-                  }
-                },
-                [_vm._v("Perfil")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "nav-link waves-light waves-effect waves-light black-text",
-                  attrs: {
-                    "data-toggle": "tab",
-                    href: "#panel37",
-                    role: "tab",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("Pedidos")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "nav-link waves-light waves-effect waves-light black-text",
-                  attrs: {
-                    "data-toggle": "tab",
-                    href: "#panel38",
-                    role: "tab",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("Contact")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "nav-link waves-light waves-effect waves-light black-text",
-                  attrs: {
-                    "data-toggle": "tab",
-                    href: "#panel39",
-                    role: "tab",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("Be\n                      awesome")]
-              )
-            ])
-          ]
-        )
-      ])
-    ])
+    return _c(
+      "div",
+      { staticClass: "classic-tabs wow animated fadeIn faster" },
+      [
+        _c("div", { staticClass: "tabs-wrapper" }, [
+          _c(
+            "ul",
+            {
+              staticClass: "nav tabs grey lighten-2",
+              attrs: { role: "tablist" }
+            },
+            [
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "nav-link waves-light waves-effect waves-light active black-text",
+                    attrs: {
+                      "data-toggle": "tab",
+                      href: "#panel36",
+                      role: "tab",
+                      "aria-selected": "true"
+                    }
+                  },
+                  [_vm._v("Perfil")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "nav-link waves-light waves-effect waves-light black-text",
+                    attrs: {
+                      "data-toggle": "tab",
+                      href: "#panel37",
+                      role: "tab",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [_vm._v("Pedidos")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "nav-link waves-light waves-effect waves-light black-text",
+                    attrs: {
+                      "data-toggle": "tab",
+                      href: "#panel38",
+                      role: "tab",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [_vm._v("Contact")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "nav-link waves-light waves-effect waves-light black-text",
+                    attrs: {
+                      "data-toggle": "tab",
+                      href: "#panel39",
+                      role: "tab",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [_vm._v("Be\n                      awesome")]
+                )
+              ])
+            ]
+          )
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -45918,7 +45935,57 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "card" }, [
+    _c(
+      "div",
+      {
+        staticClass: "grey special-color-dark  wow animated slideInUp faster ",
+        staticStyle: { height: "3rem" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "d-flex p-2  ", staticStyle: { height: "3rem" } },
+          [
+            _c("div", { staticClass: "col-4 col-md-4 align-self-center" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    "data-toggle": "tab",
+                    role: "tab",
+                    href: "#product_list"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.back()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fas fa-arrow-left text-white" }),
+                  _c("span", { staticClass: "text-white ml-1" }, [
+                    _vm._v("Atras")
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "col-5 col-md-4 align-self-center text-white font-weight-bold"
+              },
+              [_vm._v("Registro")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-3 col-md-4 align-self-center" })
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "card wow animated fadeIn faster" }, [
       _c("div", { staticClass: "card-body" }, [
         _c(
           "form",

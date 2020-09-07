@@ -17,7 +17,7 @@
            </div>
 
            <!--Login-->
-           <div class="card" style="height: calc(100vh - 80px)">
+           <div class="card wow animated fadeIn faster" style="height: calc(100vh - 80px)">
 
             <!--Card content -->
             <div class="card-body">
@@ -123,8 +123,8 @@ computed: {
             }
             else
             {
-                 $('.btn-login').addTempClass( 'wow animated shake', 1000 );
-                 let toast = this.$toasted.show("Ambos campos son requeridos !!", { 
+                  $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+                  let toast = this.$toasted.show("Ambos campos son requeridos !!", { 
                   theme: "outline", 
                   position: "bottom-center", 
                   duration : 2000
