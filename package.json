@@ -29,6 +29,7 @@
         "vue-load-image": "^0.1.11",
         "vue-material": "^1.0.0-beta-15",
         "vue-router": "^3.4.3",
+        "vue-toasted": "^1.1.28",
         "vuex": "^3.5.1"
     }
 }

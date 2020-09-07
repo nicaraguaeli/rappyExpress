@@ -14,6 +14,9 @@
   <!-- Material Design Bootstrap -->
   <link href="{{asset('css/mdb.min.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('css/animate.css')}}"/>
+  <link rel="icon" 
+      type="image/png" 
+      href="{{asset('favicon.ico')}}">
   
   
     </head>

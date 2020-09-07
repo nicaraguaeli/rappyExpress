@@ -1,54 +1,63 @@
 <template>
 
 <div>
-   <div  class="card card-signup z-depth-1 wow animated slideInRight faster" style="height: calc(100vh - 80px)" >
+  
+<div class="card">
 
-            <div class="card-body text-center">
+  
 
-            <i class="fas fa-user-circle" style="font-size: 3rem; color: #00c853; "></i>
+            <!--Card content -->
+            <div class="card-body">
+
+              <!-- Register form -->
+              <form @submit.prevent="insert()" class="p-5">
+                <div class="text-center">
+                    <i class="fas fa-user-circle btn-login" style="font-size: 3rem; color: #00c853; "></i>
               <h3 class="card-title my-2">Crea tu cuenta</h3>
               <p class="slogan">Es Fácil!</p>
+                </div>
+                
 
-              <div class="md-form md-outline">
-                <input type="text"  class="form-control" v-model="data.name">
-                <label for="Nombre completo" class="">Nombre completo</label>
-              </div>
+                <div class="md-form">
+                  <i class="fas fa-user prefix grey-text"></i>
+                  <input type="text" id="orangeForm-name" class="form-control" v-model="data.name">
+                  <label for="orangeForm-name" class="" >Tu nombre</label>
+                </div>
+                <div class="md-form">
+                  <i class="fas fa-envelope prefix grey-text"></i>
+                  <input type="text" id="orangeForm-email" class="form-control" v-model="data.email">
+                  <label for="orangeForm-email" class="">Tu correo</label>
+                </div>
 
-              <div class="md-form md-outline">
-                <input type="email"  class="form-control" v-model="data.email">
-                <label for="email" class="">E-mail</label>
-              </div>
+                 <div class="md-form">
+                 <i class="fas fa-phone-alt prefix grey-text"></i>
+                  <input type="text" id="orangeForm-number" class="form-control"  v-model="data.number">
+                  <label for="orangeForm-number" class="">Número telefónico</label>
+                </div>
 
-              <div class="md-form md-outline">
-                <input type="number"  class="form-control" v-model="data.number">
-                <label for="telefono" class="">Telefono</label>
-              </div>
+                <div class="md-form">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <input type="password" id="orangeForm-pass" class="form-control" v-model="data.password">
+                  <label for="orangeForm-pass" class="">Contraseña</label>
+                </div>
+                <div class="md-form">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <input type="password" id="orangeForm-pass-confirm" class="form-control" v-model="data.password_confirmation">
+                  <label for="orangeForm-pass-confirm" class="">Confirmar contraseña</label>
+                </div>
 
-              <div class="md-form md-outline">
-                <input type="password"  class="form-control" v-model="data.password">
-                <label for="contraseña" class="">Contraseña</label>
-              </div>
 
-              <div class="md-form md-outline">
-                <input type="password"  class="form-control" v-model="data.password_confirmation">
-                <label for="confirmar contraseña" class="">confirmar contraseña <i v-if="data.password == data.password_confirmation" class="fas fa-check text-success "></i><i v-else class="fas fa-times text-danger"></i></label>
-              </div>
+                <div class="text-center mt-4">
+                   <button  class=" btn dusty-grass-gradient btn-lg waves-effect waves-light ">Registrarse</button>
+                </div>
 
-              <div class="card-foter text-right">
-                <button type="button" class="btn btn-outline-success btn-sm waves-effect waves-light" style="width: 140px;" v-on:click.prevent="insert()">Registrarse</button>
-               
-              </div>
+              </form>
+              <!-- Register form -->
 
             </div>
+           
 
           </div>
-           
-        
-
-
-       
-
-
 
 </div>
 </template>
@@ -86,10 +95,69 @@ export default {
             formdata.append('number',this.data.number)
             
 
-            axios.get('ssanctum/csrf-cookie').then(response => {
+            axios.get('sanctum/csrf-cookie').then(response => {
             
              // Register...
-            axios.post('api/register',formdata).then(response=>(this.validator(response.status))).catch(error => (toastr.error('Ups! No hemos podido procesar tu solicitud!')))
+            axios.post('api/register',formdata)
+            .then(response=>{
+              this.$toasted.show("Bienvenido a rappyexpress :)", { 
+                  theme: "outline", 
+                  position: "bottom-center", 
+                  duration : 2000
+                });
+             
+             this.$router.push('perfil') 
+            })
+            .catch(error => {
+             
+            
+            if(error.response.data.errors.number)
+            {
+               $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+              
+            this.$toasted.show(error.response.data.errors.number, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+               
+
+            }
+            if(error.response.data.errors.email)
+            {
+               $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+            
+            this.$toasted.show(error.response.data.errors.email, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+
+            }
+            if(error.response.data.errors.name)
+            {
+               $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+            this.$toasted.show(error.response.data.errors.name, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+
+            }
+
+             if(error.response.data.errors.password)
+            {
+               $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+            this.$toasted.show(error.response.data.errors.password, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+
+            }
+         
+               
+            })
  
             });
             

@@ -1,9 +1,11 @@
 <template>
-    
+
+
+           
   
      <div>
         <div class="grey special-color-dark  wow animated slideInUp faster " style="height: 3rem;" >
-             <div class="d-flex p-2  "  style="height: 3rem;" >
+             <div  class="d-flex p-2  "  style="height: 3rem;" >
              <div class="col-4 col-md-4 align-self-center" ><a data-toggle="tab" role="tab" href="#product_list" v-on:click="back()"><i class="fas fa-arrow-left text-white"></i><span class="text-white ml-1">Atras</span></a></div>
              <div class="col-5 col-md-4 align-self-center text-white font-weight-bold">Login</div>
              <div  class="col-3 col-md-4 align-self-center">
@@ -13,46 +15,49 @@
            </div>
           
            </div>
-         <div  class="card wow slideInLeft animated faster" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; height: calc(100vh - 80px" >
-                <div class="card-body">
-                  
-                  <!--Header-->
-                  <div class=" text-center mt-3">
+
+           <!--Login-->
+           <div class="card" style="height: calc(100vh - 80px)">
+
+            <!--Card content -->
+            <div class="card-body">
+
+              <!-- Login form -->
+              <form v-on:submit.prevent="login">
+                <div class=" text-center mt-3">
                     <h3 class="text-gray"><i class="fas fa-user mt-2 mb-2" style="font-size: 3rem; color: #00c853; "></i> Inicia session: </h3>
                    
                   </div>
 
-                  <!--Body-->
-                  <form v-on:submit.prevent="login">
-                    <div class="md-form">
-                <i class="fas fa-envelope prefix active"></i>
-                <input type="email" id="form6" class="form-control validate " ref="email">
-                <label for="form6" data-error="correo no valido" data-success="bien" class="active">Correo electrónico</label>
-              </div>
-                 
-
-                  <div class="md-form">
-                <i class="fas fa-lock prefix"></i>
-                <input type="password" id="form7" class="form-control validate" ref="password">
-                <label for="form7" data-error="falta" data-success="bien" class="">Contraseña</label>
-              </div>
-
-                  <div class="text-center btn-login">
-                    <button  class=" btn dusty-grass-gradient btn-lg waves-effect waves-light">Entrar</button>
-                    <hr>
-               
-                  </div>
-                   <div class="text-center">
-                    <router-link :to="{name: 'register' }"  class="  waves-effect waves-light">No tienes una cuenta?</router-link>
-                    <hr>
-               
-                  </div>
-                  
-                  </form>
-
+                <div class="md-form">
+                  <i class="fas fa-envelope prefix grey-text"></i>
+                  <input type="text" id="defaultForm-email" class="form-control" v-model="credencial.email">
+                  <label for="defaultForm-email" class="">Correo electrónico</label>
                 </div>
-                 
-              </div>
+
+                <div class="md-form">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <input type="password" id="defaultForm-pass" class="form-control" v-model="credencial.password">
+                  <label for="defaultForm-pass" class="">Contraseña</label>
+                </div>
+
+                <div class="text-center mt-4">
+                 <button  class=" btn dusty-grass-gradient btn-lg waves-effect waves-light">Entrar</button>
+                </div>
+              </form>
+
+               <div class="text-center mt-4">
+               <router-link :to="{name: 'register' }"  class="  waves-effect waves-light">No tienes una cuenta?</router-link>
+                </div>
+              
+              <!-- Login form -->
+
+            </div>
+
+          </div>
+           <!--EndLogin-->
+            
+      
 
           
 
@@ -65,10 +70,12 @@
 
 export default {
   
+
   data()
   {
       return{
         modalstate: false,
+        credencial:{email:"",password:""}
         
       }
   },
@@ -76,6 +83,10 @@ computed: {
         getAuth()
         {
           return this.$store.getters.getAuth
+        },
+          getValidation()
+        {
+          return this.$store.getters.getValidation
         },
       },
   
@@ -91,53 +102,66 @@ computed: {
     {
         login: function()
         {
-            
-            let formdata = new FormData();
            
-            formdata.append('email',this.$refs.email.value)
-            formdata.append('password',this.$refs.password.value)
             
 
-            if(this.$refs.email.value  && this.$refs.password.value )
+            if(this.credencial.email  && this.credencial.password )
             {
 
-                this.$store.dispatch("login", formdata)
-                 if(this.getAuth)
-                 {
-                   this.$router.push('perfil')
-                 }
+                
+             this.$store.dispatch("login", this.credencial)
 
+             setTimeout(() =>(
+            
+                this.validator()
+          
+
+             ),500)
+               
+              
+            
             }
             else
             {
                  $('.btn-login').addTempClass( 'wow animated shake', 1000 );
+                 let toast = this.$toasted.show("Ambos campos son requeridos !!", { 
+                  theme: "outline", 
+                  position: "bottom-center", 
+                  duration : 2000
+                });
             }
           
           
 
         },
-        validator(value)
+        validator()
         {
-            const valor = parseInt(value)
-           
-             if(valor == 204)
-            {
-                
-                axios.get('/user').then(response=>(this.$parent.user = response.data, this.emitir())).catch(error => (console.log(error)))
-                
-                this.modalstate = true
-            }
+           if(this.getValidation == 422)
+           {
+            
+            this.$toasted.show("Estas credenciales no coinciden con nuestros registros", { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+          }
+
+          if(this.getValidation == 204)
+          {
+             this.$toasted.show("Has iniciado sesión", { 
+                  theme: "outline", 
+                  position: "bottom-center", 
+                  duration : 2000
+                });
+             
+             this.$router.push('perfil')   
+          }
+        
            
         },
        
-        emitir()
-        { 
-          
-          this.$router.push('perfil') 
-        //this.$emit('username',this.$refs.user)
-      
         
-        },
+      
         back()
         {
           this.$router.back()

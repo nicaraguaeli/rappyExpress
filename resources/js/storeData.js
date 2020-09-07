@@ -1,3 +1,5 @@
+import { Store } from "vuex";
+
 export default {
 
 	state: {
@@ -5,6 +7,7 @@ export default {
       
        auth: false,
        user: {},
+       validation: ""
 
 	},
 
@@ -17,22 +20,40 @@ export default {
        getAuth(state){ //take parameter state
 
               return state.auth
-           }
+           },
+       getValidation(state){ //take parameter state
+
+              return state.validation
+           }    
 	},
 
 	actions: {
-      async login({dispatch},credentials){
+      async login({commit,dispatch},credentials){
             
               axios.get("sanctum/csrf-cookie").then(response =>{
-              axios.post("api/login",credentials).then(response =>(console.log(response)));
+              axios.post("api/login",credentials)
+              .then(response => {
+                     
+                            commit("SET_VALIDATION",response.status)
+                          
+              })
+              .catch(error => {
+                     
+                            commit("SET_VALIDATION",error.response.status)
+                           
+        
+              });
 
             });
             
-               return dispatch("getUser")
+               
        },
        getUser({commit})
-       {
-               axios.get("api/user").then(res =>{commit("SET_USER",res.data)}).catch(()=>{commit("SET_USER",null)})
+       {       
+             
+                     axios.get("api/user").then(res =>{commit("SET_USER",res.data)}).catch(()=>{commit("SET_USER",null)})
+              
+              
        }
 
 	},
@@ -42,6 +63,13 @@ export default {
          state.user = user;
          state.auth = Boolean(user);
          
-       }
+       },
+       SET_VALIDATION(state,validation) {
+              state.validation = validation;
+              
+              
+            },
+      
+
 	}
 }

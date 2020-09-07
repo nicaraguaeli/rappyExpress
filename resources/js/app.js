@@ -12,14 +12,21 @@ import storeData from './storeData';
 
 
 import VueRouter from 'vue-router';
+import Toasted from 'vue-toasted';
 import VueX from "vuex";
 import Axios from 'axios';
 
 window.Vue = require('vue');
 
 Vue.use(VueX);
+Vue.use(Toasted)
 
-
+Vue.toasted.register('my_app_error', 'Oops.. Algo salió mal..', {
+    type : 'error',
+    icon : 'error_outline',
+    position: "bottom-center", 
+	 duration : 3000
+})
 
 const store = new VueX.Store(storeData);
 store.dispatch("getUser");
@@ -82,47 +89,9 @@ const routes = [
     { path: '/grupos', name:'grupos', component: Vue.component('grupos', require('./components/admin/Grupos.vue').default)   },
     { path: '/productos', name:'productos', component: Vue.component('productos', require('./components/admin/Productos.vue').default)   },
     { path: '/listaproductos', name:'listaproductos', component: Vue.component('getProduct', require('./components/admin/getProduct.vue').default)   },
-    { path: '/register', 
-    name:'register',beforeEnter: (to, from, next) => {
-        // ...
-        axios.get("api/user").then(response => {
-        if(response.data)
-        {
-            next({name: 'perfil'})
-           
-        }
-    })
-    .catch(error => {if(error){next()}})
-      },   
-      
-    component: Vue.component('register', require('./components/auth/Register.vue').default )  },
-    { path: '/login', 
-    name:'login', beforeEnter: (to, from, next) => {
-        // ...
-        axios.get("api/user").then(response => {
-        if(response.data)
-        {
-            next({name: 'perfil'})
-           
-        }
-    })
-    .catch(error => {if(error){next()}})
-      },     
-      component: Vue.component('login', require('./components/auth/Login.vue').default )  },
-  
-      { path: '/perfil',  
-    name:'perfil', beforeEnter: (to, from, next) => {
-        // ...
-        axios.get("api/user").then(response => {
-        if(response.data)
-        {
-            next()
-           
-        }
-    })
-    .catch(error => {if(error){next({name: 'home'})}})
-      },  
-    component: Vue.component('perfil', require('./components/auth/Perfil.vue').default )  },
+    { path: '/register',  name:'register', component: Vue.component('register', require('./components/auth/Register.vue').default )  },
+    { path: '/login',  name:'login',  component: Vue.component('login', require('./components/auth/Login.vue').default )  },
+    { path: '/perfil', name:'perfil',   component: Vue.component('perfil', require('./components/auth/Perfil.vue').default )  },
 
     
     { path: '/', name:'home',  component: Vue.component('home', require('./components/Home.vue').default )  },

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Auth;
 use App\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -15,7 +18,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+       $this->middleware('auth');
     }
 
     public function index()
@@ -77,11 +80,25 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+     
+          //code...
+        $validator = Validator::make(Request()->all(), [
+            
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users')->ignore(Auth::user())],
+            'number' => ['required', 'numeric','digits:8',Rule::unique('users')->ignore(Auth::user())],
+            
+        ]);
+         
        
         
-        try {
-        
-          
+        if ($validator->fails()) {
+            
+            return response()->json($validator->errors(),422);
+        }
+     
+       
+  
             
         $user = User::find($id);
         $user->name = Request()->name;
@@ -91,20 +108,9 @@ class UserController extends Controller
         $user->address_alt = Request()->address_alt;
         
         $user->save();
-        
-        return response()->json("Información actualizada");  
 
-        } catch (\Illuminate\Database\QueryException $ex) {
-            //throw $th;
-          
-            
-            return response()->json($ex);  
-                                  
-           
-        } 
-        
-
-        
+        return "update";
+      
     }
 
     /**

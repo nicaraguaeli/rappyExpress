@@ -14,6 +14,31 @@
            </div>
           
            </div>
+
+               <div class="classic-tabs">
+
+              <!-- Nav tabs -->
+              <div class="tabs-wrapper">
+                <ul class="nav tabs grey lighten-2" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link waves-light waves-effect waves-light active black-text" data-toggle="tab" href="#panel36" role="tab" aria-selected="true">Perfil</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link waves-light waves-effect waves-light black-text" data-toggle="tab" href="#panel37" role="tab" aria-selected="false">Pedidos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link waves-light waves-effect waves-light black-text" data-toggle="tab" href="#panel38" role="tab" aria-selected="false">Contact</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link waves-light waves-effect waves-light black-text" data-toggle="tab" href="#panel39" role="tab" aria-selected="false">Be
+                      awesome</a>
+                  </li>
+                </ul>
+              </div>
+
+              </div>
+
+
            <div v-if="modalstate" class=" bg-warning font-weight-bold text-center "><p class="  mt-1 p-3 wow animated shake">¡AGREGA UNA DIRECCIÓN!</p></div>
               <div class="card wow animated fadeIn faster" style="height: calc(100vh - 80px); overflow: scroll;">
                   <div class="card-header text-center">
@@ -90,11 +115,18 @@
 <script>
 
 export default {
-  
+     mounted()
+  {
+     if(!this.$store.getters.getUserGetter)
+     {
+      this.$store.dispatch("getUser");
+     }
+  },
+
     data()
     {
       return{
-          userAuth: {},
+          
           edit: true,
           modalstate: false,
           user: {},
@@ -129,55 +161,66 @@ export default {
         },
         update()
         { 
-            if(this.validation())
-            {
+            
             
             let formdata = new FormData();
            
-            formdata.append('email',this.userAuth.email)
-            formdata.append('name',this.userAuth.name)
-            formdata.append('number',this.userAuth.number)
-            formdata.append('address',this.userAuth.address)
-            formdata.append('address_alt',this.userAuth.address_alt)
+            formdata.append('email',this.getUser.email)
+            formdata.append('name',this.getUser.name)
+            formdata.append('number',this.getUser.number)
+            formdata.append('address',this.getUser.address)
+            formdata.append('address_alt',this.getUser.address_alt)
             formdata.append('_method','PUT')
-
-            axios.post('./user/'+this.userAuth.id,formdata).then(response => (this.errors(response.data))).catch(error => (toastr.warning(error)))
-
-            }
-            else
-            {
-              toastr.info("Existe un problema en uno de los campos")
-            }
+            axios.post('user/'+this.getUser.id,formdata)
+            .then(response => {
+                 if(response.status == 200)
+          {
+             this.$toasted.show("Perfil actualizado", { 
+                  theme: "outline", 
+                  position: "bottom-center", 
+                  duration : 2000
+                });
+             
+             this.$store.dispatch('getUser')   
+          }
+            })
+            .catch(error => {
+             
             
+            if(typeof error.response.data.number )
+            {
+              
+            this.$toasted.show(error.response.data.number, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+               
+
+            }
+            if(typeof error.response.data.email )
+            {
+            
+            this.$toasted.show(error.response.data.email, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+
+            }
+            if(typeof error.response.data.name )
+            {
+            this.$toasted.show(error.response.data.name, { 
+            theme: "bubble", 
+            position: "bottom-center", 
+            duration : 2000
+          })
+
+            }
+           
                 
-        },
-        errors(response)
-        {
-            if(response.errorInfo)
-            {
-              if(response.errorInfo[1] == 1062)
-              toastr.warning("El correo o número no esta disponible!")
-              if(response.errorInfo[1] == 1048)
-              toastr.warning("No se puede procesar, todos los campos son obligatorios!")
-            }
-            else
-            {
-              toastr.success(response)
-              this.$emit('userAuthUpdate');
-              this.edit = true
-            }
-        },
-        validation()
-        {
-          if(String(this.userAuth.number).length == 8 && this.userAuth.name && this.userAuth.email)
-          {
-              return true
-          }
-          else
-          {
-            return false
-          }
-            
+            })
+        
         },
         back()
 {
